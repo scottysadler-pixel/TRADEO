@@ -14,7 +14,8 @@
     "sweep:keywords": "tsx scripts/keywordSweep.ts",
     "sweep:params": "tsx scripts/paramSweep.ts",
     "daily:check": "tsx scripts/dailyCheck.ts",
-    "compare:variants": "tsx scripts/compareVariants.ts"
+    "compare:variants": "tsx scripts/compareVariants.ts",
+    "open:chart": "start output/variant_equity_chart.html"
   },
   "engines": {
     "node": ">=18"
