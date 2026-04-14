@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Generated backtest / comparison artifacts (re-run locally)
+output/
+
+# Secrets & local env
+.env
+.env.*
+
+# Fetched or merged data (keep examples tracked below)
+data/daily_log.csv
+data/prices.csv
+data/sentiment.csv
+data/trends.csv
+data/audusd_merged.csv
+
+# IDE / OS
+.DS_Store
+Thumbs.db
+*.log
+.cursor/
+
+# Test / coverage
+coverage/
