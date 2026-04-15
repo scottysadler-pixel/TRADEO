@@ -26,7 +26,13 @@ export type SignalFlavor =
    * “media sentiment reversal” evidence (e.g. Filippou, Taylor & Wang, 2024, JFQA: buy when
    * media tone toward the currency is very poor, sell when euphoric — simplified to one pair).
    */
-  | "priceSentimentReversal";
+  | "priceSentimentReversal"
+  /**
+   * Fade parabolic **search** spikes: short an uptrend when WoW explodes upward;
+   * long a downtrend when WoW collapses (panic search). Sentiment ignored — tests
+   * "attention exhaustion / mania" without headlines.
+   */
+  | "fadeSearchMania";
 
 export interface DailyRow {
   date: string;

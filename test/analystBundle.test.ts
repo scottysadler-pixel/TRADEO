@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { buildAnalystBundle, formatAnalystMarkdown } from "../src/analyst/bundle.js";
+import {
+  ANALYST_BUNDLE_VERSION,
+  buildAnalystBundle,
+  formatAnalystMarkdown,
+} from "../src/analyst/bundle.js";
 import { runVariantComparison } from "../src/analyst/variantComparison.js";
+import { splitByDate } from "../src/pipeline.js";
 import type { DailyRow } from "../src/types.js";
 
 function syntheticDaily(n = 80): DailyRow[] {
@@ -22,19 +27,49 @@ function syntheticDaily(n = 80): DailyRow[] {
 }
 
 describe("buildAnalystBundle", () => {
-  it("produces fingerprint, correlations, variant table, and markdown", () => {
+  it("produces v2 fingerprint, dream scenarios, correlations incl wow vs fwd5d", () => {
     const daily = syntheticDaily();
     const variant = runVariantComparison(daily);
     const bundle = buildAnalystBundle(daily, variant, "test/synthetic.csv");
 
-    expect(bundle.bundleVersion).toBe(1);
+    expect(bundle.bundleVersion).toBe(ANALYST_BUNDLE_VERSION);
     expect(bundle.dataFingerprint.rowCount).toBe(daily.length);
     expect(bundle.variantTable.length).toBe(variant.series.length);
     expect(bundle.tailDailyPanel.length).toBeGreaterThan(0);
     expect(bundle.llmBrief.length).toBeGreaterThan(50);
+    expect(bundle.dreamScenarios.ghostAttention).toBeDefined();
+    expect(bundle.exploratoryCorrelations).toHaveProperty(
+      "trends_wow_vs_fwdReturn5d"
+    );
 
     const md = formatAnalystMarkdown(bundle);
     expect(md).toContain("Analyst export");
-    expect(md).toContain("Variant table");
+    expect(md).toContain("Dream scenarios");
+  });
+
+  it("includes regime split + stability when options.regimeSplit set", () => {
+    const daily = syntheticDaily(100);
+    const variant = runVariantComparison(daily);
+    const splitDate = daily[50]!.date;
+    const { inSample, outOfSample } = splitByDate(daily, splitDate);
+    const bundle = buildAnalystBundle(daily, variant, "test/synthetic.csv", {
+      regimeSplit: {
+        splitDateIso: splitDate,
+        chosenBy: "cli",
+        preDaily: inSample,
+        postDaily: outOfSample,
+        preVariant: runVariantComparison(inSample),
+        postVariant: runVariantComparison(outOfSample),
+      },
+    });
+
+    expect(bundle.regimeSplit).toBeDefined();
+    expect(bundle.regimeSplit!.pre.rowCount).toBe(inSample.length);
+    expect(bundle.regimeSplit!.post.rowCount).toBe(outOfSample.length);
+    expect(bundle.regimeSplit!.stability.length).toBeGreaterThan(0);
+
+    const md = formatAnalystMarkdown(bundle);
+    expect(md).toContain("Regime split");
+    expect(md).toContain("Sharpe stability");
   });
 });

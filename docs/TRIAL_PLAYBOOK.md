@@ -12,10 +12,15 @@ Uses **`data/audusd_merged.csv`** if it exists, otherwise **`data/audusd_example
 
 - `output/variant_comparison.csv` — table of all presets  
 - `output/variant_equity_chart.html` — open in browser (`npm run open:chart` on Windows)  
-- **`output/analyst_bundle.json`** — structured metrics + tail panel + exploratory stats (**upload this + the markdown file to another AI**)  
-- **`output/analyst_for_llm.md`** — short prompt + tables for that second model  
+- **`output/analyst_bundle.json`** (v2) — full-sample metrics + **dream scenarios** (ghost attention, divergence bars, weekday splits, sentiment‑vol regime) + **pre/post regime split** (every preset’s Sharpe & PnL in each half, stability table) + tail panel (**upload with the markdown file to another AI**)  
+- **`output/analyst_for_llm.md`** — brief + tables + JSON blocks for splits / dream stats  
 
-Optional: **`npm run trial -- --verify`** runs build + tests first.
+Optional flags:
+
+- **`npm run trial -- --verify`** — build + tests, then trial  
+- **`npm run trial -- --split-date 2023-06-01`** — fix the train/test boundary (default is **mid‑series row date**)  
+- **`npm run trial -- --no-split`** — skip pre/post blocks (smaller JSON, faster)  
+- **`npm run trial -- --file path/to.csv`** — override the merged/example default  
 
 ## Weekly rhythm (lightweight)
 
@@ -23,7 +28,7 @@ Optional: **`npm run trial -- --verify`** runs build + tests first.
 |------|-----|
 | After you refresh data | `npm run verify` or `npm run trial -- --verify` |
 | Any time | **`npm run trial`** (or `npm run compare:variants -- --file data/audusd_merged.csv` + `npm run open:chart`) |
-| Monthly | Re‑run with a new **split date** (`node dist/index.js --file ... --split-date YYYY-MM-DD`) so you always see **out‑of‑sample** half |
+| Monthly | **`npm run trial -- --split-date YYYY-MM-DD`** (or rely on default midpoint split in `analyst_bundle.json`) |
 | Paper log | `npm run daily:check -- --preset <id>` (updates `data/daily_log.csv`) |
 
 ## What’s already coded (presets)
@@ -33,8 +38,26 @@ Run `npm run compare:variants -- --list` for IDs. Highlights:
 - **mainstreamTriple** — reference only (three signals agree).
 - **quietUptrend** — attention *cooling* in an uptrend (not “buy the hype”).
 - **contrarianMood** — needs “wrong” sentiment vs trend+attention.
-- **mediaReversalLite** — **drops Google Trends**; only **trend MA + extreme sentiment**, loosely motivated by FX media **reversal** evidence (Filippou, Taylor & Wang, 2024).
+- **fadeSearchMania** — **short** strong uptrends when Trends WoW spikes; **long** downtrends when WoW collapses; **ignores sentiment** (tests “search mania / exhaustion” without headlines).  
+- **iceAgeHeadlines** — triple‑lock but sentiment **lagged 5 days** (sluggish news path).  
+- **mediaReversalLite** — **drops Google Trends**; only **trend MA + extreme sentiment**, loosely motivated by FX media **reversal** evidence (Filippou, Taylor & Wang, 2024).  
 - **yesterdayHeadlines** — sentiment lagged 1 day (lookahead hygiene).
+
+## “Dream” diagnostics (built into `analyst_bundle.json`)
+
+These are **hypothesis prompts**, not live edges: a second model should attack multiple testing and overlap.
+
+| Block | Rough question |
+|-------|----------------|
+| `ghostAttention` | Big search move, tiny price move — what happens next? |
+| `strengthWhileSearchCools` | 5d rally but WoW negative — continuation or mean reversion? |
+| `weaknessWhileSearchHeats` | 5d drop but WoW positive — bounce or trap? |
+| `afterSentimentVeryCold` / `VeryHot` | Crude event study after headline extremes |
+| `weekdayMeanRet1d` | Calendar noise vs your signal pipeline (UTC) |
+| `sentimentVolRegime` | High rolling sentiment volatility vs calm — does realized vol change? |
+| `trendsIndexLevelVsNextAbsMove` | Exploratory Pearson: attention **level** vs next-day \|return\| |
+
+`regimeSplit` repeats variant metrics **pre** and **post** your split date and lists **Sharpe sign stability** per preset.
 
 ## Research angles you can **approximate** without new code (data / keywords only)
 

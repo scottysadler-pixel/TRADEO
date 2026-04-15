@@ -118,6 +118,39 @@ export const STRATEGY_PRESETS: StrategyPreset[] = [
     },
   },
   {
+    id: "fadeSearchMania",
+    label: "Fade search mania (anti-hype)",
+    nicheNote:
+      "Rare: **short** uptrends when Google Trends WoW spikes above a bar; **long** downtrends when WoW crashes — sentiment ignored. Tests whether search euphoria/fear mean-reverts in FX; high Type-I error risk on small samples.",
+    enrich: {
+      priceSmaPeriod: 50,
+      trendsSmaPeriod: 20,
+      signalConfig: sc({
+        trendsMode: "wow",
+        sentimentThreshold: 0.25,
+        flavor: "fadeSearchMania",
+        minAbsWow: 3,
+      }),
+    },
+  },
+  {
+    id: "iceAgeHeadlines",
+    label: "Ice-age headlines (5d lag)",
+    nicheNote:
+      "Sentiment lagged **5 trading days** — extreme sluggish reaction; useful if your news feed is slow or you suspect same-day scores are polluted by headlines that already moved spot.",
+    enrich: {
+      priceSmaPeriod: 50,
+      trendsSmaPeriod: 20,
+      sentimentLagDays: 5,
+      signalConfig: sc({
+        trendsMode: "sma",
+        sentimentThreshold: 0.25,
+        flavor: "standard",
+        minAbsWow: 0,
+      }),
+    },
+  },
+  {
     id: "mediaReversalLite",
     label: "Media-reversal lite (no Trends gate)",
     nicheNote:

@@ -5,40 +5,59 @@
 import { simpleMovingAverage } from "../indicators/movingAverage.js";
 import type { DailyRow } from "../types.js";
 import { compareIsoDates } from "../utils/dateUtils.js";
+import { computeDreamScenarios, type DreamScenarios } from "./dreamScenarios.js";
+import { mean, pearson, std } from "./stats.js";
 import type { VariantComparisonResult } from "./variantComparison.js";
 
-const BUNDLE_VERSION = 1;
+export const ANALYST_BUNDLE_VERSION = 2;
 
-function mean(xs: number[]): number {
-  if (xs.length === 0) return 0;
-  return xs.reduce((a, b) => a + b, 0) / xs.length;
+export interface VariantTableRow {
+  id: string;
+  label: string;
+  totalPnl: number;
+  trades: number;
+  sharpeAnnualized: number | null;
+  maxDrawdown: number;
+  profitFactor: number;
+  winRate: number;
+  buyHoldPnl: number;
 }
 
-/** Pearson r; null if undefined. */
-function pearson(xs: number[], ys: number[]): number | null {
-  if (xs.length !== ys.length || xs.length < 5) return null;
-  const mx = mean(xs);
-  const my = mean(ys);
-  let num = 0;
-  let dx = 0;
-  let dy = 0;
-  for (let i = 0; i < xs.length; i++) {
-    const a = xs[i]! - mx;
-    const b = ys[i]! - my;
-    num += a * b;
-    dx += a * a;
-    dy += b * b;
-  }
-  if (dx === 0 || dy === 0) return null;
-  return num / Math.sqrt(dx * dy);
+export interface ExploratoryCorrelations {
+  sentiment_vs_fwdReturn1d: number | null;
+  sentiment_vs_fwdReturn5d: number | null;
+  sentiment_vs_fwdReturn10d: number | null;
+  trends_wow_vs_fwdReturn5d: number | null;
 }
 
-function std(xs: number[]): number {
-  if (xs.length < 2) return 0;
-  const m = mean(xs);
-  const v =
-    xs.reduce((s, x) => s + (x - m) ** 2, 0) / Math.max(1, xs.length - 1);
-  return Math.sqrt(v);
+export interface PeriodSlice {
+  periodLabel: "pre" | "post";
+  rowCount: number;
+  firstDate: string;
+  lastDate: string;
+  buyHoldPnl: number;
+  variantTable: VariantTableRow[];
+  exploratoryCorrelations: ExploratoryCorrelations;
+}
+
+export interface PresetStabilityRow {
+  presetId: string;
+  sharpePre: number | null;
+  sharpePost: number | null;
+  /** Both finite and strictly same sign (incl. zero), else null. */
+  sharpeSameSign: boolean | null;
+  totalPnlPre: number;
+  totalPnlPost: number;
+}
+
+export interface RegimeSplitBlock {
+  splitDateIso: string;
+  chosenBy: "auto_mid_row" | "cli";
+  pre: PeriodSlice;
+  post: PeriodSlice;
+  stability: PresetStabilityRow[];
+  lowSampleWarning: boolean;
+  minRowsRecommended: number;
 }
 
 export interface AnalystBundle {
@@ -59,34 +78,14 @@ export interface AnalystBundle {
     trendsIndexMax: number;
     pctRowsWithTrendsWow: number;
   };
-  /** Exploratory: sentiment vs *future* simple returns (not a claimed edge). */
-  exploratoryCorrelations: {
-    sentiment_vs_fwdReturn1d: number | null;
-    sentiment_vs_fwdReturn5d: number | null;
-    sentiment_vs_fwdReturn10d: number | null;
-  };
-  /** Non-mainstream composite: z-ish mix of fear + attention drop + recent dip. */
+  exploratoryCorrelations: ExploratoryCorrelations;
   unconventional: {
-    /** Days where sentiment very negative AND trends_wow negative (if present). */
     panicAttentionDays: number;
-    /** Share of days classified "calm" vs "wild" by vol of daily returns. */
     regimeWildShare: number;
-    /** Mean absolute 1d return when sentiment extreme vs middle tertile (exploratory). */
     meanAbsRet1dWhenSentimentExtreme: number | null;
     meanAbsRet1dWhenSentimentMiddle: number | null;
   };
-  variantTable: {
-    id: string;
-    label: string;
-    totalPnl: number;
-    trades: number;
-    sharpeAnnualized: number | null;
-    maxDrawdown: number;
-    profitFactor: number;
-    winRate: number;
-    buyHoldPnl: number;
-  }[];
-  /** Last N days — feed to another model for pattern mining. */
+  variantTable: VariantTableRow[];
   tailDailyPanel: {
     date: string;
     audusd_close: number;
@@ -98,6 +97,9 @@ export interface AnalystBundle {
     sentimentZ: number | null;
   }[];
   llmBrief: string;
+  dreamScenarios: DreamScenarios;
+  /** Omitted when `--no-split` or insufficient rows. */
+  regimeSplit?: RegimeSplitBlock;
 }
 
 function zscoreAtIndex(sorted: DailyRow[], i: number, window: number): number | null {
@@ -110,10 +112,162 @@ function zscoreAtIndex(sorted: DailyRow[], i: number, window: number): number | 
   return (sorted[i]!.sentiment_score - m) / s;
 }
 
+function buildExploratoryCorrelations(sorted: DailyRow[]): ExploratoryCorrelations {
+  const n = sorted.length;
+  const closes = sorted.map((r) => r.audusd_close);
+  const sentiments = sorted.map((r) => r.sentiment_score);
+  const wows = sorted.map((r) => r.trends_wow);
+
+  const s1: number[] = [];
+  const f1: number[] = [];
+  for (let i = 0; i < n - 1; i++) {
+    s1.push(sentiments[i]!);
+    f1.push(closes[i + 1]! - closes[i]!);
+  }
+  const s5: number[] = [];
+  const f5: number[] = [];
+  for (let i = 0; i < n - 5; i++) {
+    s5.push(sentiments[i]!);
+    f5.push(closes[i + 5]! - closes[i]!);
+  }
+  const s10: number[] = [];
+  const f10: number[] = [];
+  for (let i = 0; i < n - 10; i++) {
+    s10.push(sentiments[i]!);
+    f10.push(closes[i + 10]! - closes[i]!);
+  }
+
+  const w5: number[] = [];
+  const wf5: number[] = [];
+  for (let i = 0; i < n - 5; i++) {
+    const w = wows[i];
+    if (w === null) continue;
+    w5.push(w);
+    wf5.push(closes[i + 5]! - closes[i]!);
+  }
+
+  return {
+    sentiment_vs_fwdReturn1d: pearson(s1, f1),
+    sentiment_vs_fwdReturn5d: pearson(s5, f5),
+    sentiment_vs_fwdReturn10d: pearson(s10, f10),
+    trends_wow_vs_fwdReturn5d: pearson(w5, wf5),
+  };
+}
+
+function variantTableFromResult(
+  variantResult: VariantComparisonResult
+): VariantTableRow[] {
+  const buyHold = variantResult.buyHoldPnl;
+  return variantResult.series.map((s) => ({
+    id: s.id,
+    label: s.label,
+    totalPnl: s.summary.totalPnl,
+    trades: s.summary.totalTrades,
+    sharpeAnnualized: Number.isFinite(s.summary.sharpeAnnualized)
+      ? s.summary.sharpeAnnualized
+      : null,
+    maxDrawdown: s.summary.maxDrawdown,
+    profitFactor: s.summary.profitFactor,
+    winRate:
+      s.summary.totalTrades === 0
+        ? 0
+        : s.summary.wins / s.summary.totalTrades,
+    buyHoldPnl: buyHold,
+  }));
+}
+
+function buildPeriodSlice(
+  daily: DailyRow[],
+  variantResult: VariantComparisonResult,
+  label: "pre" | "post"
+): PeriodSlice {
+  const sorted = [...daily].sort((a, b) => compareIsoDates(a.date, b.date));
+  const n = sorted.length;
+  const first = n ? sorted[0]!.date : "";
+  const last = n ? sorted[n - 1]!.date : "";
+  const buyHold =
+    n > 0 ? sorted[n - 1]!.audusd_close - sorted[0]!.audusd_close : 0;
+  return {
+    periodLabel: label,
+    rowCount: n,
+    firstDate: first,
+    lastDate: last,
+    buyHoldPnl: buyHold,
+    variantTable: variantTableFromResult(variantResult),
+    exploratoryCorrelations: buildExploratoryCorrelations(sorted),
+  };
+}
+
+function buildStability(
+  pre: VariantComparisonResult,
+  post: VariantComparisonResult
+): PresetStabilityRow[] {
+  const rows: PresetStabilityRow[] = [];
+  for (const ps of pre.series) {
+    const po = post.series.find((s) => s.id === ps.id);
+    if (!po) continue;
+    const sharpePre = Number.isFinite(ps.summary.sharpeAnnualized)
+      ? ps.summary.sharpeAnnualized
+      : null;
+    const sharpePost = Number.isFinite(po.summary.sharpeAnnualized)
+      ? po.summary.sharpeAnnualized
+      : null;
+    let sharpeSameSign: boolean | null = null;
+    if (sharpePre !== null && sharpePost !== null) {
+      sharpeSameSign =
+        (sharpePre >= 0 && sharpePost >= 0) ||
+        (sharpePre < 0 && sharpePost < 0);
+    }
+    rows.push({
+      presetId: ps.id,
+      sharpePre,
+      sharpePost,
+      sharpeSameSign,
+      totalPnlPre: ps.summary.totalPnl,
+      totalPnlPost: po.summary.totalPnl,
+    });
+  }
+  return rows;
+}
+
+const MIN_ROWS_SPLIT = 30;
+
+export interface BuildAnalystBundleOptions {
+  regimeSplit?: {
+    splitDateIso: string;
+    chosenBy: "auto_mid_row" | "cli";
+    preDaily: DailyRow[];
+    postDaily: DailyRow[];
+    preVariant: VariantComparisonResult;
+    postVariant: VariantComparisonResult;
+  };
+}
+
+function pickBestSharpeLabel(v: VariantComparisonResult): string {
+  let best = "";
+  let bestS = -Infinity;
+  for (const s of v.series) {
+    const sh = s.summary.sharpeAnnualized;
+    if (typeof sh === "number" && Number.isFinite(sh) && sh > bestS) {
+      bestS = sh;
+      best = s.id;
+    }
+  }
+  return best ? `${best} (${bestS.toFixed(3)})` : "none finite";
+}
+
+function countSameSignStability(stability: PresetStabilityRow[]): string {
+  const ok = stability.filter((r) => r.sharpeSameSign === true).length;
+  const bad = stability.filter((r) => r.sharpeSameSign === false).length;
+  const unk = stability.filter((r) => r.sharpeSameSign === null).length;
+  return `sameSignSharpe ${ok}/${stability.length} (flip=${bad}, unknown=${unk})`;
+}
+
 export function buildAnalystBundle(
   sortedInput: DailyRow[],
   variantResult: VariantComparisonResult,
-  sourceCsvHint: string
+  sourceCsvHint: string,
+  options: BuildAnalystBundleOptions = {}
 ): AnalystBundle {
   const sorted = [...sortedInput].sort((a, b) =>
     compareIsoDates(a.date, b.date)
@@ -147,25 +301,6 @@ export function buildAnalystBundle(
     if (r.sentiment_score < -0.25 && r.trends_wow !== null && r.trends_wow < 0) {
       panicAttentionDays++;
     }
-  }
-
-  const s1: number[] = [];
-  const f1: number[] = [];
-  for (let i = 0; i < n - 1; i++) {
-    s1.push(sentiments[i]!);
-    f1.push(closes[i + 1]! - closes[i]!);
-  }
-  const s5: number[] = [];
-  const f5: number[] = [];
-  for (let i = 0; i < n - 5; i++) {
-    s5.push(sentiments[i]!);
-    f5.push(closes[i + 5]! - closes[i]!);
-  }
-  const s10: number[] = [];
-  const f10: number[] = [];
-  for (let i = 0; i < n - 10; i++) {
-    s10.push(sentiments[i]!);
-    f10.push(closes[i + 10]! - closes[i]!);
   }
 
   const tert = [...sentiments].sort((a, b) => a - b);
@@ -206,36 +341,45 @@ export function buildAnalystBundle(
   }
 
   const buyHold = variantResult.buyHoldPnl;
-  const variantTable = variantResult.series.map((s) => ({
-    id: s.id,
-    label: s.label,
-    totalPnl: s.summary.totalPnl,
-    trades: s.summary.totalTrades,
-    sharpeAnnualized: Number.isFinite(s.summary.sharpeAnnualized)
-      ? s.summary.sharpeAnnualized
-      : null,
-    maxDrawdown: s.summary.maxDrawdown,
-    profitFactor: s.summary.profitFactor,
-    winRate:
-      s.summary.totalTrades === 0
-        ? 0
-        : s.summary.wins / s.summary.totalTrades,
-    buyHoldPnl: buyHold,
-  }));
+  const variantTable = variantTableFromResult(variantResult);
+  const exploratoryCorrelations = buildExploratoryCorrelations(sorted);
+  const dreamScenarios = computeDreamScenarios(sorted);
+
+  let regimeSplit: RegimeSplitBlock | undefined;
+  if (options.regimeSplit) {
+    const rs = options.regimeSplit;
+    const preN = rs.preDaily.length;
+    const postN = rs.postDaily.length;
+    const lowSampleWarning = preN < MIN_ROWS_SPLIT || postN < MIN_ROWS_SPLIT;
+    const stability = buildStability(rs.preVariant, rs.postVariant);
+    regimeSplit = {
+      splitDateIso: rs.splitDateIso,
+      chosenBy: rs.chosenBy,
+      pre: buildPeriodSlice(rs.preDaily, rs.preVariant, "pre"),
+      post: buildPeriodSlice(rs.postDaily, rs.postVariant, "post"),
+      stability,
+      lowSampleWarning,
+      minRowsRecommended: MIN_ROWS_SPLIT,
+    };
+  }
 
   const llmBrief = [
-    `AUD/USD alt-data analyst bundle v${BUNDLE_VERSION}.`,
+    `AUD/USD alt-data analyst bundle v${ANALYST_BUNDLE_VERSION}.`,
     `Rows=${n}, dates ${first}..${last}, span~${spanDays}d.`,
     `Buy-hold PnL (rate)=${buyHold.toFixed(5)}.`,
     `Sentiment std=${std(sentiments).toFixed(4)}; ${((wowCount / n) * 100).toFixed(0)}% rows have trends_wow.`,
-    `Exploratory Pearson: sentiment vs fwd1d=${pearson(s1, f1)?.toFixed(3) ?? "n/a"}, fwd5d=${pearson(s5, f5)?.toFixed(3) ?? "n/a"}, fwd10d=${pearson(s10, f10)?.toFixed(3) ?? "n/a"} (NOT causal; for hypothesis generation).`,
+    `Exploratory Pearson: sentiment vs fwd1d=${exploratoryCorrelations.sentiment_vs_fwdReturn1d?.toFixed(3) ?? "n/a"}, fwd5d=${exploratoryCorrelations.sentiment_vs_fwdReturn5d?.toFixed(3) ?? "n/a"}, fwd10d=${exploratoryCorrelations.sentiment_vs_fwdReturn10d?.toFixed(3) ?? "n/a"}; wow vs fwd5d=${exploratoryCorrelations.trends_wow_vs_fwdReturn5d?.toFixed(3) ?? "n/a"} (NOT causal).`,
     `Unconventional: panicAttentionDays=${panicAttentionDays}, regimeWildShare=${(regimeWildShare * 100).toFixed(1)}%.`,
-    `Best Sharpe among presets (finite only): ${pickBestSharpeLabel(variantResult)}.`,
-    "Ask the receiving model: overfitting risk, data snooping, whether any preset is stable across time splits, and what non-obvious experiment to run next.",
+    `Dream scenarios: ghostAttention days=${dreamScenarios.ghostAttention.count}; strength+coolSearch count=${dreamScenarios.strengthWhileSearchCools.count}.`,
+    regimeSplit
+      ? `Regime split @ ${regimeSplit.splitDateIso} (${regimeSplit.chosenBy}): ${countSameSignStability(regimeSplit.stability)}${regimeSplit.lowSampleWarning ? " [LOW_SAMPLE]" : ""}.`
+      : "No regime split in this export (use default trial or drop --no-split).",
+    `Best Sharpe (full sample, finite): ${pickBestSharpeLabel(variantResult)}.`,
+    "Ask the receiving model: multiple-testing risk, whether pre/post stability matters for your favorite preset, and one falsifiable next experiment.",
   ].join("\n");
 
   return {
-    bundleVersion: BUNDLE_VERSION,
+    bundleVersion: ANALYST_BUNDLE_VERSION,
     generatedAt: new Date().toISOString(),
     sourceCsvHint,
     dataFingerprint: {
@@ -252,11 +396,7 @@ export function buildAnalystBundle(
       trendsIndexMax: Math.max(...sorted.map((r) => r.trends_index)),
       pctRowsWithTrendsWow: n ? (wowCount / n) * 100 : 0,
     },
-    exploratoryCorrelations: {
-      sentiment_vs_fwdReturn1d: pearson(s1, f1),
-      sentiment_vs_fwdReturn5d: pearson(s5, f5),
-      sentiment_vs_fwdReturn10d: pearson(s10, f10),
-    },
+    exploratoryCorrelations,
     unconventional: {
       panicAttentionDays,
       regimeWildShare,
@@ -268,27 +408,16 @@ export function buildAnalystBundle(
     variantTable,
     tailDailyPanel,
     llmBrief,
+    dreamScenarios,
+    regimeSplit,
   };
-}
-
-function pickBestSharpeLabel(v: VariantComparisonResult): string {
-  let best = "";
-  let bestS = -Infinity;
-  for (const s of v.series) {
-    const sh = s.summary.sharpeAnnualized;
-    if (typeof sh === "number" && Number.isFinite(sh) && sh > bestS) {
-      bestS = sh;
-      best = s.id;
-    }
-  }
-  return best ? `${best} (${bestS.toFixed(3)})` : "none finite";
 }
 
 export function formatAnalystMarkdown(bundle: AnalystBundle): string {
   const lines: string[] = [
     "# Analyst export (for a second AI)",
     "",
-    "Paste **this file** plus **`output/analyst_bundle.json`** into another model. Ask it to critique overfitting, suggest one next experiment, and flag data weaknesses.",
+    "Paste **this file** plus **`output/analyst_bundle.json`** into another model. Ask it to critique overfitting, pre/post stability, and dream-scenario multiple testing.",
     "",
     "## Brief",
     "",
@@ -296,7 +425,7 @@ export function formatAnalystMarkdown(bundle: AnalystBundle): string {
     bundle.llmBrief,
     "```",
     "",
-    "## Variant table",
+    "## Variant table (full sample)",
     "",
     "| id | label | totalPnl | trades | sharpe | maxDD | winRate |",
     "|---|------|---------:|-------:|-------:|------:|--------:|",
@@ -312,7 +441,41 @@ export function formatAnalystMarkdown(bundle: AnalystBundle): string {
   lines.push(JSON.stringify(bundle.exploratoryCorrelations, null, 2));
   lines.push("```", "", "## Unconventional diagnostics", "", "```json");
   lines.push(JSON.stringify(bundle.unconventional, null, 2));
-  lines.push("```", "", "## Tail daily panel (last rows)", "");
+  lines.push("```", "", "## Dream scenarios (hypothesis prompts only)", "", "```json");
+  lines.push(JSON.stringify(bundle.dreamScenarios, null, 2));
+  lines.push("```");
+
+  if (bundle.regimeSplit) {
+    lines.push(
+      "",
+      "## Regime split (pre vs post)",
+      "",
+      `Split date: **${bundle.regimeSplit.splitDateIso}** (${bundle.regimeSplit.chosenBy})` +
+        (bundle.regimeSplit.lowSampleWarning
+          ? ` — warning: each half should ideally have ≥ ${bundle.regimeSplit.minRowsRecommended} rows.`
+          : ""),
+      "",
+      "### Pre-split variant table",
+      "",
+      "```json",
+      JSON.stringify(bundle.regimeSplit.pre.variantTable, null, 2),
+      "```",
+      "",
+      "### Post-split variant table",
+      "",
+      "```json",
+      JSON.stringify(bundle.regimeSplit.post.variantTable, null, 2),
+      "```",
+      "",
+      "### Sharpe stability (same preset, two eras)",
+      "",
+      "```json",
+      JSON.stringify(bundle.regimeSplit.stability, null, 2),
+      "```"
+    );
+  }
+
+  lines.push("", "## Tail daily panel (last rows)", "");
   lines.push("See `analyst_bundle.json` → `tailDailyPanel` for structured rows.");
   return lines.join("\n");
 }

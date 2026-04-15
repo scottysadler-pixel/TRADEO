@@ -5,18 +5,27 @@
  *   npm run trial
  *   npm run trial -- --file data/audusd_merged.csv
  *   npm run trial -- --verify
+ *   npm run trial -- --split-date 2023-01-01
+ *   npm run trial -- --no-split
  *
  * Default CSV: data/audusd_merged.csv if it exists, else data/audusd_example.csv
+ * Default split: midpoint row date (omit with --no-split).
  */
 import { existsSync } from "node:fs";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 import { stringify } from "csv-stringify/sync";
-import { buildAnalystBundle, formatAnalystMarkdown } from "../src/analyst/bundle.ts";
+import {
+  buildAnalystBundle,
+  formatAnalystMarkdown,
+  type BuildAnalystBundleOptions,
+} from "../src/analyst/bundle.ts";
 import { writeVariantEquityChartHtml } from "../src/analyst/variantChartHtml.ts";
 import { runVariantComparison } from "../src/analyst/variantComparison.ts";
 import { loadDataFromCsv } from "../src/data/csvLoader.ts";
+import { splitByDate } from "../src/pipeline.ts";
+import { compareIsoDates } from "../src/utils/dateUtils.ts";
 
 function arg(name: string, argv: string[], def: string | null): string | null {
   const i = argv.indexOf(name);
@@ -59,6 +68,8 @@ async function main(): Promise<void> {
 
   console.log(`Using: ${csvPath}`);
   const daily = await loadDataFromCsv(csvPath);
+  daily.sort((a, b) => compareIsoDates(a.date, b.date));
+
   const variantResult = runVariantComparison(daily);
   const outDir = resolve(cwd, "output");
   mkdirSync(outDir, { recursive: true });
@@ -92,10 +103,38 @@ async function main(): Promise<void> {
     variantResult.series
   );
 
+  let bundleOpts: BuildAnalystBundleOptions = {};
+  if (!hasFlag("--no-split", argv) && daily.length >= 2) {
+    const explicitSplit = arg("--split-date", argv, null);
+    const sorted = daily;
+    const splitDateIso =
+      explicitSplit ??
+      sorted[Math.floor(sorted.length / 2)]!.date;
+    const { inSample, outOfSample } = splitByDate(sorted, splitDateIso);
+    const preVariant = runVariantComparison(inSample);
+    const postVariant = runVariantComparison(outOfSample);
+    bundleOpts = {
+      regimeSplit: {
+        splitDateIso,
+        chosenBy: explicitSplit ? "cli" : "auto_mid_row",
+        preDaily: inSample,
+        postDaily: outOfSample,
+        preVariant,
+        postVariant,
+      },
+    };
+    console.log(
+      `\nRegime split: ${splitDateIso} (${explicitSplit ? "from --split-date" : "auto midpoint row"}) → pre ${inSample.length} rows, post ${outOfSample.length} rows`
+    );
+  } else if (hasFlag("--no-split", argv)) {
+    console.log("\nRegime split: disabled (--no-split)");
+  }
+
   const bundle = buildAnalystBundle(
     daily,
     variantResult,
-    csvPath.replace(/\\/g, "/")
+    csvPath.replace(/\\/g, "/"),
+    bundleOpts
   );
   writeFileSync(
     resolve(outDir, "analyst_bundle.json"),
@@ -111,7 +150,7 @@ async function main(): Promise<void> {
   console.log("\nWrote:");
   console.log(`  ${resolve(outDir, "variant_comparison.csv")}`);
   console.log(`  ${resolve(outDir, "variant_equity_chart.html")}`);
-  console.log(`  ${resolve(outDir, "analyst_bundle.json")}  ← feed to another AI with analyst_for_llm.md`);
+  console.log(`  ${resolve(outDir, "analyst_bundle.json")}  ← v${bundle.bundleVersion}: dream scenarios + regime split (unless --no-split)`);
   console.log(`  ${resolve(outDir, "analyst_for_llm.md")}`);
   console.log("\nNext: npm run open:chart   (Windows opens the chart in browser)");
 }

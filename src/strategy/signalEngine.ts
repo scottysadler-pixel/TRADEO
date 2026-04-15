@@ -46,6 +46,15 @@ export function generateSignal(
   const bullishTrend = price > priceSma50;
   const bearishTrend = price < priceSma50;
 
+  if (flavor === "fadeSearchMania") {
+    if (trendsMode !== "wow" || trendsWow === null || minAbsWow <= 0) {
+      return "FLAT";
+    }
+    if (bullishTrend && trendsWow >= minAbsWow) return "SHORT";
+    if (bearishTrend && trendsWow <= -minAbsWow) return "LONG";
+    return "FLAT";
+  }
+
   let bullishAttention: boolean;
   let bearishAttention: boolean;
 

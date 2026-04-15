@@ -192,6 +192,86 @@ describe("generateSignal", () => {
     ).toBe("LONG");
   });
 
+  it("fadeSearchMania: SHORT uptrend when WoW spikes", () => {
+    expect(
+      generateSignal(
+        {
+          price: 1.1,
+          priceSma50: 1.0,
+          trendsIndex: 50,
+          trendsSma20: null,
+          trendsWow: 5,
+          sentimentScore: 0.9,
+        },
+        {
+          trendsMode: "wow",
+          flavor: "fadeSearchMania",
+          minAbsWow: 4,
+        }
+      )
+    ).toBe("SHORT");
+  });
+
+  it("fadeSearchMania: LONG downtrend when WoW crashes", () => {
+    expect(
+      generateSignal(
+        {
+          price: 0.9,
+          priceSma50: 1.0,
+          trendsIndex: 50,
+          trendsSma20: null,
+          trendsWow: -5,
+          sentimentScore: -0.9,
+        },
+        {
+          trendsMode: "wow",
+          flavor: "fadeSearchMania",
+          minAbsWow: 4,
+        }
+      )
+    ).toBe("LONG");
+  });
+
+  it("fadeSearchMania: FLAT when wow below bar", () => {
+    expect(
+      generateSignal(
+        {
+          price: 1.1,
+          priceSma50: 1.0,
+          trendsIndex: 50,
+          trendsSma20: null,
+          trendsWow: 2,
+          sentimentScore: 0.5,
+        },
+        {
+          trendsMode: "wow",
+          flavor: "fadeSearchMania",
+          minAbsWow: 4,
+        }
+      )
+    ).toBe("FLAT");
+  });
+
+  it("fadeSearchMania: FLAT in sma mode", () => {
+    expect(
+      generateSignal(
+        {
+          price: 1.1,
+          priceSma50: 1.0,
+          trendsIndex: 60,
+          trendsSma20: 50,
+          trendsWow: 10,
+          sentimentScore: 0.5,
+        },
+        {
+          trendsMode: "sma",
+          flavor: "fadeSearchMania",
+          minAbsWow: 4,
+        }
+      )
+    ).toBe("FLAT");
+  });
+
   it("FLAT when any SMA is null", () => {
     expect(
       generateSignal({
