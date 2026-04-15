@@ -1,6 +1,6 @@
 Trade1 standalone bundle
 
-Generated: 2026-04-15T04:49:54.194Z
+Generated: 2026-04-15T23:49:38.374Z
 
 Open index.html in a browser for the standalone dashboard.
 For iPad / phone access, put this whole folder on any static host or synced web-accessible storage.

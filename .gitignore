@@ -19,6 +19,10 @@ data/sentiment.csv
 data/trends.csv
 data/audusd_merged.csv
 
+# Python
+__pycache__/
+*.py[cod]
+
 # IDE / OS
 .DS_Store
 Thumbs.db

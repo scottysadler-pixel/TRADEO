@@ -1,0 +1,10 @@
+# Core backtest stack (lightweight)
+pandas>=2.0.0
+numpy>=1.24.0
+requests>=2.31.0
+yfinance>=0.2.40
+lxml>=5.0.0
+
+# Optional: FinBERT headline scoring (scripts/score_sentiment.py)
+# pip install torch transformers --extra-index-url https://download.pytorch.org/whl/cpu
+# Or: pip install -r requirements-finbert.txt

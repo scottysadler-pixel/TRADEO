@@ -1,6 +1,6 @@
 {
   "bundleVersion": 4,
-  "generatedAt": "2026-04-15T04:49:53.640Z",
+  "generatedAt": "2026-04-15T23:49:37.694Z",
   "sourceCsvHint": "C:/Users/Scotty/Trade1/data/audusd_merged.csv",
   "dataFingerprint": {
     "rowCount": 510,
@@ -9,24 +9,24 @@
     "spanCalendarDays": 729,
     "audusdCloseMin": 0.60057,
     "audusdCloseMax": 0.7151,
-    "sentimentMin": 0,
-    "sentimentMax": 0,
-    "sentimentStd": 0,
+    "sentimentMin": -0.9999989022960395,
+    "sentimentMax": 0.9943874237850319,
+    "sentimentStd": 0.7416547940463364,
     "trendsIndexMin": 50,
     "trendsIndexMax": 50,
     "pctRowsWithTrendsWow": 100
   },
   "exploratoryCorrelations": {
-    "sentiment_vs_fwdReturn1d": null,
-    "sentiment_vs_fwdReturn5d": null,
-    "sentiment_vs_fwdReturn10d": null,
+    "sentiment_vs_fwdReturn1d": -0.036546919037406304,
+    "sentiment_vs_fwdReturn5d": -0.07052722764644927,
+    "sentiment_vs_fwdReturn10d": -0.07128419167755352,
     "trends_wow_vs_fwdReturn5d": null
   },
   "unconventional": {
     "panicAttentionDays": 0,
     "regimeWildShare": 0.2455795677799607,
-    "meanAbsRet1dWhenSentimentExtreme": 0.0028236542239685634,
-    "meanAbsRet1dWhenSentimentMiddle": null
+    "meanAbsRet1dWhenSentimentExtreme": 0.0028987683284457445,
+    "meanAbsRet1dWhenSentimentMiddle": 0.0026711904761904685
   },
   "variantTable": [
     {
@@ -120,12 +120,12 @@
     {
       "id": "mediaReversalLite",
       "label": "Media-reversal lite (no Trends gate)",
-      "totalPnl": 0,
-      "trades": 0,
-      "sharpeAnnualized": null,
-      "maxDrawdown": 0,
-      "profitFactor": 0,
-      "winRate": 0,
+      "totalPnl": 0.0022699999999998832,
+      "trades": 56,
+      "sharpeAnnualized": 0.03591282588210045,
+      "maxDrawdown": 0.035949999999999926,
+      "profitFactor": 1.0163274113500675,
+      "winRate": 0.5714285714285714,
       "buyHoldPnl": 0.06407999999999991
     }
   ],
@@ -134,2004 +134,2004 @@
       "date": "2025-07-02",
       "audusd_close": 0.65546,
       "ret1d": -0.003029999999999977,
-      "sentiment_score": 0,
+      "sentiment_score": 0.5867134999725382,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.7015486170564318
     },
     {
       "date": "2025-07-03",
       "audusd_close": 0.65718,
       "ret1d": 0.0017199999999999438,
-      "sentiment_score": 0,
+      "sentiment_score": 0.5878781444931332,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.6774234102205743
     },
     {
       "date": "2025-07-04",
       "audusd_close": 0.65562,
       "ret1d": -0.0015600000000000058,
-      "sentiment_score": 0,
+      "sentiment_score": 0.5896074828465663,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.6544819075552416
     },
     {
       "date": "2025-07-07",
       "audusd_close": 0.65,
       "ret1d": -0.005619999999999958,
-      "sentiment_score": 0,
+      "sentiment_score": -0.9238942536411656,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.6680421615698329
     },
     {
       "date": "2025-07-08",
       "audusd_close": 0.65372,
       "ret1d": 0.0037199999999999456,
-      "sentiment_score": 0,
+      "sentiment_score": -0.9306301031011217,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.6854314487886681
     },
     {
       "date": "2025-07-09",
       "audusd_close": 0.65214,
       "ret1d": -0.0015799999999999148,
-      "sentiment_score": 0,
+      "sentiment_score": -0.9305023848841936,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.6147827828779466
     },
     {
       "date": "2025-07-10",
       "audusd_close": 0.65512,
       "ret1d": 0.0029799999999999827,
-      "sentiment_score": 0,
+      "sentiment_score": -0.9319352540572208,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.5517385839036089
     },
     {
       "date": "2025-07-11",
       "audusd_close": 0.6572,
       "ret1d": 0.0020799999999999708,
-      "sentiment_score": 0,
+      "sentiment_score": 0.5663885589668813,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.6637062443552839
     },
     {
       "date": "2025-07-14",
       "audusd_close": 0.65652,
       "ret1d": -0.0006800000000000139,
-      "sentiment_score": 0,
+      "sentiment_score": 0.5862735616906084,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.6900467682669525
     },
     {
       "date": "2025-07-15",
       "audusd_close": 0.65589,
       "ret1d": -0.0006300000000000194,
-      "sentiment_score": 0,
+      "sentiment_score": 0.5861265861730234,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.686786136781289
     },
     {
       "date": "2025-07-16",
       "audusd_close": 0.65202,
       "ret1d": -0.003869999999999929,
-      "sentiment_score": 0,
+      "sentiment_score": -0.31794519568240515,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -0.625880247940742
     },
     {
       "date": "2025-07-17",
       "audusd_close": 0.64604,
       "ret1d": -0.005980000000000096,
-      "sentiment_score": 0,
+      "sentiment_score": -0.927797227301754,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.4659264301391195
     },
     {
       "date": "2025-07-18",
       "audusd_close": 0.65259,
       "ret1d": 0.006550000000000056,
-      "sentiment_score": 0,
+      "sentiment_score": -0.944953844982989,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.4344814535109076
     },
     {
       "date": "2025-07-21",
       "audusd_close": 0.65241,
       "ret1d": -0.00017999999999995797,
-      "sentiment_score": 0,
+      "sentiment_score": -0.8827183748938134,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.3004778017325944
     },
     {
       "date": "2025-07-22",
       "audusd_close": 0.65197,
       "ret1d": -0.00043999999999999595,
-      "sentiment_score": 0,
+      "sentiment_score": -0.721163705768018,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.0384228544561118
     },
     {
       "date": "2025-07-23",
       "audusd_close": 0.65965,
       "ret1d": 0.007679999999999909,
-      "sentiment_score": 0,
+      "sentiment_score": 0.7094925165731204,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.9490200506814398
     },
     {
       "date": "2025-07-24",
       "audusd_close": 0.66153,
       "ret1d": 0.0018799999999999928,
-      "sentiment_score": 0,
+      "sentiment_score": 0.7198958392753133,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.9328110687201624
     },
     {
       "date": "2025-07-25",
       "audusd_close": 0.65673,
       "ret1d": -0.0047999999999999154,
-      "sentiment_score": 0,
+      "sentiment_score": 0.6895533996450013,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.8828160644697031
     },
     {
       "date": "2025-07-28",
       "audusd_close": 0.65278,
       "ret1d": -0.003950000000000009,
-      "sentiment_score": 0,
+      "sentiment_score": 0.39540593284556735,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.47460247210089856
     },
     {
       "date": "2025-07-29",
       "audusd_close": 0.64964,
       "ret1d": -0.0031400000000000317,
-      "sentiment_score": 0,
+      "sentiment_score": -0.8007481470205807,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.1601025092581283
     },
     {
       "date": "2025-07-30",
       "audusd_close": 0.6485,
       "ret1d": -0.0011400000000000299,
-      "sentiment_score": 0,
+      "sentiment_score": -0.792574697089041,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.1107797128663495
     },
     {
       "date": "2025-07-31",
       "audusd_close": 0.64441,
       "ret1d": -0.004089999999999927,
-      "sentiment_score": 0,
+      "sentiment_score": -0.8022572781972995,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.0871124846895535
     },
     {
       "date": "2025-08-01",
       "audusd_close": 0.64226,
       "ret1d": -0.0021499999999999853,
-      "sentiment_score": 0,
+      "sentiment_score": -0.8034154900848939,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.0979555750174133
     },
     {
       "date": "2025-08-04",
       "audusd_close": 0.64804,
       "ret1d": 0.005779999999999896,
-      "sentiment_score": 0,
+      "sentiment_score": -0.8162449089892696,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.1239357839080126
     },
     {
       "date": "2025-08-05",
       "audusd_close": 0.64647,
       "ret1d": -0.0015699999999999603,
-      "sentiment_score": 0,
+      "sentiment_score": -0.7994096358744464,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.0977066264407664
     },
     {
       "date": "2025-08-06",
       "audusd_close": 0.6503,
       "ret1d": 0.00383,
-      "sentiment_score": 0,
+      "sentiment_score": 0.6824634973626381,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": 0.9185217105384721
     },
     {
       "date": "2025-08-07",
       "audusd_close": 0.6522,
       "ret1d": 0.0019000000000000128,
-      "sentiment_score": 0,
+      "sentiment_score": 0.690285993889124,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.8986468977824088
     },
     {
       "date": "2025-08-08",
       "audusd_close": 0.65229,
       "ret1d": 0.0000900000000000345,
-      "sentiment_score": 0,
+      "sentiment_score": 0.6968245288630062,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.9107497907283952
     },
     {
       "date": "2025-08-11",
       "audusd_close": 0.6508,
       "ret1d": -0.0014899999999999913,
-      "sentiment_score": 0,
+      "sentiment_score": 0.6955058876856391,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": 0.9121772526699927
     },
     {
       "date": "2025-08-12",
       "audusd_close": 0.64885,
       "ret1d": -0.0019500000000000073,
-      "sentiment_score": 0,
+      "sentiment_score": 0.692641175566291,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": 0.893294615655784
     },
     {
       "date": "2025-08-13",
       "audusd_close": 0.65527,
       "ret1d": 0.006419999999999981,
-      "sentiment_score": 0,
+      "sentiment_score": 0.6614418552791145,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.8215910822674819
     },
     {
       "date": "2025-08-14",
       "audusd_close": 0.65242,
       "ret1d": -0.002850000000000019,
-      "sentiment_score": 0,
+      "sentiment_score": 0.26483629919921853,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.2847978248503492
     },
     {
       "date": "2025-08-15",
       "audusd_close": 0.65125,
       "ret1d": -0.0011700000000000044,
-      "sentiment_score": 0,
+      "sentiment_score": -0.737851995363118,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.0776257390291426
     },
     {
       "date": "2025-08-18",
       "audusd_close": 0.651,
       "ret1d": -0.00024999999999997247,
-      "sentiment_score": 0,
+      "sentiment_score": 0.31249931001545767,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": 0.39604806404253007
     },
     {
       "date": "2025-08-19",
       "audusd_close": 0.64922,
       "ret1d": -0.0017800000000000038,
-      "sentiment_score": 0,
+      "sentiment_score": 0.5024797712045775,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": 0.6669448932251946
     },
     {
       "date": "2025-08-20",
       "audusd_close": 0.64392,
       "ret1d": -0.005299999999999971,
-      "sentiment_score": 0,
+      "sentiment_score": -0.6966066248193042,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.019314129516855
     },
     {
       "date": "2025-08-21",
       "audusd_close": 0.6424,
       "ret1d": -0.0015200000000000768,
-      "sentiment_score": 0,
+      "sentiment_score": -0.6868995275869952,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -0.9728063129143713
     },
     {
       "date": "2025-08-22",
       "audusd_close": 0.64246,
       "ret1d": 0.000060000000000060005,
-      "sentiment_score": 0,
+      "sentiment_score": -0.6665254268960492,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -0.9484528467820499
     },
     {
       "date": "2025-08-25",
       "audusd_close": 0.64965,
       "ret1d": 0.007189999999999919,
-      "sentiment_score": 0,
+      "sentiment_score": -0.7314755687696328,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.0460218719196575
     },
     {
       "date": "2025-08-26",
       "audusd_close": 0.64914,
       "ret1d": -0.0005099999999998994,
-      "sentiment_score": 0,
+      "sentiment_score": -0.11159536654041566,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -0.15488854788383222
     },
     {
       "date": "2025-08-27",
       "audusd_close": 0.64708,
       "ret1d": -0.0020600000000000618,
-      "sentiment_score": 0,
+      "sentiment_score": 0.7732731424549409,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": 1.0948592760689515
     },
     {
       "date": "2025-08-28",
       "audusd_close": 0.65302,
       "ret1d": 0.005940000000000056,
-      "sentiment_score": 0,
+      "sentiment_score": 0.7517968110012333,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.060143288335753
     },
     {
       "date": "2025-08-29",
       "audusd_close": 0.65256,
       "ret1d": -0.00046000000000001595,
-      "sentiment_score": 0,
+      "sentiment_score": 0.7598966671467696,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.0666706625081996
     },
     {
       "date": "2025-09-01",
       "audusd_close": 0.65502,
       "ret1d": 0.0024600000000000177,
-      "sentiment_score": 0,
+      "sentiment_score": 0.7956740783876459,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.1101624958783851
     },
     {
       "date": "2025-09-02",
       "audusd_close": 0.65072,
       "ret1d": -0.0043000000000000815,
-      "sentiment_score": 0,
+      "sentiment_score": 0.7691185988963469,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": 1.0676424108268388
     },
     {
       "date": "2025-09-03",
       "audusd_close": 0.65382,
       "ret1d": 0.0030999999999999917,
-      "sentiment_score": 0,
+      "sentiment_score": 0.7769848631044891,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.0745579532137934
     },
     {
       "date": "2025-09-04",
       "audusd_close": 0.65176,
       "ret1d": -0.0020599999999999508,
-      "sentiment_score": 0,
+      "sentiment_score": -0.7208986139067729,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -0.9862376033018134
     },
     {
       "date": "2025-09-05",
       "audusd_close": 0.65456,
       "ret1d": 0.0028000000000000247,
-      "sentiment_score": 0,
+      "sentiment_score": 0.7635894440510508,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.04908056859051
     },
     {
       "date": "2025-09-08",
       "audusd_close": 0.65891,
       "ret1d": 0.004349999999999965,
-      "sentiment_score": 0,
+      "sentiment_score": 0.7449051037050693,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.020942823969859
     },
     {
       "date": "2025-09-09",
       "audusd_close": 0.66085,
       "ret1d": 0.0019400000000000528,
-      "sentiment_score": 0,
+      "sentiment_score": 0.7503097802152416,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.0275521268600012
     },
     {
       "date": "2025-09-10",
       "audusd_close": 0.66067,
       "ret1d": -0.000180000000000069,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8019008251755979,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.0632919567661212
     },
     {
       "date": "2025-09-11",
       "audusd_close": 0.66028,
       "ret1d": -0.00039000000000000146,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8158985407033745,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.0474575526006031
     },
     {
       "date": "2025-09-12",
       "audusd_close": 0.66406,
       "ret1d": 0.0037800000000000056,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8043118934484776,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.0267064295703427
     },
     {
       "date": "2025-09-15",
       "audusd_close": 0.66629,
       "ret1d": 0.0022300000000000653,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8017709416274512,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.9902564485422403
     },
     {
       "date": "2025-09-16",
       "audusd_close": 0.66714,
       "ret1d": 0.0008499999999999064,
-      "sentiment_score": 0,
+      "sentiment_score": 0.811288273873568,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.9721438579435427
     },
     {
       "date": "2025-09-17",
       "audusd_close": 0.6677,
       "ret1d": 0.0005600000000000049,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8691102295355577,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.0189866916770698
     },
     {
       "date": "2025-09-18",
       "audusd_close": 0.66464,
       "ret1d": -0.0030599999999999516,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8552352787127774,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.9876881828832805
     },
     {
       "date": "2025-09-19",
       "audusd_close": 0.65925,
       "ret1d": -0.005390000000000006,
-      "sentiment_score": 0,
+      "sentiment_score": -0.7015834855905573,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.1504921733618856
     },
     {
       "date": "2025-09-22",
       "audusd_close": 0.65945,
       "ret1d": 0.00019999999999997797,
-      "sentiment_score": 0,
+      "sentiment_score": -0.6390602061062518,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.0294488634737662
     },
     {
       "date": "2025-09-23",
       "audusd_close": 0.66052,
       "ret1d": 0.0010700000000000154,
-      "sentiment_score": 0,
+      "sentiment_score": -0.6386774677367135,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -0.9958970200190643
     },
     {
       "date": "2025-09-24",
       "audusd_close": 0.66078,
       "ret1d": 0.000260000000000038,
-      "sentiment_score": 0,
+      "sentiment_score": -0.6287685709633368,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -0.9508837038663468
     },
     {
       "date": "2025-09-25",
       "audusd_close": 0.65831,
       "ret1d": -0.0024700000000000832,
-      "sentiment_score": 0,
+      "sentiment_score": -0.6004425086828068,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -0.8829660023422408
     },
     {
       "date": "2025-09-26",
       "audusd_close": 0.65276,
       "ret1d": -0.005549999999999944,
-      "sentiment_score": 0,
+      "sentiment_score": -0.6428538440040871,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -0.9105782735561609
     },
     {
       "date": "2025-09-29",
       "audusd_close": 0.65642,
       "ret1d": 0.0036599999999999966,
-      "sentiment_score": 0,
+      "sentiment_score": -0.6531214260239706,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -0.9372291059933979
     },
     {
       "date": "2025-09-30",
       "audusd_close": 0.66109,
       "ret1d": 0.004669999999999952,
-      "sentiment_score": 0,
+      "sentiment_score": 0.780147394176665,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.9947908416447985
     },
     {
       "date": "2025-10-01",
       "audusd_close": 0.66084,
       "ret1d": -0.00024999999999997247,
-      "sentiment_score": 0,
+      "sentiment_score": 0.22906037867538556,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.21110226609250116
     },
     {
       "date": "2025-10-02",
       "audusd_close": 0.66086,
       "ret1d": 0.000020000000000020002,
-      "sentiment_score": 0,
+      "sentiment_score": 0.866453952524362,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.0707925217752277
     },
     {
       "date": "2025-10-03",
       "audusd_close": 0.66029,
       "ret1d": -0.0005699999999999594,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8733556075803469,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.0665934326301731
     },
     {
       "date": "2025-10-06",
       "audusd_close": 0.65985,
       "ret1d": -0.00043999999999999595,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8953850094465672,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.0833215811185863
     },
     {
       "date": "2025-10-07",
       "audusd_close": 0.6588,
       "ret1d": -0.0010499999999999954,
-      "sentiment_score": 0,
+      "sentiment_score": -0.6015518236958044,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -0.9726285334305945
     },
     {
       "date": "2025-10-08",
       "audusd_close": 0.6573,
       "ret1d": -0.0015000000000000568,
-      "sentiment_score": 0,
+      "sentiment_score": -0.6040353187250558,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -0.9644423392720789
     },
     {
       "date": "2025-10-09",
       "audusd_close": 0.65972,
       "ret1d": 0.0024199999999999777,
-      "sentiment_score": 0,
+      "sentiment_score": -0.6102715441755842,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -0.9892015489175532
     },
     {
       "date": "2025-10-10",
       "audusd_close": 0.65541,
       "ret1d": -0.004309999999999925,
-      "sentiment_score": 0,
+      "sentiment_score": -0.613611362935479,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.0113266338546012
     },
     {
       "date": "2025-10-13",
       "audusd_close": 0.65086,
       "ret1d": -0.004550000000000054,
-      "sentiment_score": 0,
+      "sentiment_score": -0.6246827474787161,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.0407510562113493
     },
     {
       "date": "2025-10-14",
       "audusd_close": 0.6452,
       "ret1d": -0.005659999999999998,
-      "sentiment_score": 0,
+      "sentiment_score": -0.6531572943393178,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.0847407392064194
     },
     {
       "date": "2025-10-15",
       "audusd_close": 0.65149,
       "ret1d": 0.006290000000000018,
-      "sentiment_score": 0,
+      "sentiment_score": -0.7306001519658643,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.154480785090752
     },
     {
       "date": "2025-10-16",
       "audusd_close": 0.64984,
       "ret1d": -0.0016500000000000403,
-      "sentiment_score": 0,
+      "sentiment_score": -0.7243705347946116,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.1075246072599747
     },
     {
       "date": "2025-10-17",
       "audusd_close": 0.64912,
       "ret1d": -0.0007199999999999429,
-      "sentiment_score": 0,
+      "sentiment_score": -0.6906787117501403,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.0252681576855296
     },
     {
       "date": "2025-10-20",
       "audusd_close": 0.64876,
       "ret1d": -0.00036000000000002697,
-      "sentiment_score": 0,
+      "sentiment_score": -0.6898725531753188,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -0.9923607763043623
     },
     {
       "date": "2025-10-21",
       "audusd_close": 0.64898,
       "ret1d": 0.00021999999999999797,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8131810872633648,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": 1.0692333857895384
     },
     {
       "date": "2025-10-22",
       "audusd_close": 0.64862,
       "ret1d": -0.00036000000000002697,
-      "sentiment_score": 0,
+      "sentiment_score": -0.686096942710715,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.0315380892624135
     },
     {
       "date": "2025-10-23",
       "audusd_close": 0.65038,
       "ret1d": 0.0017599999999999838,
-      "sentiment_score": 0,
+      "sentiment_score": 0.720842100574397,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": 0.9095151695411942
     },
     {
       "date": "2025-10-24",
       "audusd_close": 0.6501,
       "ret1d": -0.00027999999999994696,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8464588738186457,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": 1.0517066743810792
     },
     {
       "date": "2025-10-27",
       "audusd_close": 0.65589,
       "ret1d": 0.005789999999999962,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8220342150818224,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.9847797035977354
     },
     {
       "date": "2025-10-28",
       "audusd_close": 0.6554,
       "ret1d": -0.0004899999999999904,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8561428676242632,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.0006464495421854
     },
     {
       "date": "2025-10-29",
       "audusd_close": 0.65997,
       "ret1d": 0.004569999999999963,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8225644021678677,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.9464595087315917
     },
     {
       "date": "2025-10-30",
       "audusd_close": 0.65358,
       "ret1d": -0.006389999999999896,
-      "sentiment_score": 0,
+      "sentiment_score": 0.7631989620257457,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": 0.85869204399656
     },
     {
       "date": "2025-10-31",
       "audusd_close": 0.6538,
       "ret1d": 0.00021999999999999797,
-      "sentiment_score": 0,
+      "sentiment_score": 0.7618866275872244,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": 0.8541858898311299
     },
     {
       "date": "2025-11-03",
       "audusd_close": 0.65432,
       "ret1d": 0.0005199999999999649,
-      "sentiment_score": 0,
+      "sentiment_score": -0.7393978783850069,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.2401170379441075
     },
     {
       "date": "2025-11-04",
       "audusd_close": 0.64954,
       "ret1d": -0.0047800000000000065,
-      "sentiment_score": 0,
+      "sentiment_score": -0.7677467924247386,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.2358208893331963
     },
     {
       "date": "2025-11-05",
       "audusd_close": 0.64839,
       "ret1d": -0.0011499999999999844,
-      "sentiment_score": 0,
+      "sentiment_score": -0.7660004169401178,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.1913203030956079
     },
     {
       "date": "2025-11-06",
       "audusd_close": 0.65169,
       "ret1d": 0.0032999999999999696,
-      "sentiment_score": 0,
+      "sentiment_score": -0.7735336993187957,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.164471105088473
     },
     {
       "date": "2025-11-07",
       "audusd_close": 0.64811,
       "ret1d": -0.0035800000000000276,
-      "sentiment_score": 0,
+      "sentiment_score": -0.766442969795283,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.1531895734874402
     },
     {
       "date": "2025-11-10",
       "audusd_close": 0.65336,
       "ret1d": 0.005250000000000088,
-      "sentiment_score": 0,
+      "sentiment_score": -0.7581634188629727,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.1064673709950201
     },
     {
       "date": "2025-11-11",
       "audusd_close": 0.65255,
       "ret1d": -0.0008100000000000884,
-      "sentiment_score": 0,
+      "sentiment_score": 0.7712895138069618,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": 0.9647139017312039
     },
     {
       "date": "2025-11-12",
       "audusd_close": 0.65416,
       "ret1d": 0.0016100000000000003,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8260320122803237,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": 1.004832064902118
     },
     {
       "date": "2025-11-13",
       "audusd_close": 0.65563,
       "ret1d": 0.0014700000000000824,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8282360363668975,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": 0.9748170360777827
     },
     {
       "date": "2025-11-14",
       "audusd_close": 0.65266,
       "ret1d": -0.002970000000000028,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8128714491140595,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": 0.9226021358921259
     },
     {
       "date": "2025-11-17",
       "audusd_close": 0.65137,
       "ret1d": -0.0012900000000000134,
-      "sentiment_score": 0,
+      "sentiment_score": -0.6911052139932894,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.1247380187732894
     },
     {
       "date": "2025-11-18",
       "audusd_close": 0.65003,
       "ret1d": -0.0013400000000000079,
-      "sentiment_score": 0,
+      "sentiment_score": -0.6955853235916604,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.1068014291147537
     },
     {
       "date": "2025-11-19",
       "audusd_close": 0.6488,
       "ret1d": -0.0012299999999999534,
-      "sentiment_score": 0,
+      "sentiment_score": -0.6985573583366231,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.0740540062396013
     },
     {
       "date": "2025-11-20",
       "audusd_close": 0.64784,
       "ret1d": -0.0009600000000000719,
-      "sentiment_score": 0,
+      "sentiment_score": -0.6951964368627926,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.0343697406262156
     },
     {
       "date": "2025-11-21",
       "audusd_close": 0.64455,
       "ret1d": -0.003290000000000015,
-      "sentiment_score": 0,
+      "sentiment_score": -0.7127683598676207,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.0231535666648244
     },
     {
       "date": "2025-11-24",
       "audusd_close": 0.64571,
       "ret1d": 0.0011600000000000499,
-      "sentiment_score": 0,
+      "sentiment_score": -0.6576509129534314,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -0.9182045539967358
     },
     {
       "date": "2025-11-25",
       "audusd_close": 0.64614,
       "ret1d": 0.00043000000000004146,
-      "sentiment_score": 0,
+      "sentiment_score": -0.659007104220347,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -0.8896513572912499
     },
     {
       "date": "2025-11-26",
       "audusd_close": 0.64974,
       "ret1d": 0.0035999999999999366,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8460975023422258,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": 1.1260490130363692
     },
     {
       "date": "2025-11-27",
       "audusd_close": 0.65262,
       "ret1d": 0.0028799999999999937,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8924934570839601,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": 1.148402232125927
     },
     {
       "date": "2025-11-28",
       "audusd_close": 0.65267,
       "ret1d": 0.00004999999999999449,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8920629096866572,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": 1.1414554983040883
     },
     {
       "date": "2025-12-01",
       "audusd_close": 0.65648,
       "ret1d": 0.00380999999999998,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8718093803624306,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.108428788393903
     },
     {
       "date": "2025-12-02",
       "audusd_close": 0.65531,
       "ret1d": -0.0011700000000000044,
-      "sentiment_score": 0,
+      "sentiment_score": 0.9037627464076813,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.1433086920457782
     },
     {
       "date": "2025-12-03",
       "audusd_close": 0.65921,
       "ret1d": 0.0039000000000000146,
-      "sentiment_score": 0,
+      "sentiment_score": 0.890824226902894,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.121861559566422
     },
     {
       "date": "2025-12-04",
       "audusd_close": 0.6607,
       "ret1d": 0.0014899999999999913,
-      "sentiment_score": 0,
+      "sentiment_score": 0.9002676147873219,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.1301695994348808
     },
     {
       "date": "2025-12-05",
       "audusd_close": 0.66368,
       "ret1d": 0.0029800000000000937,
-      "sentiment_score": 0,
+      "sentiment_score": 0.915930835634744,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.1452773444868092
     },
     {
       "date": "2025-12-08",
       "audusd_close": 0.66414,
       "ret1d": 0.00045999999999990493,
-      "sentiment_score": 0,
+      "sentiment_score": 0.9399018598159741,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.1698372072088727
     },
     {
       "date": "2025-12-09",
       "audusd_close": 0.66376,
       "ret1d": -0.00037999999999993594,
-      "sentiment_score": 0,
+      "sentiment_score": 0.9408018481309659,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.1645660576341845
     },
     {
       "date": "2025-12-10",
       "audusd_close": 0.66431,
       "ret1d": 0.0005499999999999394,
-      "sentiment_score": 0,
+      "sentiment_score": 0.941869571106138,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.1622886264110428
     },
     {
       "date": "2025-12-11",
       "audusd_close": 0.66553,
       "ret1d": 0.0012199999999999989,
-      "sentiment_score": 0,
+      "sentiment_score": 0.9418335031297796,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.1579188596580077
     },
     {
       "date": "2025-12-12",
       "audusd_close": 0.66676,
       "ret1d": 0.0012300000000000644,
-      "sentiment_score": 0,
+      "sentiment_score": 0.9532054067223439,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.1335755536991066
     },
     {
       "date": "2025-12-15",
       "audusd_close": 0.66518,
       "ret1d": -0.0015800000000000258,
-      "sentiment_score": 0,
+      "sentiment_score": 0.9516717119433192,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.094036300301966
     },
     {
       "date": "2025-12-16",
       "audusd_close": 0.66392,
       "ret1d": -0.0012600000000000389,
-      "sentiment_score": 0,
+      "sentiment_score": 0.6204162976938136,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.6417604443771892
     },
     {
       "date": "2025-12-17",
       "audusd_close": 0.66211,
       "ret1d": -0.0018099999999999783,
-      "sentiment_score": 0,
+      "sentiment_score": -0.549989291411583,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -0.8804052603606939
     },
     {
       "date": "2025-12-18",
       "audusd_close": 0.66082,
       "ret1d": -0.0012900000000000134,
-      "sentiment_score": 0,
+      "sentiment_score": -0.5511763021988564,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -0.8838936283282601
     },
     {
       "date": "2025-12-19",
       "audusd_close": 0.66024,
       "ret1d": -0.0005799999999999139,
-      "sentiment_score": 0,
+      "sentiment_score": -0.5388052082187209,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -0.8719282679247601
     },
     {
       "date": "2025-12-22",
       "audusd_close": 0.6648,
       "ret1d": 0.0045599999999998975,
-      "sentiment_score": 0,
+      "sentiment_score": -0.4761723650530287,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -0.796930264610789
     },
     {
       "date": "2025-12-23",
       "audusd_close": 0.66939,
       "ret1d": 0.004590000000000094,
-      "sentiment_score": 0,
+      "sentiment_score": 0.9371608581054265,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.0458599663657837
     },
     {
       "date": "2025-12-24",
       "audusd_close": 0.67021,
       "ret1d": 0.0008199999999999319,
-      "sentiment_score": 0,
+      "sentiment_score": 0.943751443304255,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.0295179559695566
     },
     {
       "date": "2025-12-29",
       "audusd_close": 0.66917,
       "ret1d": -0.0010399999999999299,
-      "sentiment_score": 0,
+      "sentiment_score": 0.9438591730617617,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.026287498707572
     },
     {
       "date": "2025-12-30",
       "audusd_close": 0.67018,
       "ret1d": 0.0010099999999999554,
-      "sentiment_score": 0,
+      "sentiment_score": 0.9444054869662133,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.023905573900782
     },
     {
       "date": "2025-12-31",
       "audusd_close": 0.66834,
       "ret1d": -0.0018399999999999528,
-      "sentiment_score": 0,
+      "sentiment_score": 0.9473806138861125,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 1.0254660008589436
     },
     {
       "date": "2026-01-02",
       "audusd_close": 0.66947,
       "ret1d": 0.0011299999999999644,
-      "sentiment_score": 0,
+      "sentiment_score": 0.4268174581458679,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.3358064889192414
     },
     {
       "date": "2026-01-05",
       "audusd_close": 0.66682,
       "ret1d": -0.002650000000000041,
-      "sentiment_score": 0,
+      "sentiment_score": -0.5486279147419049,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -0.9309824552613786
     },
     {
       "date": "2026-01-06",
       "audusd_close": 0.67197,
       "ret1d": 0.005149999999999988,
-      "sentiment_score": 0,
+      "sentiment_score": 0.9308107209018327,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.9566736146167741
     },
     {
       "date": "2026-01-07",
       "audusd_close": 0.67277,
       "ret1d": 0.0008000000000000229,
-      "sentiment_score": 0,
+      "sentiment_score": 0.9370300321571832,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.933068530876785
     },
     {
       "date": "2026-01-08",
       "audusd_close": 0.66971,
       "ret1d": -0.0030599999999999516,
-      "sentiment_score": 0,
+      "sentiment_score": 0.9240172644092283,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.885825104029891
     },
     {
       "date": "2026-01-09",
       "audusd_close": 0.66751,
       "ret1d": -0.0021999999999999797,
-      "sentiment_score": 0,
+      "sentiment_score": -0.5824864222799452,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.0859795692396295
     },
     {
       "date": "2026-01-12",
       "audusd_close": 0.67161,
       "ret1d": 0.0040999999999999925,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8992769508340843,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.8248333709469757
     },
     {
       "date": "2026-01-13",
       "audusd_close": 0.67,
       "ret1d": -0.0016100000000000003,
-      "sentiment_score": 0,
+      "sentiment_score": -0.6046019412244142,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.1667308311733828
     },
     {
       "date": "2026-01-14",
       "audusd_close": 0.66768,
       "ret1d": -0.0023199999999999887,
-      "sentiment_score": 0,
+      "sentiment_score": -0.6113709822562543,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.1800307719133798
     },
     {
       "date": "2026-01-15",
       "audusd_close": 0.66874,
       "ret1d": 0.0010599999999999499,
-      "sentiment_score": 0,
+      "sentiment_score": -0.6054206775168365,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.1767523601305028
     },
     {
       "date": "2026-01-16",
       "audusd_close": 0.6698,
       "ret1d": 0.0010599999999999499,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8919427979311622,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.8124601980880397
     },
     {
       "date": "2026-01-19",
       "audusd_close": 0.67068,
       "ret1d": 0.0008800000000001029,
-      "sentiment_score": 0,
+      "sentiment_score": -0.5974558622525081,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.17115787545032
     },
     {
       "date": "2026-01-20",
       "audusd_close": 0.67325,
       "ret1d": 0.002569999999999961,
-      "sentiment_score": 0,
+      "sentiment_score": 0.897002713178528,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.8130571872667823
     },
     {
       "date": "2026-01-21",
       "audusd_close": 0.67699,
       "ret1d": 0.0037399999999999656,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8873727020892751,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.7987931736542827
     },
     {
       "date": "2026-01-22",
       "audusd_close": 0.6807,
       "ret1d": 0.003709999999999991,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8958374263663563,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.8073766994838254
     },
     {
       "date": "2026-01-23",
       "audusd_close": 0.68651,
       "ret1d": 0.005809999999999982,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8825104771237349,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.7887682117610502
     },
     {
       "date": "2026-01-26",
       "audusd_close": 0.69083,
       "ret1d": 0.0043200000000001015,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8666392119744366,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.7662071156853718
     },
     {
       "date": "2026-01-27",
       "audusd_close": 0.69488,
       "ret1d": 0.004049999999999998,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8615201962124687,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.7561045408777135
     },
     {
       "date": "2026-01-28",
       "audusd_close": 0.69995,
       "ret1d": 0.005069999999999908,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8422496201349929,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.7279729763294611
     },
     {
       "date": "2026-01-29",
       "audusd_close": 0.7067,
       "ret1d": 0.006750000000000034,
-      "sentiment_score": 0,
+      "sentiment_score": 0.8258404707600892,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.6801141092773341
     },
     {
       "date": "2026-01-30",
       "audusd_close": 0.70108,
       "ret1d": -0.005619999999999958,
-      "sentiment_score": 0,
+      "sentiment_score": 0.748389819956701,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.5514816922141957
     },
     {
       "date": "2026-02-02",
       "audusd_close": 0.69475,
       "ret1d": -0.006330000000000058,
-      "sentiment_score": 0,
+      "sentiment_score": 0.6919174104230972,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.44990211475333497
     },
     {
       "date": "2026-02-03",
       "audusd_close": 0.70119,
       "ret1d": 0.006440000000000001,
-      "sentiment_score": 0,
+      "sentiment_score": 0.6811620067889622,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.40979695282178474
     },
     {
       "date": "2026-02-04",
       "audusd_close": 0.70299,
       "ret1d": 0.0018000000000000238,
-      "sentiment_score": 0,
+      "sentiment_score": 0.6817553745967857,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.3850443522746537
     },
     {
       "date": "2026-02-05",
       "audusd_close": 0.6972,
       "ret1d": -0.005789999999999962,
-      "sentiment_score": 0,
+      "sentiment_score": -0.8519751902762472,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.8186456469618435
     },
     {
       "date": "2026-02-06",
       "audusd_close": 0.6987,
       "ret1d": 0.0014999999999999458,
-      "sentiment_score": 0,
+      "sentiment_score": -0.8359842419844075,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.7159101671642274
     },
     {
       "date": "2026-02-09",
       "audusd_close": 0.70569,
       "ret1d": 0.006990000000000052,
-      "sentiment_score": 0,
+      "sentiment_score": 0.6425407243700817,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.36432207161032915
     },
     {
       "date": "2026-02-10",
       "audusd_close": 0.70671,
       "ret1d": 0.0010199999999999099,
-      "sentiment_score": 0,
+      "sentiment_score": 0.6541698000155642,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.3855685045633607
     },
     {
       "date": "2026-02-11",
       "audusd_close": 0.711,
       "ret1d": 0.004290000000000016,
-      "sentiment_score": 0,
+      "sentiment_score": 0.6705366727141506,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.4126985570530041
     },
     {
       "date": "2026-02-12",
       "audusd_close": 0.71196,
       "ret1d": 0.0009600000000000719,
-      "sentiment_score": 0,
+      "sentiment_score": 0.6700527213844482,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.38717558806821517
     },
     {
       "date": "2026-02-13",
       "audusd_close": 0.70506,
       "ret1d": -0.006900000000000017,
-      "sentiment_score": 0,
+      "sentiment_score": 0.5995990312295755,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.26025341501999794
     },
     {
       "date": "2026-02-16",
       "audusd_close": 0.70856,
       "ret1d": 0.0034999999999999476,
-      "sentiment_score": 0,
+      "sentiment_score": 0.5990194995916609,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.23302815408351268
     },
     {
       "date": "2026-02-17",
       "audusd_close": 0.70494,
       "ret1d": -0.0036199999999999566,
-      "sentiment_score": 0,
+      "sentiment_score": -0.9147216648068882,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -2.0180196518451043
     },
     {
       "date": "2026-02-18",
       "audusd_close": 0.70725,
       "ret1d": 0.0023100000000000342,
-      "sentiment_score": 0,
+      "sentiment_score": -0.9152163837615719,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.9948074640462476
     },
     {
       "date": "2026-02-19",
       "audusd_close": 0.70386,
       "ret1d": -0.003390000000000004,
-      "sentiment_score": 0,
+      "sentiment_score": -0.9243321690136473,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.9779918896843012
     },
     {
       "date": "2026-02-20",
       "audusd_close": 0.70474,
       "ret1d": 0.0008799999999999919,
-      "sentiment_score": 0,
+      "sentiment_score": -0.5375244397604265,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.4235659828241738
     },
     {
       "date": "2026-02-23",
       "audusd_close": 0.70694,
       "ret1d": 0.0021999999999999797,
-      "sentiment_score": 0,
+      "sentiment_score": -0.897115780940256,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.8558779682085604
     },
     {
       "date": "2026-02-24",
       "audusd_close": 0.70445,
       "ret1d": -0.0024899999999999922,
-      "sentiment_score": 0,
+      "sentiment_score": -0.673766856186192,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.4781276495658704
     },
     {
       "date": "2026-02-25",
       "audusd_close": 0.70915,
       "ret1d": 0.0046999999999999265,
-      "sentiment_score": 0,
+      "sentiment_score": 0.6007666814400789,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.31841667209624347
     },
     {
       "date": "2026-02-26",
       "audusd_close": 0.71203,
       "ret1d": 0.0028800000000001047,
-      "sentiment_score": 0,
+      "sentiment_score": 0.6308627958542162,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.3675888623949773
     },
     {
       "date": "2026-02-27",
       "audusd_close": 0.71063,
       "ret1d": -0.0014000000000000679,
-      "sentiment_score": 0,
+      "sentiment_score": 0.6634856413135247,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.42075517343468666
     },
     {
       "date": "2026-03-02",
       "audusd_close": 0.70559,
       "ret1d": -0.005039999999999933,
-      "sentiment_score": 0,
+      "sentiment_score": -0.8103604565494036,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.5995809031522712
     },
     {
       "date": "2026-03-03",
       "audusd_close": 0.70195,
       "ret1d": -0.0036400000000000876,
-      "sentiment_score": 0,
+      "sentiment_score": -0.788678865249873,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.5078841442694213
     },
     {
       "date": "2026-03-04",
       "audusd_close": 0.70587,
       "ret1d": 0.003920000000000035,
-      "sentiment_score": 0,
+      "sentiment_score": -0.8034770788462068,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.4696675588694903
     },
     {
       "date": "2026-03-05",
       "audusd_close": 0.70455,
       "ret1d": -0.0013199999999999878,
-      "sentiment_score": 0,
+      "sentiment_score": -0.7583471296635319,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.3575951353804014
     },
     {
       "date": "2026-03-06",
       "audusd_close": 0.70062,
       "ret1d": -0.003929999999999989,
-      "sentiment_score": 0,
+      "sentiment_score": -0.7794878544163026,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.3364296578021142
     },
     {
       "date": "2026-03-09",
       "audusd_close": 0.70179,
       "ret1d": 0.0011700000000000044,
-      "sentiment_score": 0,
+      "sentiment_score": -0.7122367492540452,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.2044909193801814
     },
     {
       "date": "2026-03-10",
       "audusd_close": 0.71177,
       "ret1d": 0.009979999999999989,
-      "sentiment_score": 0,
+      "sentiment_score": 0.6613963564112061,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.6246457350880044
     },
     {
       "date": "2026-03-11",
       "audusd_close": 0.7151,
       "ret1d": 0.003329999999999944,
-      "sentiment_score": 0,
+      "sentiment_score": 0.6690235312513517,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.6445367974329455
     },
     {
       "date": "2026-03-12",
       "audusd_close": 0.71322,
       "ret1d": -0.0018799999999999928,
-      "sentiment_score": 0,
+      "sentiment_score": 0.6669355030552072,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.6516212315040306
     },
     {
       "date": "2026-03-13",
       "audusd_close": 0.70435,
       "ret1d": -0.008869999999999933,
-      "sentiment_score": 0,
+      "sentiment_score": 0.6369383803684961,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.6107377698211027
     },
     {
       "date": "2026-03-16",
       "audusd_close": 0.70538,
       "ret1d": 0.0010299999999999754,
-      "sentiment_score": 0,
+      "sentiment_score": 0.6483943895017086,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.6024730714525455
     },
     {
       "date": "2026-03-17",
       "audusd_close": 0.71061,
       "ret1d": 0.005229999999999957,
-      "sentiment_score": 0,
+      "sentiment_score": -0.8435493213294667,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.3979371595986683
     },
     {
       "date": "2026-03-18",
       "audusd_close": 0.70531,
       "ret1d": -0.005299999999999971,
-      "sentiment_score": 0,
+      "sentiment_score": -0.8850235002706128,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.4321848675376498
     },
     {
       "date": "2026-03-19",
       "audusd_close": 0.70042,
       "ret1d": -0.00488999999999995,
-      "sentiment_score": 0,
+      "sentiment_score": -0.8945373284480909,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.4200912750488688
     },
     {
       "date": "2026-03-20",
       "audusd_close": 0.70668,
       "ret1d": 0.006259999999999932,
-      "sentiment_score": 0,
+      "sentiment_score": 0.5796518284165476,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.5294088569503933
     },
     {
       "date": "2026-03-23",
       "audusd_close": 0.70198,
       "ret1d": -0.0046999999999999265,
-      "sentiment_score": 0,
+      "sentiment_score": -0.9281588308889053,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": -1.411877675760656
     },
     {
       "date": "2026-03-24",
       "audusd_close": 0.69493,
       "ret1d": -0.007050000000000001,
-      "sentiment_score": 0,
+      "sentiment_score": -0.9465929107601075,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.3845491167896546
     },
     {
       "date": "2026-03-25",
       "audusd_close": 0.69634,
       "ret1d": 0.0014099999999999113,
-      "sentiment_score": 0,
+      "sentiment_score": -0.9365706154627186,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.3237463507924632
     },
     {
       "date": "2026-03-26",
       "audusd_close": 0.69125,
       "ret1d": -0.005089999999999928,
-      "sentiment_score": 0,
+      "sentiment_score": -0.9387371698835656,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.2813503452325627
     },
     {
       "date": "2026-03-27",
       "audusd_close": 0.68836,
       "ret1d": -0.002890000000000059,
-      "sentiment_score": 0,
+      "sentiment_score": -0.940119687182705,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.239493594793662
     },
     {
       "date": "2026-03-30",
       "audusd_close": 0.68602,
       "ret1d": -0.0023400000000000087,
-      "sentiment_score": 0,
+      "sentiment_score": -0.9337227266664694,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.2132617963698051
     },
     {
       "date": "2026-03-31",
       "audusd_close": 0.68879,
       "ret1d": 0.00277000000000005,
-      "sentiment_score": 0,
+      "sentiment_score": -0.9362704417011025,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.1763851304484527
     },
     {
       "date": "2026-04-01",
       "audusd_close": 0.69537,
       "ret1d": 0.00658000000000003,
-      "sentiment_score": 0,
+      "sentiment_score": -0.884165406253129,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.0746220040509984
     },
     {
       "date": "2026-04-02",
       "audusd_close": 0.6872,
       "ret1d": -0.00817000000000001,
-      "sentiment_score": 0,
+      "sentiment_score": -0.9667274039639947,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": -1.1411835070550804
     },
     {
       "date": "2026-04-07",
       "audusd_close": 0.69349,
       "ret1d": 0.006290000000000018,
-      "sentiment_score": 0,
+      "sentiment_score": 0.5255111176219924,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": false,
-      "sentimentZ": 0
+      "sentimentZ": 0.7299193971032008
     },
     {
       "date": "2026-04-08",
       "audusd_close": 0.70565,
       "ret1d": 0.012159999999999949,
-      "sentiment_score": 0,
+      "sentiment_score": 0.5094321374838111,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.7236153280898698
     },
     {
       "date": "2026-04-09",
       "audusd_close": 0.70421,
       "ret1d": -0.0014399999999999968,
-      "sentiment_score": 0,
+      "sentiment_score": 0.5183092528738984,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.710947613324913
     },
     {
       "date": "2026-04-10",
       "audusd_close": 0.70714,
       "ret1d": 0.002929999999999988,
-      "sentiment_score": 0,
+      "sentiment_score": 0.5188282903746408,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.687909725244656
     },
     {
       "date": "2026-04-13",
       "audusd_close": 0.70343,
       "ret1d": -0.003709999999999991,
-      "sentiment_score": 0,
+      "sentiment_score": 0.5178564445806713,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.6634195118923286
     },
     {
       "date": "2026-04-14",
       "audusd_close": 0.71222,
       "ret1d": 0.008789999999999965,
-      "sentiment_score": 0,
+      "sentiment_score": 0.5178931639548983,
       "trends_index": 50,
       "trends_wow": 0,
       "priceAboveMa50": true,
-      "sentimentZ": 0
+      "sentimentZ": 0.6764561964889599
     }
   ],
-  "llmBrief": "AUD/USD alt-data analyst bundle v4.\nRows=510, dates 2024-04-15..2026-04-14, span~729d.\nBuy-hold PnL (rate)=0.06408.\nSentiment std=0.0000; 100% rows have trends_wow.\nExploratory Pearson: sentiment vs fwd1d=n/a, fwd5d=n/a, fwd10d=n/a; wow vs fwd5d=n/a (NOT causal).\nUnconventional: panicAttentionDays=0, regimeWildShare=24.6%.\nDream scenarios: ghostAttention days=128; strength+coolSearch count=0; priceShock days=53.\nRolling leaders: 60d→n/a, 120d→n/a, 252d→n/a. Stability: Same best-Sharpe leader across all rolling windows shown (still not causal).\nRegime split @ 2025-04-11 (auto_mid_row): sameSignSharpe 0/9 (flip=0, unknown=9).\nBest Sharpe (full sample, finite): none finite.\nAsk the receiving model: multiple-testing risk, whether pre/post stability matters for your favorite preset, and one falsifiable next experiment.",
+  "llmBrief": "AUD/USD alt-data analyst bundle v4.\nRows=510, dates 2024-04-15..2026-04-14, span~729d.\nBuy-hold PnL (rate)=0.06408.\nSentiment std=0.7417; 100% rows have trends_wow.\nExploratory Pearson: sentiment vs fwd1d=-0.037, fwd5d=-0.071, fwd10d=-0.071; wow vs fwd5d=n/a (NOT causal).\nUnconventional: panicAttentionDays=0, regimeWildShare=24.6%.\nDream scenarios: ghostAttention days=128; strength+coolSearch count=0; priceShock days=53.\nRolling leaders: 60d→mediaReversalLite, 120d→mediaReversalLite, 252d→mediaReversalLite. Stability: Same best-Sharpe leader across all rolling windows shown (still not causal). Most stable Sharpe (low cross-window dispersion): mediaReversalLite.\nRegime split @ 2025-04-11 (auto_mid_row): sameSignSharpe 0/9 (flip=1, unknown=8).\nBest Sharpe (full sample, finite): mediaReversalLite (0.036).\nAsk the receiving model: multiple-testing risk, whether pre/post stability matters for your favorite preset, and one falsifiable next experiment.",
   "dreamScenarios": {
     "ghostAttention": {
       "count": 128,
@@ -2151,16 +2151,16 @@
     },
     "afterSentimentVeryCold": {
       "threshold": -0.28,
-      "events": 0,
-      "meanFwdRet1d": null,
-      "meanFwdRet5d": null,
+      "events": 229,
+      "meanFwdRet1d": 0.0002682969432314388,
+      "meanFwdRet5d": 0.0011071179039301268,
       "note": "Event-time average after sentiment < threshold (overlapping windows possible)."
     },
     "afterSentimentVeryHot": {
       "threshold": 0.28,
-      "events": 0,
-      "meanFwdRet1d": null,
-      "meanFwdRet5d": null,
+      "events": 258,
+      "meanFwdRet1d": -0.00001255813953488208,
+      "meanFwdRet5d": 0.00009437984496124412,
       "note": "Symmetrical hot-headline bar."
     },
     "weekdayMeanRet1d": {
@@ -2173,9 +2173,9 @@
       "Sat": null
     },
     "sentimentVolRegime": {
-      "highChaosDays": 0,
-      "meanAbsRet1dOnHighChaos": null,
-      "meanAbsRet1dOnCalm": null,
+      "highChaosDays": 102,
+      "meanAbsRet1dOnHighChaos": 0.003158529411764701,
+      "meanAbsRet1dOnCalm": 0.0023671428571428585,
       "note": "20d rolling std(sentiment): high = >=80th pct of rolling stds; calm = <50% of cut."
     },
     "trendsIndexLevelVsNextAbsMove": null,
@@ -2185,7 +2185,7 @@
       "meanFwdRet1d": 0.00040961538461538436,
       "meanFwdRet5d": 0.0018472549019607804,
       "meanFwdRet10d": 0.004427083333333336,
-      "shareWithSentimentExtreme": 1,
+      "shareWithSentimentExtreme": 0.24528301886792453,
       "shareWithTrendsWowExtreme": 0,
       "note": "Exploratory only; overlapping events; not a trading rule."
     }
@@ -2291,19 +2291,19 @@
         {
           "id": "mediaReversalLite",
           "label": "Media-reversal lite (no Trends gate)",
-          "totalPnl": 0,
-          "trades": 0,
-          "sharpeAnnualized": null,
-          "maxDrawdown": 0,
-          "profitFactor": 0,
-          "winRate": 0,
+          "totalPnl": 0.0007900000000001794,
+          "trades": 19,
+          "sharpeAnnualized": 0.025682558723787455,
+          "maxDrawdown": 0.035949999999999926,
+          "profitFactor": 1.014155169324497,
+          "winRate": 0.631578947368421,
           "buyHoldPnl": -0.02921000000000007
         }
       ],
       "exploratoryCorrelations": {
-        "sentiment_vs_fwdReturn1d": null,
-        "sentiment_vs_fwdReturn5d": null,
-        "sentiment_vs_fwdReturn10d": null,
+        "sentiment_vs_fwdReturn1d": -0.030705401702151996,
+        "sentiment_vs_fwdReturn5d": 0.05776195752404929,
+        "sentiment_vs_fwdReturn10d": 0.019528947577799553,
         "trends_wow_vs_fwdReturn5d": null
       }
     },
@@ -2405,19 +2405,19 @@
         {
           "id": "mediaReversalLite",
           "label": "Media-reversal lite (no Trends gate)",
-          "totalPnl": 0,
-          "trades": 0,
-          "sharpeAnnualized": null,
-          "maxDrawdown": 0,
-          "profitFactor": 0,
-          "winRate": 0,
+          "totalPnl": -0.0015300000000003644,
+          "trades": 29,
+          "sharpeAnnualized": -0.05020071410645419,
+          "maxDrawdown": 0.027450000000000085,
+          "profitFactor": 0.9787941787941737,
+          "winRate": 0.5172413793103449,
           "buyHoldPnl": 0.08884999999999998
         }
       ],
       "exploratoryCorrelations": {
-        "sentiment_vs_fwdReturn1d": null,
-        "sentiment_vs_fwdReturn5d": null,
-        "sentiment_vs_fwdReturn10d": null,
+        "sentiment_vs_fwdReturn1d": -0.05140677005939656,
+        "sentiment_vs_fwdReturn5d": -0.15843400283070203,
+        "sentiment_vs_fwdReturn10d": -0.12973338666644185,
         "trends_wow_vs_fwdReturn5d": null
       }
     },
@@ -2488,11 +2488,11 @@
       },
       {
         "presetId": "mediaReversalLite",
-        "sharpePre": null,
-        "sharpePost": null,
-        "sharpeSameSign": null,
-        "totalPnlPre": 0,
-        "totalPnlPost": 0
+        "sharpePre": 0.025682558723787455,
+        "sharpePost": -0.05020071410645419,
+        "sharpeSameSign": false,
+        "totalPnlPre": 0.0007900000000001794,
+        "totalPnlPost": -0.0015300000000003644
       }
     ],
     "lowSampleWarning": false,
@@ -2503,8 +2503,8 @@
       "windowDays": 60,
       "rowsUsed": 60,
       "buyHoldPnl": 0.04153999999999991,
-      "bestSharpePresetId": null,
-      "bestSharpe": null,
+      "bestSharpePresetId": "mediaReversalLite",
+      "bestSharpe": -2.066684891481516,
       "variantTable": [
         {
           "id": "mainstreamTriple",
@@ -2597,10 +2597,10 @@
         {
           "id": "mediaReversalLite",
           "label": "Media-reversal lite (no Trends gate)",
-          "totalPnl": 0,
-          "trades": 0,
-          "sharpeAnnualized": null,
-          "maxDrawdown": 0,
+          "totalPnl": -0.012159999999999949,
+          "trades": 1,
+          "sharpeAnnualized": -2.066684891481516,
+          "maxDrawdown": 0.012159999999999949,
           "profitFactor": 0,
           "winRate": 0,
           "buyHoldPnl": 0.04153999999999991
@@ -2611,8 +2611,8 @@
       "windowDays": 120,
       "rowsUsed": 120,
       "buyHoldPnl": 0.06359999999999999,
-      "bestSharpePresetId": null,
-      "bestSharpe": null,
+      "bestSharpePresetId": "mediaReversalLite",
+      "bestSharpe": 0.539689450895303,
       "variantTable": [
         {
           "id": "mainstreamTriple",
@@ -2705,12 +2705,12 @@
         {
           "id": "mediaReversalLite",
           "label": "Media-reversal lite (no Trends gate)",
-          "totalPnl": 0,
-          "trades": 0,
-          "sharpeAnnualized": null,
-          "maxDrawdown": 0,
-          "profitFactor": 0,
-          "winRate": 0,
+          "totalPnl": 0.007359999999999811,
+          "trades": 10,
+          "sharpeAnnualized": 0.539689450895303,
+          "maxDrawdown": 0.02313999999999994,
+          "profitFactor": 1.3153384747214998,
+          "winRate": 0.6,
           "buyHoldPnl": 0.06359999999999999
         }
       ]
@@ -2719,8 +2719,8 @@
       "windowDays": 252,
       "rowsUsed": 252,
       "buyHoldPnl": 0.07486999999999999,
-      "bestSharpePresetId": null,
-      "bestSharpe": null,
+      "bestSharpePresetId": "mediaReversalLite",
+      "bestSharpe": -0.12644664078528647,
       "variantTable": [
         {
           "id": "mainstreamTriple",
@@ -2813,12 +2813,12 @@
         {
           "id": "mediaReversalLite",
           "label": "Media-reversal lite (no Trends gate)",
-          "totalPnl": 0,
-          "trades": 0,
-          "sharpeAnnualized": null,
-          "maxDrawdown": 0,
-          "profitFactor": 0,
-          "winRate": 0,
+          "totalPnl": -0.0038200000000003786,
+          "trades": 28,
+          "sharpeAnnualized": -0.12644664078528647,
+          "maxDrawdown": 0.027450000000000085,
+          "profitFactor": 0.9470547470547419,
+          "winRate": 0.5,
           "buyHoldPnl": 0.07486999999999999
         }
       ]
@@ -2829,15 +2829,15 @@
     "bestSharpeLeadersByWindow": [
       {
         "windowDays": 60,
-        "presetId": null
+        "presetId": "mediaReversalLite"
       },
       {
         "windowDays": 120,
-        "presetId": null
+        "presetId": "mediaReversalLite"
       },
       {
         "windowDays": 252,
-        "presetId": null
+        "presetId": "mediaReversalLite"
       }
     ],
     "bestSharpeLeaderChangesAcrossWindows": false,
@@ -2849,7 +2849,7 @@
       "fadeSearchMania": 0,
       "iceAgeHeadlines": 0,
       "mainstreamTriple": 0,
-      "mediaReversalLite": 0,
+      "mediaReversalLite": 1,
       "quietUptrend": 0,
       "slowConviction": 0,
       "yesterdayHeadlines": 0
@@ -2860,13 +2860,13 @@
       "fadeSearchMania": 0,
       "iceAgeHeadlines": 0,
       "mainstreamTriple": 0,
-      "mediaReversalLite": 0,
+      "mediaReversalLite": 1,
       "quietUptrend": 0,
       "slowConviction": 0,
       "yesterdayHeadlines": 0
     },
-    "mostStableSharpePresetId": null,
-    "mostStableSharpeDispersion": null,
+    "mostStableSharpePresetId": "mediaReversalLite",
+    "mostStableSharpeDispersion": 1.3540955760644846,
     "note": "Same best-Sharpe leader across all rolling windows shown (still not causal)."
   }
 }

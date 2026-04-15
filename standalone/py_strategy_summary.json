@@ -1,0 +1,908 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-04-15T23:49:36.987119+00:00",
+  "strategyId": "py_three_green_lights",
+  "mode": "simple_fallback",
+  "parameters": {
+    "commodityMomentumPeriod": 20,
+    "sentimentBullThreshold": 0.1,
+    "sentimentBearThreshold": -0.1,
+    "trainWindow": 500,
+    "testWindow": 90
+  },
+  "metrics": {
+    "totalPnl": 0.023849999999999816,
+    "maxDrawdown": 0.008179999999999965,
+    "sharpeAnnualized": 0.8478398198236585,
+    "totalTrades": 26,
+    "winRate": 0.5384615384615384,
+    "profitFactor": 1.9675456389452235,
+    "avgTradePnl": 0.0009173076923076853
+  },
+  "walkforwardWindows": [],
+  "walkforwardNote": "Walk-forward skipped: need at least train_window + test_window rows (590); dataset has 510. Falling back to simple backtest for this run.",
+  "rowCount": 510,
+  "latest": {
+    "date": "2026-04-14",
+    "signal": "FLAT",
+    "sig_rate": -1,
+    "sig_commodity": -1,
+    "sig_sentiment": 1,
+    "rate_diff": -0.22999999999999998,
+    "sentiment_score": 0.5178931639548983,
+    "commodity_momentum": -0.04502721425037115
+  },
+  "dailyPreview": [
+    {
+      "date": "2026-01-19",
+      "audusd_close": 0.67068,
+      "rate_diff": -0.48,
+      "commodity_momentum": 0.05541113337406545,
+      "sentiment_score": -0.5974558622525081,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": -1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-01-20",
+      "audusd_close": 0.67325,
+      "rate_diff": -0.48,
+      "commodity_momentum": 0.0968084105671736,
+      "sentiment_score": 0.897002713178528,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-01-21",
+      "audusd_close": 0.67699,
+      "rate_diff": -0.48,
+      "commodity_momentum": 0.10785525585282008,
+      "sentiment_score": 0.8873727020892751,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-01-22",
+      "audusd_close": 0.6807,
+      "rate_diff": -0.48,
+      "commodity_momentum": 0.1044412763425071,
+      "sentiment_score": 0.8958374263663563,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-01-23",
+      "audusd_close": 0.68651,
+      "rate_diff": -0.48,
+      "commodity_momentum": 0.11006522979435074,
+      "sentiment_score": 0.8825104771237349,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-01-26",
+      "audusd_close": 0.69083,
+      "rate_diff": -0.48,
+      "commodity_momentum": 0.13370978989391014,
+      "sentiment_score": 0.8666392119744366,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-01-27",
+      "audusd_close": 0.69488,
+      "rate_diff": -0.48,
+      "commodity_momentum": 0.1745161470590062,
+      "sentiment_score": 0.8615201962124687,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-01-28",
+      "audusd_close": 0.69995,
+      "rate_diff": -0.48,
+      "commodity_momentum": 0.21315301233021589,
+      "sentiment_score": 0.8422496201349929,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-01-29",
+      "audusd_close": 0.7067,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.22951724206438562,
+      "sentiment_score": 0.8258404707600892,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-01-30",
+      "audusd_close": 0.70108,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.09259688694665891,
+      "sentiment_score": 0.748389819956701,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-02-02",
+      "audusd_close": 0.69475,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.04183103106703134,
+      "sentiment_score": 0.6919174104230972,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-02-03",
+      "audusd_close": 0.70119,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.09403863764068499,
+      "sentiment_score": 0.6811620067889622,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-02-04",
+      "audusd_close": 0.70299,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.10588185070377332,
+      "sentiment_score": 0.6817553745967857,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-02-05",
+      "audusd_close": 0.6972,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.09252302154310343,
+      "sentiment_score": -0.8519751902762472,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": -1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-02-06",
+      "audusd_close": 0.6987,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.10264356739473346,
+      "sentiment_score": -0.8359842419844075,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": -1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-02-09",
+      "audusd_close": 0.70569,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.09699631140473941,
+      "sentiment_score": 0.6425407243700817,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-02-10",
+      "audusd_close": 0.70671,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.09034245439945732,
+      "sentiment_score": 0.6541698000155642,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-02-11",
+      "audusd_close": 0.711,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.09625409328586065,
+      "sentiment_score": 0.6705366727141506,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-02-12",
+      "audusd_close": 0.71196,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.06659021372763929,
+      "sentiment_score": 0.6700527213844482,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-02-13",
+      "audusd_close": 0.70506,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.0944991951191454,
+      "sentiment_score": 0.5995990312295755,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-02-16",
+      "audusd_close": 0.70856,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.0944991951191454,
+      "sentiment_score": 0.5990194995916609,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-02-17",
+      "audusd_close": 0.70494,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.02590549671351927,
+      "sentiment_score": -0.9147216648068882,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": -1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-02-18",
+      "audusd_close": 0.70725,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.03201709540250808,
+      "sentiment_score": -0.915216383761572,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": -1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-02-19",
+      "audusd_close": 0.70386,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.013669348990801078,
+      "sentiment_score": -0.9243321690136472,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": -1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-02-20",
+      "audusd_close": 0.70474,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.016699410416260774,
+      "sentiment_score": -0.5375244397604265,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": -1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-02-23",
+      "audusd_close": 0.70694,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.024607751480165918,
+      "sentiment_score": -0.897115780940256,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": -1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-02-24",
+      "audusd_close": 0.70445,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.014941220063948712,
+      "sentiment_score": -0.673766856186192,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": -1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-02-25",
+      "audusd_close": 0.70915,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": -0.017956879726667152,
+      "sentiment_score": 0.6007666814400789,
+      "sig_rate": -1,
+      "sig_commodity": -1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-02-26",
+      "audusd_close": 0.71203,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": -0.026680938806654342,
+      "sentiment_score": 0.6308627958542162,
+      "sig_rate": -1,
+      "sig_commodity": -1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-02-27",
+      "audusd_close": 0.71063,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.10959080768757867,
+      "sentiment_score": 0.6634856413135247,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-03-02",
+      "audusd_close": 0.70559,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.1453542244118442,
+      "sentiment_score": -0.8103604565494036,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": -1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-03-03",
+      "audusd_close": 0.70195,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.04154000018719928,
+      "sentiment_score": -0.788678865249873,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": -1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-03-04",
+      "audusd_close": 0.70587,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.040606515107355134,
+      "sentiment_score": -0.8034770788462068,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": -1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-03-05",
+      "audusd_close": 0.70455,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.041942631019811216,
+      "sentiment_score": -0.7583471296635319,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": -1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-03-06",
+      "audusd_close": 0.70062,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.03936417326212527,
+      "sentiment_score": -0.7794878544163026,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": -1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-03-09",
+      "audusd_close": 0.70179,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.008038190904834597,
+      "sentiment_score": -0.7122367492540452,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": -1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-03-10",
+      "audusd_close": 0.71177,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.0451457691039876,
+      "sentiment_score": 0.6613963564112061,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-03-11",
+      "audusd_close": 0.7151,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.01888946345193343,
+      "sentiment_score": 0.6690235312513517,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-03-12",
+      "audusd_close": 0.71322,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.0390152937333359,
+      "sentiment_score": 0.6669355030552072,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-03-13",
+      "audusd_close": 0.70435,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.006073277578653835,
+      "sentiment_score": 0.6369383803684961,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-03-16",
+      "audusd_close": 0.70538,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": -0.005575467941059342,
+      "sentiment_score": 0.6483943895017086,
+      "sig_rate": -1,
+      "sig_commodity": -1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-03-17",
+      "audusd_close": 0.71061,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": 0.02418646706223959,
+      "sentiment_score": -0.8435493213294667,
+      "sig_rate": -1,
+      "sig_commodity": 1.0,
+      "sig_sentiment": -1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-03-18",
+      "audusd_close": 0.70531,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": -0.019372324808232255,
+      "sentiment_score": -0.8850235002706128,
+      "sig_rate": -1,
+      "sig_commodity": -1.0,
+      "sig_sentiment": -1,
+      "signal": "SHORT"
+    },
+    {
+      "date": "2026-03-19",
+      "audusd_close": 0.70042,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": -0.07540338720530193,
+      "sentiment_score": -0.8945373284480909,
+      "sig_rate": -1,
+      "sig_commodity": -1.0,
+      "sig_sentiment": -1,
+      "signal": "SHORT"
+    },
+    {
+      "date": "2026-03-20",
+      "audusd_close": 0.70668,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": -0.09663390611696476,
+      "sentiment_score": 0.5796518284165476,
+      "sig_rate": -1,
+      "sig_commodity": -1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-03-23",
+      "audusd_close": 0.70198,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": -0.15382251957130844,
+      "sentiment_score": -0.9281588308889052,
+      "sig_rate": -1,
+      "sig_commodity": -1.0,
+      "sig_sentiment": -1,
+      "signal": "SHORT"
+    },
+    {
+      "date": "2026-03-24",
+      "audusd_close": 0.69493,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": -0.14672796242247665,
+      "sentiment_score": -0.9465929107601077,
+      "sig_rate": -1,
+      "sig_commodity": -1.0,
+      "sig_sentiment": -1,
+      "signal": "SHORT"
+    },
+    {
+      "date": "2026-03-25",
+      "audusd_close": 0.69634,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": -0.12611403464429816,
+      "sentiment_score": -0.9365706154627186,
+      "sig_rate": -1,
+      "sig_commodity": -1.0,
+      "sig_sentiment": -1,
+      "signal": "SHORT"
+    },
+    {
+      "date": "2026-03-26",
+      "audusd_close": 0.69125,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": -0.15473775717183424,
+      "sentiment_score": -0.9387371698835656,
+      "sig_rate": -1,
+      "sig_commodity": -1.0,
+      "sig_sentiment": -1,
+      "signal": "SHORT"
+    },
+    {
+      "date": "2026-03-27",
+      "audusd_close": 0.68836,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": -0.1411910907179046,
+      "sentiment_score": -0.940119687182705,
+      "sig_rate": -1,
+      "sig_commodity": -1.0,
+      "sig_sentiment": -1,
+      "signal": "SHORT"
+    },
+    {
+      "date": "2026-03-30",
+      "audusd_close": 0.68602,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": -0.14513446594836765,
+      "sentiment_score": -0.9337227266664694,
+      "sig_rate": -1,
+      "sig_commodity": -1.0,
+      "sig_sentiment": -1,
+      "signal": "SHORT"
+    },
+    {
+      "date": "2026-03-31",
+      "audusd_close": 0.68879,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": -0.09002619992151017,
+      "sentiment_score": -0.9362704417011024,
+      "sig_rate": -1,
+      "sig_commodity": -1.0,
+      "sig_sentiment": -1,
+      "signal": "SHORT"
+    },
+    {
+      "date": "2026-04-01",
+      "audusd_close": 0.69537,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": -0.06581773898382348,
+      "sentiment_score": -0.884165406253129,
+      "sig_rate": -1,
+      "sig_commodity": -1.0,
+      "sig_sentiment": -1,
+      "signal": "SHORT"
+    },
+    {
+      "date": "2026-04-02",
+      "audusd_close": 0.6872,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": -0.08169305285830541,
+      "sentiment_score": -0.9667274039639948,
+      "sig_rate": -1,
+      "sig_commodity": -1.0,
+      "sig_sentiment": -1,
+      "signal": "SHORT"
+    },
+    {
+      "date": "2026-04-07",
+      "audusd_close": 0.69349,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": -0.09502341398736325,
+      "sentiment_score": 0.5255111176219924,
+      "sig_rate": -1,
+      "sig_commodity": -1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-04-08",
+      "audusd_close": 0.70565,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": -0.06717077482077971,
+      "sentiment_score": 0.5094321374838111,
+      "sig_rate": -1,
+      "sig_commodity": -1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-04-09",
+      "audusd_close": 0.70421,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": -0.08365680319344904,
+      "sentiment_score": 0.5183092528738984,
+      "sig_rate": -1,
+      "sig_commodity": -1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-04-10",
+      "audusd_close": 0.70714,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": -0.07847273438544589,
+      "sentiment_score": 0.5188282903746408,
+      "sig_rate": -1,
+      "sig_commodity": -1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-04-13",
+      "audusd_close": 0.70343,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": -0.0729895454473436,
+      "sentiment_score": 0.5178564445806713,
+      "sig_rate": -1,
+      "sig_commodity": -1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    },
+    {
+      "date": "2026-04-14",
+      "audusd_close": 0.71222,
+      "rate_diff": -0.22999999999999998,
+      "commodity_momentum": -0.04502721425037115,
+      "sentiment_score": 0.5178931639548983,
+      "sig_rate": -1,
+      "sig_commodity": -1.0,
+      "sig_sentiment": 1,
+      "signal": "FLAT"
+    }
+  ],
+  "trades": [
+    {
+      "entryDate": "2024-05-27",
+      "exitDate": "2024-05-28",
+      "side": "SHORT",
+      "entryPrice": 0.6644,
+      "exitPrice": 0.66703,
+      "pnl": -0.002630000000000021
+    },
+    {
+      "entryDate": "2024-06-10",
+      "exitDate": "2024-06-13",
+      "side": "SHORT",
+      "entryPrice": 0.65972,
+      "exitPrice": 0.66437,
+      "pnl": -0.004650000000000043
+    },
+    {
+      "entryDate": "2024-06-14",
+      "exitDate": "2024-06-18",
+      "side": "SHORT",
+      "entryPrice": 0.66143,
+      "exitPrice": 0.66113,
+      "pnl": 0.00029999999999996696
+    },
+    {
+      "entryDate": "2024-06-26",
+      "exitDate": "2024-06-28",
+      "side": "SHORT",
+      "entryPrice": 0.66586,
+      "exitPrice": 0.66578,
+      "pnl": 7.999999999996898e-05
+    },
+    {
+      "entryDate": "2024-11-11",
+      "exitDate": "2024-11-21",
+      "side": "SHORT",
+      "entryPrice": 0.65804,
+      "exitPrice": 0.65213,
+      "pnl": 0.005909999999999971
+    },
+    {
+      "entryDate": "2024-11-26",
+      "exitDate": "2024-11-29",
+      "side": "SHORT",
+      "entryPrice": 0.64987,
+      "exitPrice": 0.65017,
+      "pnl": -0.000300000000000078
+    },
+    {
+      "entryDate": "2024-12-02",
+      "exitDate": "2024-12-09",
+      "side": "SHORT",
+      "entryPrice": 0.64814,
+      "exitPrice": 0.64518,
+      "pnl": 0.0029600000000000737
+    },
+    {
+      "entryDate": "2024-12-18",
+      "exitDate": "2024-12-19",
+      "side": "SHORT",
+      "entryPrice": 0.63221,
+      "exitPrice": 0.62504,
+      "pnl": 0.00717000000000001
+    },
+    {
+      "entryDate": "2025-01-07",
+      "exitDate": "2025-01-08",
+      "side": "LONG",
+      "entryPrice": 0.62771,
+      "exitPrice": 0.61964,
+      "pnl": -0.008070000000000022
+    },
+    {
+      "entryDate": "2025-01-15",
+      "exitDate": "2025-01-16",
+      "side": "LONG",
+      "entryPrice": 0.61988,
+      "exitPrice": 0.61977,
+      "pnl": -0.00010999999999994348
+    },
+    {
+      "entryDate": "2025-01-20",
+      "exitDate": "2025-01-29",
+      "side": "LONG",
+      "entryPrice": 0.62044,
+      "exitPrice": 0.62214,
+      "pnl": 0.0017000000000000348
+    },
+    {
+      "entryDate": "2025-02-05",
+      "exitDate": "2025-02-12",
+      "side": "LONG",
+      "entryPrice": 0.62859,
+      "exitPrice": 0.62753,
+      "pnl": -0.0010599999999999499
+    },
+    {
+      "entryDate": "2025-02-14",
+      "exitDate": "2025-02-18",
+      "side": "LONG",
+      "entryPrice": 0.63449,
+      "exitPrice": 0.63446,
+      "pnl": -2.999999999997449e-05
+    },
+    {
+      "entryDate": "2025-05-14",
+      "exitDate": "2025-05-15",
+      "side": "SHORT",
+      "entryPrice": 0.64671,
+      "exitPrice": 0.64072,
+      "pnl": 0.005990000000000051
+    },
+    {
+      "entryDate": "2025-05-21",
+      "exitDate": "2025-05-22",
+      "side": "SHORT",
+      "entryPrice": 0.64437,
+      "exitPrice": 0.64226,
+      "pnl": 0.0021099999999999453
+    },
+    {
+      "entryDate": "2025-05-28",
+      "exitDate": "2025-05-29",
+      "side": "SHORT",
+      "entryPrice": 0.64374,
+      "exitPrice": 0.64415,
+      "pnl": -0.00041000000000002146
+    },
+    {
+      "entryDate": "2025-07-08",
+      "exitDate": "2025-07-11",
+      "side": "SHORT",
+      "entryPrice": 0.65372,
+      "exitPrice": 0.6572,
+      "pnl": -0.0034800000000000386
+    },
+    {
+      "entryDate": "2025-07-16",
+      "exitDate": "2025-07-21",
+      "side": "SHORT",
+      "entryPrice": 0.65202,
+      "exitPrice": 0.65241,
+      "pnl": -0.00039000000000000146
+    },
+    {
+      "entryDate": "2025-07-29",
+      "exitDate": "2025-08-01",
+      "side": "SHORT",
+      "entryPrice": 0.64964,
+      "exitPrice": 0.64226,
+      "pnl": 0.007379999999999942
+    },
+    {
+      "entryDate": "2025-08-15",
+      "exitDate": "2025-08-18",
+      "side": "SHORT",
+      "entryPrice": 0.65125,
+      "exitPrice": 0.651,
+      "pnl": 0.00024999999999997247
+    },
+    {
+      "entryDate": "2025-08-20",
+      "exitDate": "2025-08-22",
+      "side": "SHORT",
+      "entryPrice": 0.64392,
+      "exitPrice": 0.64246,
+      "pnl": 0.0014600000000000168
+    },
+    {
+      "entryDate": "2025-11-04",
+      "exitDate": "2025-11-06",
+      "side": "SHORT",
+      "entryPrice": 0.64954,
+      "exitPrice": 0.65169,
+      "pnl": -0.0021499999999999853
+    },
+    {
+      "entryDate": "2025-11-17",
+      "exitDate": "2025-11-19",
+      "side": "SHORT",
+      "entryPrice": 0.65137,
+      "exitPrice": 0.6488,
+      "pnl": 0.002569999999999961
+    },
+    {
+      "entryDate": "2025-11-20",
+      "exitDate": "2025-11-24",
+      "side": "SHORT",
+      "entryPrice": 0.64784,
+      "exitPrice": 0.64571,
+      "pnl": 0.0021299999999999653
+    },
+    {
+      "entryDate": "2026-03-18",
+      "exitDate": "2026-03-20",
+      "side": "SHORT",
+      "entryPrice": 0.70531,
+      "exitPrice": 0.70668,
+      "pnl": -0.0013699999999999823
+    },
+    {
+      "entryDate": "2026-03-23",
+      "exitDate": "2026-04-07",
+      "side": "SHORT",
+      "entryPrice": 0.70198,
+      "exitPrice": 0.69349,
+      "pnl": 0.008489999999999998
+    }
+  ],
+  "tradeCountTotal": 26
+}

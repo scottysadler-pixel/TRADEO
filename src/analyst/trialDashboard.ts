@@ -3,6 +3,7 @@
  */
 import type { AnalystBundle } from "./bundle.js";
 import type { DataHealthReport } from "./dataHealth.js";
+import type { PyStrategySummary } from "./pyStrategySummary.js";
 import type { ReplayCatalog } from "./replay.js";
 import type { PipelineContext, RunStatus } from "./runStatus.js";
 
@@ -58,6 +59,8 @@ export interface TrialDashboardInput {
   operatorHelpHtml: string;
   /** Precomputed as-of replay (null if dataset too short or disabled). */
   replayCatalog: ReplayCatalog | null;
+  /** Python three-signal backtest summary from `output/py_strategy_summary.json` when present. */
+  pyStrategy: PyStrategySummary | null;
 }
 
 function buildReplayBlock(catalog: ReplayCatalog | null): string {
@@ -200,6 +203,74 @@ function buildReplayBlock(catalog: ReplayCatalog | null): string {
   </script>`;
 }
 
+function buildPyStrategyBlock(py: PyStrategySummary | null): string {
+  if (!py) {
+    return `
+  <h2>Python strategy (three green lights)</h2>
+  <p class="meta">No <code>output/py_strategy_summary.json</code> yet. From the repo root run:
+ <code>pip install -r aud_strategy/requirements.txt</code> then <code>python aud_strategy/run.py</code>
+    (or <code>npm run py:strategy</code>), then re-run <code>npm run trial</code> to embed results here.</p>`;
+  }
+  const m = py.metrics;
+  const fmt = (x: number) =>
+    Number.isFinite(x) ? x.toFixed(6) : String(x);
+  const fmtSh = (x: number) =>
+    Number.isFinite(x) ? x.toFixed(4) : "—";
+  const latest = py.latest;
+  const wfNote = py.walkforwardNote
+    ? `<p class="warn-inline"><strong>Note:</strong> ${escapeHtml(py.walkforwardNote)}</p>`
+    : "";
+  const previewRows = py.dailyPreview
+    .slice(-12)
+    .map(
+      (r) =>
+        `<tr><td>${escapeHtml(r.date)}</td><td><strong>${escapeHtml(r.signal)}</strong></td>` +
+        `<td>${r.sig_rate}</td><td>${r.sig_commodity ?? "—"}</td><td>${r.sig_sentiment}</td>` +
+        `<td>${escapeHtml(fmt(r.rate_diff))}</td><td>${escapeHtml(fmt(r.sentiment_score))}</td></tr>`
+    )
+    .join("");
+  const tradeRows = py.trades
+    .slice(-8)
+    .map(
+      (t) =>
+        `<tr><td>${escapeHtml(t.entryDate)}</td><td>${escapeHtml(t.exitDate)}</td>` +
+        `<td>${escapeHtml(t.side)}</td><td>${escapeHtml(fmt(t.pnl))}</td></tr>`
+    )
+    .join("");
+
+  return `
+  <h2>Python strategy (three green lights)</h2>
+  <p class="meta">Hypothesis-driven rule set (rates + commodity momentum + sentiment). Not curve-fit on this sample.
+    See <code>aud_strategy/README.md</code>. Generated <code>${escapeHtml(py.generatedAt)}</code> · mode <strong>${escapeHtml(py.mode)}</strong> · ${py.rowCount} merged rows.</p>
+  ${wfNote}
+  <div class="trust py-strategy-panel">
+    <h3>Latest bar (${escapeHtml(latest.date)})</h3>
+    <p class="lean"><strong>Signal ${escapeHtml(latest.signal)}</strong> —
+ rate leg ${latest.sig_rate}, commodity leg ${latest.sig_commodity ?? "n/a"}, sentiment leg ${latest.sig_sentiment}.
+      <span class="meta">rate_diff=${escapeHtml(fmt(latest.rate_diff))}, sentiment=${escapeHtml(fmt(latest.sentiment_score))}</span></p>
+    <p class="meta">LONG only if all three legs are +1; SHORT only if all are −1; otherwise FLAT (wait).</p>
+    <h3>Paper metrics (per1 unit base, no costs)</h3>
+    <ul class="trust-list">
+      <li><strong>Total PnL</strong> ${escapeHtml(fmt(m.totalPnl))}</li>
+      <li><strong>Max drawdown</strong> ${escapeHtml(fmt(m.maxDrawdown))}</li>
+      <li><strong>Sharpe (annualized)</strong> ${escapeHtml(fmtSh(m.sharpeAnnualized))}</li>
+      <li><strong>Trades</strong> ${m.totalTrades} (JSON sample last ${py.trades.length} of ${py.tradeCountTotal})</li>
+      <li><strong>Win rate</strong> ${Number.isFinite(m.winRate) ? (m.winRate * 100).toFixed(1) + "%" : "—"}</li>
+    </ul>
+    <h3>Recent daily signals</h3>
+    <table>
+      <thead><tr><th>Date</th><th>Signal</th><th>Rate</th><th>Comm</th><th>Sent</th><th>Rate diff</th><th>Sentiment</th></tr></thead>
+      <tbody>${previewRows || `<tr><td colspan="7">—</td></tr>`}</tbody>
+    </table>
+    <h3>Recent trades (sample)</h3>
+    <table>
+      <thead><tr><th>Entry</th><th>Exit</th><th>Side</th><th>PnL</th></tr></thead>
+      <tbody>${tradeRows || `<tr><td colspan="4">—</td></tr>`}</tbody>
+    </table>
+    <p class="meta">Artifacts: <code>py_strategy_summary.json</code>, <code>py_strategy_trades.csv</code>, <code>py_strategy_equity_curve.csv</code>.</p>
+  </div>`;
+}
+
 export function buildTrialDashboardHtml(input: TrialDashboardInput): string {
   const files = [
     { label: "Equity chart", file: "variant_equity_chart.html" },
@@ -210,6 +281,7 @@ export function buildTrialDashboardHtml(input: TrialDashboardInput): string {
     { label: "Plain-English summary", file: "plain_english_summary.txt" },
     { label: "Data health", file: "data_health.json" },
     { label: "Replay (JSON)", file: "replay_data.json" },
+    { label: "Python strategy (JSON)", file: "py_strategy_summary.json" },
     ...(input.geminiBriefPath
       ? [{ label: "Gemini brief (paste)", file: "gemini_research_brief.md" }]
       : []),
@@ -330,6 +402,7 @@ export function buildTrialDashboardHtml(input: TrialDashboardInput): string {
       <li>Check <strong>What this run used</strong> so you know whether inputs were real, partial, or fallback-heavy.</li>
       <li>Open <strong>Historical replay (paper)</strong> to see what the system would have said on an earlier date and what happened next.</li>
       <li>If a replay date says <strong>FLAT</strong>, read it as “wait / observe,” not as a fake zero-return trade.</li>
+      <li>Optional: run the <strong>Python three-signal</strong> block (<code>npm run py:strategy</code>) for the rates + commodities + sentiment rule set; it appears below when <code>py_strategy_summary.json</code> exists.</li>
     </ol>
   </div>`;
 
@@ -387,6 +460,7 @@ export function buildTrialDashboardHtml(input: TrialDashboardInput): string {
     .replay-slots { font-size: 0.85rem; color: #8b949e; margin-top: 1rem; }
     .replay-slots ul { margin: 0.35rem 0 0; padding-left: 1.1rem; }
     .checklist { margin: 0.5rem 0 0; padding-left: 1.2rem; line-height: 1.7; }
+    .py-strategy-panel h3 { font-size: 0.95rem; margin: 1rem 0 0.35rem; }
   </style>
 </head>
 <body>
@@ -407,6 +481,8 @@ export function buildTrialDashboardHtml(input: TrialDashboardInput): string {
   </div>
 
   ${trustBlock}
+
+  ${buildPyStrategyBlock(input.pyStrategy)}
 
   ${runSnapshot}
 

@@ -5,7 +5,7 @@ Operator view (beginner)
 -------------------------
 
 Current lean: no strong edge right now (latest signal is FLAT on AUDUSD).
-Preset used for latest signal: mainstreamTriple — Mainstream triple-lock.
+Preset used for latest signal: mediaReversalLite — Media-reversal lite (no Trends gate).
 
 Why (short):
 - Latest daily move in the loaded CSV: up (0.00879 rate units day-over-day).
@@ -24,25 +24,25 @@ Caution:
 
 At a glance
 -----------
-- **Best recent preset:** not enough history for rolling windows (60+ rows) — use full-sample leader below.
-- **Most stable preset:** need at least two rolling windows with comparable Sharpes — see analyst_bundle.json when available.
+- **Best recent preset** (shortest rolling window, ~last 60 rows): **mediaReversalLite** (Sharpe -2.067).
+- **Most stable preset** (lowest Sharpe dispersion across rolling windows): **mediaReversalLite** (cross-window Sharpe std ~1.354).
 - **Biggest warning:** none flagged by automated health + pipeline checks.
-- **Weird angle to test:** 53 large |1d| move days; often coincide with sentiment extremes — forward returns after shocks are a cheap event-study target (see analyst_bundle.json → priceShockDays).
+- **Weird angle to test:** 53 large |1d| move days — forward returns after shocks are a cheap event-study target (see analyst_bundle.json → priceShockDays).
 
 You ran `npm run trial` only (no `npm run go` pipeline context).
 
 Backtest (full sample)
-- No finite Sharpe in table (too few trades or flat equity).
+- Best Sharpe preset: **mediaReversalLite** (0.036) — PnL 0.00227.
 
 Recent windows (same presets, last N rows only)
-- Last 60 rows (~60 days): leader **—** (Sharpe n/a).
-- Last 120 rows (~120 days): leader **—** (Sharpe n/a).
-- Last 252 rows (~252 days): leader **—** (Sharpe n/a).
+- Last 60 rows (~60 days): leader **mediaReversalLite** (Sharpe -2.067).
+- Last 120 rows (~120 days): leader **mediaReversalLite** (Sharpe 0.540).
+- Last 252 rows (~252 days): leader **mediaReversalLite** (Sharpe -0.126).
   → Same best-Sharpe leader across all rolling windows shown (still not causal).
 
 Unusual: large daily moves (exploratory)
 - 53 "shock" days (|1d return| >= 90th percentile of |1d returns| in sample). Mean fwd returns (rate units): 1d 0.000410, 5d 0.001847, 10d 0.004427.
-- Share of shock days with sentiment already extreme (series tails): 100%.
+- Share of shock days with sentiment already extreme (series tails): 25%.
 - Share of shock days with stretched |WoW| (top decile among non-null WoW): 0%.
 
 Data health

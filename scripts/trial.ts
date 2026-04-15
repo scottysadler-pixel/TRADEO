@@ -42,6 +42,9 @@ import {
   type PipelineContext,
 } from "../src/analyst/runStatus.ts";
 import { buildReplayCatalog } from "../src/analyst/replay.ts";
+import {
+  parsePyStrategySummary,
+} from "../src/analyst/pyStrategySummary.ts";
 import { publishStandaloneSite } from "../src/analyst/standaloneSite.ts";
 import { buildTrialDashboardHtml } from "../src/analyst/trialDashboard.ts";
 import { writeVariantEquityChartHtml } from "../src/analyst/variantChartHtml.ts";
@@ -296,6 +299,17 @@ async function main(): Promise<void> {
 
   const dashPath = resolve(outDir, "trial_dashboard.html");
   const generatedAt = new Date().toISOString();
+  const pySummaryPath = resolve(outDir, "py_strategy_summary.json");
+  let pyStrategy = null;
+  if (existsSync(pySummaryPath)) {
+    try {
+      pyStrategy = parsePyStrategySummary(
+        JSON.parse(readFileSync(pySummaryPath, "utf8"))
+      );
+    } catch {
+      pyStrategy = null;
+    }
+  }
   const dashboardHtml = buildTrialDashboardHtml({
     generatedAt,
     sourceCsv: csvPath.replace(/\\/g, "/"),
@@ -312,6 +326,7 @@ async function main(): Promise<void> {
     operatorHeroHtml,
     operatorHelpHtml,
     replayCatalog,
+    pyStrategy,
   });
   writeFileSync(dashPath, dashboardHtml, "utf8");
 
@@ -328,6 +343,14 @@ async function main(): Promise<void> {
       "plain_english_summary.txt",
       "data_health.json",
       "replay_data.json",
+      ...(existsSync(resolve(outDir, "py_strategy_summary.json"))
+        ? [
+            "py_strategy_summary.json",
+            "py_strategy_trades.csv",
+            "py_strategy_equity_curve.csv",
+            "py_strategy_summary.txt",
+          ]
+        : []),
       "analyst_bundle.json",
       "analyst_for_llm.md",
       ...(geminiBriefPath ? ["gemini_research_brief.md"] : []),

@@ -87,7 +87,12 @@ Checks Python, `pytrends`, `NEWSAPI_KEY` / `GEMINI_API_KEY`, required CSVs, and 
 | `output/gemini_research_brief.md` | Paste into Gemini **web** (optional) |
 | `output/gemini_response.md` | Only if API key set — model reply or error |
 | `output/data_health.json` | Row counts, dates, `%` rows with `trends_wow`, warnings |
+| `output/py_strategy_summary.json` | Optional: **Python** three-signal backtest (rates + commodity momentum + FinBERT-ready sentiment). Run `npm run py:strategy` (or `python aud_strategy/run.py`) after `pip install -r aud_strategy/requirements.txt`, then `npm run trial` so the dashboard shows the **Python strategy** panel. |
 | `standalone/index.html` | Standalone static app bundle. Open this file directly on desktop, or host/sync the whole `standalone/` folder for phone/iPad viewing. |
+
+### Python three-signal backtest (`aud_strategy/`)
+
+Separate from the TypeScript preset grid: a **rule-based** AUD/USD read using **RBA−Fed rate diff**, **20-day commodity momentum** (gold; optional iron ore), and **daily sentiment** scores. See [`aud_strategy/README.md`](../aud_strategy/README.md). If `data/commodities.csv` or `data/rates.csv` are missing, the first Python run creates **demo-aligned** stubs from `data/prices.csv` — replace with real series for research. FinBERT scoring: `aud_strategy/scripts/score_sentiment.py` (heavy deps in `requirements-finbert.txt`).
 
 ### Standalone app
 

@@ -18,6 +18,7 @@
     "daily:check": "tsx scripts/dailyCheck.ts",
     "compare:variants": "tsx scripts/compareVariants.ts",
     "trial": "tsx scripts/trial.ts",
+    "py:strategy": "python aud_strategy/run.py",
     "open:chart": "start output/variant_equity_chart.html",
     "open:dashboard": "start output/trial_dashboard.html"
   },
