@@ -176,6 +176,22 @@ describe("generateSignal", () => {
     ).toBe("LONG");
   });
 
+  it("priceSentimentReversal: long on fear in uptrend", () => {
+    expect(
+      generateSignal(
+        {
+          price: 1.1,
+          priceSma50: 1.0,
+          trendsIndex: 40,
+          trendsSma20: 50,
+          trendsWow: null,
+          sentimentScore: -0.3,
+        },
+        { flavor: "priceSentimentReversal", sentimentThreshold: 0.25 }
+      )
+    ).toBe("LONG");
+  });
+
   it("FLAT when any SMA is null", () => {
     expect(
       generateSignal({

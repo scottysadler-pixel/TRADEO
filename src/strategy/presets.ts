@@ -117,6 +117,22 @@ export const STRATEGY_PRESETS: StrategyPreset[] = [
       }),
     },
   },
+  {
+    id: "mediaReversalLite",
+    label: "Media-reversal lite (no Trends gate)",
+    nicheNote:
+      "JFQA-style *idea*, simplified to one pair: long AUD/USD when headlines are very negative but price still above its MA; short when very positive but price below MA. **Ignores Google Trends** on purpose — tests whether sentiment alone adds anything once trend-filtered. See Filippou, Taylor & Wang (2024), Journal of Financial and Quantitative Analysis.",
+    enrich: {
+      priceSmaPeriod: 50,
+      trendsSmaPeriod: 20,
+      signalConfig: sc({
+        trendsMode: "sma",
+        sentimentThreshold: 0.22,
+        flavor: "priceSentimentReversal",
+        minAbsWow: 0,
+      }),
+    },
+  },
 ];
 
 export function getPresetById(id: string): StrategyPreset | undefined {

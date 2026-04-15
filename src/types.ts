@@ -20,7 +20,13 @@ export type SignalFlavor =
   /** Uptrend + buzz falling, or downtrend + buzz rising — fades one-sided crowd timing. */
   | "uptrendQuietAttention"
   /** Trend + attention align, but sentiment must be **opposite** (fear for longs, greed for shorts). */
-  | "contrarianFear";
+  | "contrarianFear"
+  /**
+   * **No Trends gate** — only price vs SMA + extreme sentiment, motivated by FX
+   * “media sentiment reversal” evidence (e.g. Filippou, Taylor & Wang, 2024, JFQA: buy when
+   * media tone toward the currency is very poor, sell when euphoric — simplified to one pair).
+   */
+  | "priceSentimentReversal";
 
 export interface DailyRow {
   date: string;

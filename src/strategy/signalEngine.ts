@@ -49,7 +49,10 @@ export function generateSignal(
   let bullishAttention: boolean;
   let bearishAttention: boolean;
 
-  if (trendsMode === "wow") {
+  if (flavor === "priceSentimentReversal") {
+    bullishAttention = true;
+    bearishAttention = true;
+  } else if (trendsMode === "wow") {
     if (trendsWow === null) {
       return "FLAT";
     }
@@ -82,7 +85,7 @@ export function generateSignal(
 
   let bullishSentiment: boolean;
   let bearishSentiment: boolean;
-  if (flavor === "contrarianFear") {
+  if (flavor === "contrarianFear" || flavor === "priceSentimentReversal") {
     bullishSentiment = sentimentScore < -sentimentThreshold;
     bearishSentiment = sentimentScore > sentimentThreshold;
   } else {
