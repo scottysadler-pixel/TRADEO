@@ -2,12 +2,27 @@
 
 This project is built for **paper trials**: same data, many rule sets, one chart. You do **not** need extra Cursor permissions. Optional: **NewsAPI** key, **Python** + `scripts/requirements.txt` for Trends/sentiment automation.
 
+## One command (simplest)
+
+```bash
+npm run trial
+```
+
+Uses **`data/audusd_merged.csv`** if it exists, otherwise **`data/audusd_example.csv`**. Writes:
+
+- `output/variant_comparison.csv` — table of all presets  
+- `output/variant_equity_chart.html` — open in browser (`npm run open:chart` on Windows)  
+- **`output/analyst_bundle.json`** — structured metrics + tail panel + exploratory stats (**upload this + the markdown file to another AI**)  
+- **`output/analyst_for_llm.md`** — short prompt + tables for that second model  
+
+Optional: **`npm run trial -- --verify`** runs build + tests first.
+
 ## Weekly rhythm (lightweight)
 
 | When | Do |
 |------|-----|
-| After you refresh data | `npm run verify` |
-| Any time | `npm run compare:variants -- --file data/audusd_merged.csv` then `npm run open:chart` |
+| After you refresh data | `npm run verify` or `npm run trial -- --verify` |
+| Any time | **`npm run trial`** (or `npm run compare:variants -- --file data/audusd_merged.csv` + `npm run open:chart`) |
 | Monthly | Re‑run with a new **split date** (`node dist/index.js --file ... --split-date YYYY-MM-DD`) so you always see **out‑of‑sample** half |
 | Paper log | `npm run daily:check -- --preset <id>` (updates `data/daily_log.csv`) |
 

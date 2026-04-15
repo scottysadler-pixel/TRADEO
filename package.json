@@ -15,6 +15,7 @@
     "sweep:params": "tsx scripts/paramSweep.ts",
     "daily:check": "tsx scripts/dailyCheck.ts",
     "compare:variants": "tsx scripts/compareVariants.ts",
+    "trial": "tsx scripts/trial.ts",
     "open:chart": "start output/variant_equity_chart.html"
   },
   "engines": {
