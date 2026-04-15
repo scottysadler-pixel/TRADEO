@@ -7,6 +7,7 @@
  *   npm run trial -- --verify
  *   npm run trial -- --split-date 2023-01-01
  *   npm run trial -- --no-split
+ *   npm run trial -- --no-gemini-brief
  *
  * Default CSV: data/audusd_merged.csv if it exists, else data/audusd_example.csv
  * Default split: midpoint row date (omit with --no-split).
@@ -21,6 +22,7 @@ import {
   formatAnalystMarkdown,
   type BuildAnalystBundleOptions,
 } from "../src/analyst/bundle.ts";
+import { formatGeminiResearchBrief } from "../src/analyst/geminiResearchBrief.ts";
 import { writeVariantEquityChartHtml } from "../src/analyst/variantChartHtml.ts";
 import { runVariantComparison } from "../src/analyst/variantComparison.ts";
 import { loadDataFromCsv } from "../src/data/csvLoader.ts";
@@ -147,11 +149,26 @@ async function main(): Promise<void> {
     "utf8"
   );
 
+  if (!hasFlag("--no-gemini-brief", argv)) {
+    writeFileSync(
+      resolve(outDir, "gemini_research_brief.md"),
+      formatGeminiResearchBrief(bundle, {
+        sourceCsvHint: csvPath.replace(/\\/g, "/"),
+      }),
+      "utf8"
+    );
+  }
+
   console.log("\nWrote:");
   console.log(`  ${resolve(outDir, "variant_comparison.csv")}`);
   console.log(`  ${resolve(outDir, "variant_equity_chart.html")}`);
   console.log(`  ${resolve(outDir, "analyst_bundle.json")}  ← v${bundle.bundleVersion}: dream scenarios + regime split (unless --no-split)`);
   console.log(`  ${resolve(outDir, "analyst_for_llm.md")}`);
+  if (!hasFlag("--no-gemini-brief", argv)) {
+    console.log(
+      `  ${resolve(outDir, "gemini_research_brief.md")}  ← paste into Gemini + attach analyst_bundle.json`
+    );
+  }
   console.log("\nNext: npm run open:chart   (Windows opens the chart in browser)");
 }
 

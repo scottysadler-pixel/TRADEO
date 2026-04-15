@@ -2,6 +2,12 @@
 
 This project is built for **paper trials**: same data, many rule sets, one chart. You do **not** need extra Cursor permissions. Optional: **NewsAPI** key, **Python** + `scripts/requirements.txt` for Trends/sentiment automation.
 
+## When the coding agent (or you) needs Google Gemini
+
+If something is **underspecified** — API vendor names, free-tier limits, weird research angles, or “what should we try next?” — run **`npm run trial`** and open **`output/gemini_research_brief.md`**. Paste that file into Gemini and, if possible, attach **`output/analyst_bundle.json`** from the same run so answers are grounded in your latest numbers.
+
+The agent will **tell you explicitly** when it wants that handoff (blocked on naming, policy, or open-ended design). You can paste Gemini’s reply back into Cursor as plain instructions.
+
 ## One command (simplest)
 
 ```bash
@@ -14,6 +20,7 @@ Uses **`data/audusd_merged.csv`** if it exists, otherwise **`data/audusd_example
 - `output/variant_equity_chart.html` — open in browser (`npm run open:chart` on Windows)  
 - **`output/analyst_bundle.json`** (v2) — full-sample metrics + **dream scenarios** (ghost attention, divergence bars, weekday splits, sentiment‑vol regime) + **pre/post regime split** (every preset’s Sharpe & PnL in each half, stability table) + tail panel (**upload with the markdown file to another AI**)  
 - **`output/analyst_for_llm.md`** — brief + tables + JSON blocks for splits / dream stats  
+- **`output/gemini_research_brief.md`** — copy-paste prompt for **Gemini** (API ideas, creative tests); pair with `analyst_bundle.json`  
 
 Optional flags:
 
@@ -21,6 +28,7 @@ Optional flags:
 - **`npm run trial -- --split-date 2023-06-01`** — fix the train/test boundary (default is **mid‑series row date**)  
 - **`npm run trial -- --no-split`** — skip pre/post blocks (smaller JSON, faster)  
 - **`npm run trial -- --file path/to.csv`** — override the merged/example default  
+- **`npm run trial -- --no-gemini-brief`** — skip writing `output/gemini_research_brief.md`  
 
 ## Weekly rhythm (lightweight)
 
