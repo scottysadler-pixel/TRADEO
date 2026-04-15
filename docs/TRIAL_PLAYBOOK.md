@@ -34,6 +34,7 @@ Optional flags:
 - **`npm run trial -- --no-split`** — skip pre/post blocks (smaller JSON, faster)  
 - **`npm run trial -- --file path/to.csv`** — override the merged/example default  
 - **`npm run trial -- --no-gemini-brief`** — skip writing `output/gemini_research_brief.md`  
+- **`npm run trial -- --no-gemini-fetch`** — skip the Gemini **API** call even if `GEMINI_API_KEY` is set (brief file still written unless `--no-gemini-brief`)  
 
 ## Weekly rhythm (lightweight)
 
