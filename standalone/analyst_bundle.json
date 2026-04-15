@@ -1,0 +1,2872 @@
+{
+  "bundleVersion": 4,
+  "generatedAt": "2026-04-15T04:49:53.640Z",
+  "sourceCsvHint": "C:/Users/Scotty/Trade1/data/audusd_merged.csv",
+  "dataFingerprint": {
+    "rowCount": 510,
+    "firstDate": "2024-04-15",
+    "lastDate": "2026-04-14",
+    "spanCalendarDays": 729,
+    "audusdCloseMin": 0.60057,
+    "audusdCloseMax": 0.7151,
+    "sentimentMin": 0,
+    "sentimentMax": 0,
+    "sentimentStd": 0,
+    "trendsIndexMin": 50,
+    "trendsIndexMax": 50,
+    "pctRowsWithTrendsWow": 100
+  },
+  "exploratoryCorrelations": {
+    "sentiment_vs_fwdReturn1d": null,
+    "sentiment_vs_fwdReturn5d": null,
+    "sentiment_vs_fwdReturn10d": null,
+    "trends_wow_vs_fwdReturn5d": null
+  },
+  "unconventional": {
+    "panicAttentionDays": 0,
+    "regimeWildShare": 0.2455795677799607,
+    "meanAbsRet1dWhenSentimentExtreme": 0.0028236542239685634,
+    "meanAbsRet1dWhenSentimentMiddle": null
+  },
+  "variantTable": [
+    {
+      "id": "mainstreamTriple",
+      "label": "Mainstream triple-lock",
+      "totalPnl": 0,
+      "trades": 0,
+      "sharpeAnnualized": null,
+      "maxDrawdown": 0,
+      "profitFactor": 0,
+      "winRate": 0,
+      "buyHoldPnl": 0.06407999999999991
+    },
+    {
+      "id": "slowConviction",
+      "label": "Slow conviction",
+      "totalPnl": 0,
+      "trades": 0,
+      "sharpeAnnualized": null,
+      "maxDrawdown": 0,
+      "profitFactor": 0,
+      "winRate": 0,
+      "buyHoldPnl": 0.06407999999999991
+    },
+    {
+      "id": "attentionBurst",
+      "label": "Attention burst only",
+      "totalPnl": 0,
+      "trades": 0,
+      "sharpeAnnualized": null,
+      "maxDrawdown": 0,
+      "profitFactor": 0,
+      "winRate": 0,
+      "buyHoldPnl": 0.06407999999999991
+    },
+    {
+      "id": "quietUptrend",
+      "label": "Quiet uptrend / loud downtrend",
+      "totalPnl": 0,
+      "trades": 0,
+      "sharpeAnnualized": null,
+      "maxDrawdown": 0,
+      "profitFactor": 0,
+      "winRate": 0,
+      "buyHoldPnl": 0.06407999999999991
+    },
+    {
+      "id": "contrarianMood",
+      "label": "Contrarian mood",
+      "totalPnl": 0,
+      "trades": 0,
+      "sharpeAnnualized": null,
+      "maxDrawdown": 0,
+      "profitFactor": 0,
+      "winRate": 0,
+      "buyHoldPnl": 0.06407999999999991
+    },
+    {
+      "id": "yesterdayHeadlines",
+      "label": "Yesterday’s headlines",
+      "totalPnl": 0,
+      "trades": 0,
+      "sharpeAnnualized": null,
+      "maxDrawdown": 0,
+      "profitFactor": 0,
+      "winRate": 0,
+      "buyHoldPnl": 0.06407999999999991
+    },
+    {
+      "id": "fadeSearchMania",
+      "label": "Fade search mania (anti-hype)",
+      "totalPnl": 0,
+      "trades": 0,
+      "sharpeAnnualized": null,
+      "maxDrawdown": 0,
+      "profitFactor": 0,
+      "winRate": 0,
+      "buyHoldPnl": 0.06407999999999991
+    },
+    {
+      "id": "iceAgeHeadlines",
+      "label": "Ice-age headlines (5d lag)",
+      "totalPnl": 0,
+      "trades": 0,
+      "sharpeAnnualized": null,
+      "maxDrawdown": 0,
+      "profitFactor": 0,
+      "winRate": 0,
+      "buyHoldPnl": 0.06407999999999991
+    },
+    {
+      "id": "mediaReversalLite",
+      "label": "Media-reversal lite (no Trends gate)",
+      "totalPnl": 0,
+      "trades": 0,
+      "sharpeAnnualized": null,
+      "maxDrawdown": 0,
+      "profitFactor": 0,
+      "winRate": 0,
+      "buyHoldPnl": 0.06407999999999991
+    }
+  ],
+  "tailDailyPanel": [
+    {
+      "date": "2025-07-02",
+      "audusd_close": 0.65546,
+      "ret1d": -0.003029999999999977,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-07-03",
+      "audusd_close": 0.65718,
+      "ret1d": 0.0017199999999999438,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-07-04",
+      "audusd_close": 0.65562,
+      "ret1d": -0.0015600000000000058,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-07-07",
+      "audusd_close": 0.65,
+      "ret1d": -0.005619999999999958,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-07-08",
+      "audusd_close": 0.65372,
+      "ret1d": 0.0037199999999999456,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-07-09",
+      "audusd_close": 0.65214,
+      "ret1d": -0.0015799999999999148,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-07-10",
+      "audusd_close": 0.65512,
+      "ret1d": 0.0029799999999999827,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-07-11",
+      "audusd_close": 0.6572,
+      "ret1d": 0.0020799999999999708,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-07-14",
+      "audusd_close": 0.65652,
+      "ret1d": -0.0006800000000000139,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-07-15",
+      "audusd_close": 0.65589,
+      "ret1d": -0.0006300000000000194,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-07-16",
+      "audusd_close": 0.65202,
+      "ret1d": -0.003869999999999929,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-07-17",
+      "audusd_close": 0.64604,
+      "ret1d": -0.005980000000000096,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-07-18",
+      "audusd_close": 0.65259,
+      "ret1d": 0.006550000000000056,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-07-21",
+      "audusd_close": 0.65241,
+      "ret1d": -0.00017999999999995797,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-07-22",
+      "audusd_close": 0.65197,
+      "ret1d": -0.00043999999999999595,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-07-23",
+      "audusd_close": 0.65965,
+      "ret1d": 0.007679999999999909,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-07-24",
+      "audusd_close": 0.66153,
+      "ret1d": 0.0018799999999999928,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-07-25",
+      "audusd_close": 0.65673,
+      "ret1d": -0.0047999999999999154,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-07-28",
+      "audusd_close": 0.65278,
+      "ret1d": -0.003950000000000009,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-07-29",
+      "audusd_close": 0.64964,
+      "ret1d": -0.0031400000000000317,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-07-30",
+      "audusd_close": 0.6485,
+      "ret1d": -0.0011400000000000299,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-07-31",
+      "audusd_close": 0.64441,
+      "ret1d": -0.004089999999999927,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-08-01",
+      "audusd_close": 0.64226,
+      "ret1d": -0.0021499999999999853,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-08-04",
+      "audusd_close": 0.64804,
+      "ret1d": 0.005779999999999896,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-08-05",
+      "audusd_close": 0.64647,
+      "ret1d": -0.0015699999999999603,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-08-06",
+      "audusd_close": 0.6503,
+      "ret1d": 0.00383,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-08-07",
+      "audusd_close": 0.6522,
+      "ret1d": 0.0019000000000000128,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-08-08",
+      "audusd_close": 0.65229,
+      "ret1d": 0.0000900000000000345,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-08-11",
+      "audusd_close": 0.6508,
+      "ret1d": -0.0014899999999999913,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-08-12",
+      "audusd_close": 0.64885,
+      "ret1d": -0.0019500000000000073,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-08-13",
+      "audusd_close": 0.65527,
+      "ret1d": 0.006419999999999981,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-08-14",
+      "audusd_close": 0.65242,
+      "ret1d": -0.002850000000000019,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-08-15",
+      "audusd_close": 0.65125,
+      "ret1d": -0.0011700000000000044,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-08-18",
+      "audusd_close": 0.651,
+      "ret1d": -0.00024999999999997247,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-08-19",
+      "audusd_close": 0.64922,
+      "ret1d": -0.0017800000000000038,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-08-20",
+      "audusd_close": 0.64392,
+      "ret1d": -0.005299999999999971,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-08-21",
+      "audusd_close": 0.6424,
+      "ret1d": -0.0015200000000000768,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-08-22",
+      "audusd_close": 0.64246,
+      "ret1d": 0.000060000000000060005,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-08-25",
+      "audusd_close": 0.64965,
+      "ret1d": 0.007189999999999919,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-08-26",
+      "audusd_close": 0.64914,
+      "ret1d": -0.0005099999999998994,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-08-27",
+      "audusd_close": 0.64708,
+      "ret1d": -0.0020600000000000618,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-08-28",
+      "audusd_close": 0.65302,
+      "ret1d": 0.005940000000000056,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-08-29",
+      "audusd_close": 0.65256,
+      "ret1d": -0.00046000000000001595,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-09-01",
+      "audusd_close": 0.65502,
+      "ret1d": 0.0024600000000000177,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-09-02",
+      "audusd_close": 0.65072,
+      "ret1d": -0.0043000000000000815,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-09-03",
+      "audusd_close": 0.65382,
+      "ret1d": 0.0030999999999999917,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-09-04",
+      "audusd_close": 0.65176,
+      "ret1d": -0.0020599999999999508,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-09-05",
+      "audusd_close": 0.65456,
+      "ret1d": 0.0028000000000000247,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-09-08",
+      "audusd_close": 0.65891,
+      "ret1d": 0.004349999999999965,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-09-09",
+      "audusd_close": 0.66085,
+      "ret1d": 0.0019400000000000528,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-09-10",
+      "audusd_close": 0.66067,
+      "ret1d": -0.000180000000000069,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-09-11",
+      "audusd_close": 0.66028,
+      "ret1d": -0.00039000000000000146,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-09-12",
+      "audusd_close": 0.66406,
+      "ret1d": 0.0037800000000000056,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-09-15",
+      "audusd_close": 0.66629,
+      "ret1d": 0.0022300000000000653,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-09-16",
+      "audusd_close": 0.66714,
+      "ret1d": 0.0008499999999999064,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-09-17",
+      "audusd_close": 0.6677,
+      "ret1d": 0.0005600000000000049,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-09-18",
+      "audusd_close": 0.66464,
+      "ret1d": -0.0030599999999999516,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-09-19",
+      "audusd_close": 0.65925,
+      "ret1d": -0.005390000000000006,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-09-22",
+      "audusd_close": 0.65945,
+      "ret1d": 0.00019999999999997797,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-09-23",
+      "audusd_close": 0.66052,
+      "ret1d": 0.0010700000000000154,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-09-24",
+      "audusd_close": 0.66078,
+      "ret1d": 0.000260000000000038,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-09-25",
+      "audusd_close": 0.65831,
+      "ret1d": -0.0024700000000000832,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-09-26",
+      "audusd_close": 0.65276,
+      "ret1d": -0.005549999999999944,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-09-29",
+      "audusd_close": 0.65642,
+      "ret1d": 0.0036599999999999966,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-09-30",
+      "audusd_close": 0.66109,
+      "ret1d": 0.004669999999999952,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-10-01",
+      "audusd_close": 0.66084,
+      "ret1d": -0.00024999999999997247,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-10-02",
+      "audusd_close": 0.66086,
+      "ret1d": 0.000020000000000020002,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-10-03",
+      "audusd_close": 0.66029,
+      "ret1d": -0.0005699999999999594,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-10-06",
+      "audusd_close": 0.65985,
+      "ret1d": -0.00043999999999999595,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-10-07",
+      "audusd_close": 0.6588,
+      "ret1d": -0.0010499999999999954,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-10-08",
+      "audusd_close": 0.6573,
+      "ret1d": -0.0015000000000000568,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-10-09",
+      "audusd_close": 0.65972,
+      "ret1d": 0.0024199999999999777,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-10-10",
+      "audusd_close": 0.65541,
+      "ret1d": -0.004309999999999925,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-10-13",
+      "audusd_close": 0.65086,
+      "ret1d": -0.004550000000000054,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-10-14",
+      "audusd_close": 0.6452,
+      "ret1d": -0.005659999999999998,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-10-15",
+      "audusd_close": 0.65149,
+      "ret1d": 0.006290000000000018,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-10-16",
+      "audusd_close": 0.64984,
+      "ret1d": -0.0016500000000000403,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-10-17",
+      "audusd_close": 0.64912,
+      "ret1d": -0.0007199999999999429,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-10-20",
+      "audusd_close": 0.64876,
+      "ret1d": -0.00036000000000002697,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-10-21",
+      "audusd_close": 0.64898,
+      "ret1d": 0.00021999999999999797,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-10-22",
+      "audusd_close": 0.64862,
+      "ret1d": -0.00036000000000002697,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-10-23",
+      "audusd_close": 0.65038,
+      "ret1d": 0.0017599999999999838,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-10-24",
+      "audusd_close": 0.6501,
+      "ret1d": -0.00027999999999994696,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-10-27",
+      "audusd_close": 0.65589,
+      "ret1d": 0.005789999999999962,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-10-28",
+      "audusd_close": 0.6554,
+      "ret1d": -0.0004899999999999904,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-10-29",
+      "audusd_close": 0.65997,
+      "ret1d": 0.004569999999999963,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-10-30",
+      "audusd_close": 0.65358,
+      "ret1d": -0.006389999999999896,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-10-31",
+      "audusd_close": 0.6538,
+      "ret1d": 0.00021999999999999797,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-11-03",
+      "audusd_close": 0.65432,
+      "ret1d": 0.0005199999999999649,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-11-04",
+      "audusd_close": 0.64954,
+      "ret1d": -0.0047800000000000065,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-11-05",
+      "audusd_close": 0.64839,
+      "ret1d": -0.0011499999999999844,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-11-06",
+      "audusd_close": 0.65169,
+      "ret1d": 0.0032999999999999696,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-11-07",
+      "audusd_close": 0.64811,
+      "ret1d": -0.0035800000000000276,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-11-10",
+      "audusd_close": 0.65336,
+      "ret1d": 0.005250000000000088,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-11-11",
+      "audusd_close": 0.65255,
+      "ret1d": -0.0008100000000000884,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-11-12",
+      "audusd_close": 0.65416,
+      "ret1d": 0.0016100000000000003,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-11-13",
+      "audusd_close": 0.65563,
+      "ret1d": 0.0014700000000000824,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-11-14",
+      "audusd_close": 0.65266,
+      "ret1d": -0.002970000000000028,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-11-17",
+      "audusd_close": 0.65137,
+      "ret1d": -0.0012900000000000134,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-11-18",
+      "audusd_close": 0.65003,
+      "ret1d": -0.0013400000000000079,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-11-19",
+      "audusd_close": 0.6488,
+      "ret1d": -0.0012299999999999534,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-11-20",
+      "audusd_close": 0.64784,
+      "ret1d": -0.0009600000000000719,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-11-21",
+      "audusd_close": 0.64455,
+      "ret1d": -0.003290000000000015,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-11-24",
+      "audusd_close": 0.64571,
+      "ret1d": 0.0011600000000000499,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-11-25",
+      "audusd_close": 0.64614,
+      "ret1d": 0.00043000000000004146,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-11-26",
+      "audusd_close": 0.64974,
+      "ret1d": 0.0035999999999999366,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-11-27",
+      "audusd_close": 0.65262,
+      "ret1d": 0.0028799999999999937,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-11-28",
+      "audusd_close": 0.65267,
+      "ret1d": 0.00004999999999999449,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-12-01",
+      "audusd_close": 0.65648,
+      "ret1d": 0.00380999999999998,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-12-02",
+      "audusd_close": 0.65531,
+      "ret1d": -0.0011700000000000044,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-12-03",
+      "audusd_close": 0.65921,
+      "ret1d": 0.0039000000000000146,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-12-04",
+      "audusd_close": 0.6607,
+      "ret1d": 0.0014899999999999913,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-12-05",
+      "audusd_close": 0.66368,
+      "ret1d": 0.0029800000000000937,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-12-08",
+      "audusd_close": 0.66414,
+      "ret1d": 0.00045999999999990493,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-12-09",
+      "audusd_close": 0.66376,
+      "ret1d": -0.00037999999999993594,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-12-10",
+      "audusd_close": 0.66431,
+      "ret1d": 0.0005499999999999394,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-12-11",
+      "audusd_close": 0.66553,
+      "ret1d": 0.0012199999999999989,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-12-12",
+      "audusd_close": 0.66676,
+      "ret1d": 0.0012300000000000644,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-12-15",
+      "audusd_close": 0.66518,
+      "ret1d": -0.0015800000000000258,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-12-16",
+      "audusd_close": 0.66392,
+      "ret1d": -0.0012600000000000389,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-12-17",
+      "audusd_close": 0.66211,
+      "ret1d": -0.0018099999999999783,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-12-18",
+      "audusd_close": 0.66082,
+      "ret1d": -0.0012900000000000134,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-12-19",
+      "audusd_close": 0.66024,
+      "ret1d": -0.0005799999999999139,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-12-22",
+      "audusd_close": 0.6648,
+      "ret1d": 0.0045599999999998975,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-12-23",
+      "audusd_close": 0.66939,
+      "ret1d": 0.004590000000000094,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-12-24",
+      "audusd_close": 0.67021,
+      "ret1d": 0.0008199999999999319,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-12-29",
+      "audusd_close": 0.66917,
+      "ret1d": -0.0010399999999999299,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-12-30",
+      "audusd_close": 0.67018,
+      "ret1d": 0.0010099999999999554,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2025-12-31",
+      "audusd_close": 0.66834,
+      "ret1d": -0.0018399999999999528,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-01-02",
+      "audusd_close": 0.66947,
+      "ret1d": 0.0011299999999999644,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-01-05",
+      "audusd_close": 0.66682,
+      "ret1d": -0.002650000000000041,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-01-06",
+      "audusd_close": 0.67197,
+      "ret1d": 0.005149999999999988,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-01-07",
+      "audusd_close": 0.67277,
+      "ret1d": 0.0008000000000000229,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-01-08",
+      "audusd_close": 0.66971,
+      "ret1d": -0.0030599999999999516,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-01-09",
+      "audusd_close": 0.66751,
+      "ret1d": -0.0021999999999999797,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-01-12",
+      "audusd_close": 0.67161,
+      "ret1d": 0.0040999999999999925,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-01-13",
+      "audusd_close": 0.67,
+      "ret1d": -0.0016100000000000003,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-01-14",
+      "audusd_close": 0.66768,
+      "ret1d": -0.0023199999999999887,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-01-15",
+      "audusd_close": 0.66874,
+      "ret1d": 0.0010599999999999499,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-01-16",
+      "audusd_close": 0.6698,
+      "ret1d": 0.0010599999999999499,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-01-19",
+      "audusd_close": 0.67068,
+      "ret1d": 0.0008800000000001029,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-01-20",
+      "audusd_close": 0.67325,
+      "ret1d": 0.002569999999999961,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-01-21",
+      "audusd_close": 0.67699,
+      "ret1d": 0.0037399999999999656,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-01-22",
+      "audusd_close": 0.6807,
+      "ret1d": 0.003709999999999991,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-01-23",
+      "audusd_close": 0.68651,
+      "ret1d": 0.005809999999999982,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-01-26",
+      "audusd_close": 0.69083,
+      "ret1d": 0.0043200000000001015,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-01-27",
+      "audusd_close": 0.69488,
+      "ret1d": 0.004049999999999998,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-01-28",
+      "audusd_close": 0.69995,
+      "ret1d": 0.005069999999999908,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-01-29",
+      "audusd_close": 0.7067,
+      "ret1d": 0.006750000000000034,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-01-30",
+      "audusd_close": 0.70108,
+      "ret1d": -0.005619999999999958,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-02-02",
+      "audusd_close": 0.69475,
+      "ret1d": -0.006330000000000058,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-02-03",
+      "audusd_close": 0.70119,
+      "ret1d": 0.006440000000000001,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-02-04",
+      "audusd_close": 0.70299,
+      "ret1d": 0.0018000000000000238,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-02-05",
+      "audusd_close": 0.6972,
+      "ret1d": -0.005789999999999962,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-02-06",
+      "audusd_close": 0.6987,
+      "ret1d": 0.0014999999999999458,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-02-09",
+      "audusd_close": 0.70569,
+      "ret1d": 0.006990000000000052,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-02-10",
+      "audusd_close": 0.70671,
+      "ret1d": 0.0010199999999999099,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-02-11",
+      "audusd_close": 0.711,
+      "ret1d": 0.004290000000000016,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-02-12",
+      "audusd_close": 0.71196,
+      "ret1d": 0.0009600000000000719,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-02-13",
+      "audusd_close": 0.70506,
+      "ret1d": -0.006900000000000017,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-02-16",
+      "audusd_close": 0.70856,
+      "ret1d": 0.0034999999999999476,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-02-17",
+      "audusd_close": 0.70494,
+      "ret1d": -0.0036199999999999566,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-02-18",
+      "audusd_close": 0.70725,
+      "ret1d": 0.0023100000000000342,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-02-19",
+      "audusd_close": 0.70386,
+      "ret1d": -0.003390000000000004,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-02-20",
+      "audusd_close": 0.70474,
+      "ret1d": 0.0008799999999999919,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-02-23",
+      "audusd_close": 0.70694,
+      "ret1d": 0.0021999999999999797,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-02-24",
+      "audusd_close": 0.70445,
+      "ret1d": -0.0024899999999999922,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-02-25",
+      "audusd_close": 0.70915,
+      "ret1d": 0.0046999999999999265,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-02-26",
+      "audusd_close": 0.71203,
+      "ret1d": 0.0028800000000001047,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-02-27",
+      "audusd_close": 0.71063,
+      "ret1d": -0.0014000000000000679,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-03-02",
+      "audusd_close": 0.70559,
+      "ret1d": -0.005039999999999933,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-03-03",
+      "audusd_close": 0.70195,
+      "ret1d": -0.0036400000000000876,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-03-04",
+      "audusd_close": 0.70587,
+      "ret1d": 0.003920000000000035,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-03-05",
+      "audusd_close": 0.70455,
+      "ret1d": -0.0013199999999999878,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-03-06",
+      "audusd_close": 0.70062,
+      "ret1d": -0.003929999999999989,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-03-09",
+      "audusd_close": 0.70179,
+      "ret1d": 0.0011700000000000044,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-03-10",
+      "audusd_close": 0.71177,
+      "ret1d": 0.009979999999999989,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-03-11",
+      "audusd_close": 0.7151,
+      "ret1d": 0.003329999999999944,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-03-12",
+      "audusd_close": 0.71322,
+      "ret1d": -0.0018799999999999928,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-03-13",
+      "audusd_close": 0.70435,
+      "ret1d": -0.008869999999999933,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-03-16",
+      "audusd_close": 0.70538,
+      "ret1d": 0.0010299999999999754,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-03-17",
+      "audusd_close": 0.71061,
+      "ret1d": 0.005229999999999957,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-03-18",
+      "audusd_close": 0.70531,
+      "ret1d": -0.005299999999999971,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-03-19",
+      "audusd_close": 0.70042,
+      "ret1d": -0.00488999999999995,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-03-20",
+      "audusd_close": 0.70668,
+      "ret1d": 0.006259999999999932,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-03-23",
+      "audusd_close": 0.70198,
+      "ret1d": -0.0046999999999999265,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-03-24",
+      "audusd_close": 0.69493,
+      "ret1d": -0.007050000000000001,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-03-25",
+      "audusd_close": 0.69634,
+      "ret1d": 0.0014099999999999113,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-03-26",
+      "audusd_close": 0.69125,
+      "ret1d": -0.005089999999999928,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-03-27",
+      "audusd_close": 0.68836,
+      "ret1d": -0.002890000000000059,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-03-30",
+      "audusd_close": 0.68602,
+      "ret1d": -0.0023400000000000087,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-03-31",
+      "audusd_close": 0.68879,
+      "ret1d": 0.00277000000000005,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-04-01",
+      "audusd_close": 0.69537,
+      "ret1d": 0.00658000000000003,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-04-02",
+      "audusd_close": 0.6872,
+      "ret1d": -0.00817000000000001,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-04-07",
+      "audusd_close": 0.69349,
+      "ret1d": 0.006290000000000018,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": false,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-04-08",
+      "audusd_close": 0.70565,
+      "ret1d": 0.012159999999999949,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-04-09",
+      "audusd_close": 0.70421,
+      "ret1d": -0.0014399999999999968,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-04-10",
+      "audusd_close": 0.70714,
+      "ret1d": 0.002929999999999988,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-04-13",
+      "audusd_close": 0.70343,
+      "ret1d": -0.003709999999999991,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    },
+    {
+      "date": "2026-04-14",
+      "audusd_close": 0.71222,
+      "ret1d": 0.008789999999999965,
+      "sentiment_score": 0,
+      "trends_index": 50,
+      "trends_wow": 0,
+      "priceAboveMa50": true,
+      "sentimentZ": 0
+    }
+  ],
+  "llmBrief": "AUD/USD alt-data analyst bundle v4.\nRows=510, dates 2024-04-15..2026-04-14, span~729d.\nBuy-hold PnL (rate)=0.06408.\nSentiment std=0.0000; 100% rows have trends_wow.\nExploratory Pearson: sentiment vs fwd1d=n/a, fwd5d=n/a, fwd10d=n/a; wow vs fwd5d=n/a (NOT causal).\nUnconventional: panicAttentionDays=0, regimeWildShare=24.6%.\nDream scenarios: ghostAttention days=128; strength+coolSearch count=0; priceShock days=53.\nRolling leaders: 60d→n/a, 120d→n/a, 252d→n/a. Stability: Same best-Sharpe leader across all rolling windows shown (still not causal).\nRegime split @ 2025-04-11 (auto_mid_row): sameSignSharpe 0/9 (flip=0, unknown=9).\nBest Sharpe (full sample, finite): none finite.\nAsk the receiving model: multiple-testing risk, whether pre/post stability matters for your favorite preset, and one falsifiable next experiment.",
+  "dreamScenarios": {
+    "ghostAttention": {
+      "count": 128,
+      "meanFwdRet1d": 0.00012984374999999541,
+      "meanFwdRet5d": 0.00048789062499999484,
+      "note": "Adaptive: |WoW| in top quartile AND |1d return| in bottom quartile vs series."
+    },
+    "strengthWhileSearchCools": {
+      "count": 0,
+      "meanFwdRet10d": null,
+      "note": "5d price up, same-day WoW < 0; fwd = 10d close-to-close."
+    },
+    "weaknessWhileSearchHeats": {
+      "count": 0,
+      "meanFwdRet10d": null,
+      "note": "5d price down, same-day WoW > 0."
+    },
+    "afterSentimentVeryCold": {
+      "threshold": -0.28,
+      "events": 0,
+      "meanFwdRet1d": null,
+      "meanFwdRet5d": null,
+      "note": "Event-time average after sentiment < threshold (overlapping windows possible)."
+    },
+    "afterSentimentVeryHot": {
+      "threshold": 0.28,
+      "events": 0,
+      "meanFwdRet1d": null,
+      "meanFwdRet5d": null,
+      "note": "Symmetrical hot-headline bar."
+    },
+    "weekdayMeanRet1d": {
+      "Sun": null,
+      "Mon": 0.00040725490196078017,
+      "Tue": 0.00009685714285714297,
+      "Wed": 0.0005399999999999982,
+      "Thu": 0.00004669999999999952,
+      "Fri": -0.0004637623762376182,
+      "Sat": null
+    },
+    "sentimentVolRegime": {
+      "highChaosDays": 0,
+      "meanAbsRet1dOnHighChaos": null,
+      "meanAbsRet1dOnCalm": null,
+      "note": "20d rolling std(sentiment): high = >=80th pct of rolling stds; calm = <50% of cut."
+    },
+    "trendsIndexLevelVsNextAbsMove": null,
+    "priceShockDays": {
+      "thresholdNote": "|1d return| >= 90th percentile of |1d returns| in sample",
+      "count": 53,
+      "meanFwdRet1d": 0.00040961538461538436,
+      "meanFwdRet5d": 0.0018472549019607804,
+      "meanFwdRet10d": 0.004427083333333336,
+      "shareWithSentimentExtreme": 1,
+      "shareWithTrendsWowExtreme": 0,
+      "note": "Exploratory only; overlapping events; not a trading rule."
+    }
+  },
+  "regimeSplit": {
+    "splitDateIso": "2025-04-11",
+    "chosenBy": "auto_mid_row",
+    "pre": {
+      "periodLabel": "pre",
+      "rowCount": 255,
+      "firstDate": "2024-04-15",
+      "lastDate": "2025-04-10",
+      "buyHoldPnl": -0.02921000000000007,
+      "variantTable": [
+        {
+          "id": "mainstreamTriple",
+          "label": "Mainstream triple-lock",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": -0.02921000000000007
+        },
+        {
+          "id": "slowConviction",
+          "label": "Slow conviction",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": -0.02921000000000007
+        },
+        {
+          "id": "attentionBurst",
+          "label": "Attention burst only",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": -0.02921000000000007
+        },
+        {
+          "id": "quietUptrend",
+          "label": "Quiet uptrend / loud downtrend",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": -0.02921000000000007
+        },
+        {
+          "id": "contrarianMood",
+          "label": "Contrarian mood",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": -0.02921000000000007
+        },
+        {
+          "id": "yesterdayHeadlines",
+          "label": "Yesterday’s headlines",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": -0.02921000000000007
+        },
+        {
+          "id": "fadeSearchMania",
+          "label": "Fade search mania (anti-hype)",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": -0.02921000000000007
+        },
+        {
+          "id": "iceAgeHeadlines",
+          "label": "Ice-age headlines (5d lag)",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": -0.02921000000000007
+        },
+        {
+          "id": "mediaReversalLite",
+          "label": "Media-reversal lite (no Trends gate)",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": -0.02921000000000007
+        }
+      ],
+      "exploratoryCorrelations": {
+        "sentiment_vs_fwdReturn1d": null,
+        "sentiment_vs_fwdReturn5d": null,
+        "sentiment_vs_fwdReturn10d": null,
+        "trends_wow_vs_fwdReturn5d": null
+      }
+    },
+    "post": {
+      "periodLabel": "post",
+      "rowCount": 255,
+      "firstDate": "2025-04-11",
+      "lastDate": "2026-04-14",
+      "buyHoldPnl": 0.08884999999999998,
+      "variantTable": [
+        {
+          "id": "mainstreamTriple",
+          "label": "Mainstream triple-lock",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.08884999999999998
+        },
+        {
+          "id": "slowConviction",
+          "label": "Slow conviction",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.08884999999999998
+        },
+        {
+          "id": "attentionBurst",
+          "label": "Attention burst only",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.08884999999999998
+        },
+        {
+          "id": "quietUptrend",
+          "label": "Quiet uptrend / loud downtrend",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.08884999999999998
+        },
+        {
+          "id": "contrarianMood",
+          "label": "Contrarian mood",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.08884999999999998
+        },
+        {
+          "id": "yesterdayHeadlines",
+          "label": "Yesterday’s headlines",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.08884999999999998
+        },
+        {
+          "id": "fadeSearchMania",
+          "label": "Fade search mania (anti-hype)",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.08884999999999998
+        },
+        {
+          "id": "iceAgeHeadlines",
+          "label": "Ice-age headlines (5d lag)",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.08884999999999998
+        },
+        {
+          "id": "mediaReversalLite",
+          "label": "Media-reversal lite (no Trends gate)",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.08884999999999998
+        }
+      ],
+      "exploratoryCorrelations": {
+        "sentiment_vs_fwdReturn1d": null,
+        "sentiment_vs_fwdReturn5d": null,
+        "sentiment_vs_fwdReturn10d": null,
+        "trends_wow_vs_fwdReturn5d": null
+      }
+    },
+    "stability": [
+      {
+        "presetId": "mainstreamTriple",
+        "sharpePre": null,
+        "sharpePost": null,
+        "sharpeSameSign": null,
+        "totalPnlPre": 0,
+        "totalPnlPost": 0
+      },
+      {
+        "presetId": "slowConviction",
+        "sharpePre": null,
+        "sharpePost": null,
+        "sharpeSameSign": null,
+        "totalPnlPre": 0,
+        "totalPnlPost": 0
+      },
+      {
+        "presetId": "attentionBurst",
+        "sharpePre": null,
+        "sharpePost": null,
+        "sharpeSameSign": null,
+        "totalPnlPre": 0,
+        "totalPnlPost": 0
+      },
+      {
+        "presetId": "quietUptrend",
+        "sharpePre": null,
+        "sharpePost": null,
+        "sharpeSameSign": null,
+        "totalPnlPre": 0,
+        "totalPnlPost": 0
+      },
+      {
+        "presetId": "contrarianMood",
+        "sharpePre": null,
+        "sharpePost": null,
+        "sharpeSameSign": null,
+        "totalPnlPre": 0,
+        "totalPnlPost": 0
+      },
+      {
+        "presetId": "yesterdayHeadlines",
+        "sharpePre": null,
+        "sharpePost": null,
+        "sharpeSameSign": null,
+        "totalPnlPre": 0,
+        "totalPnlPost": 0
+      },
+      {
+        "presetId": "fadeSearchMania",
+        "sharpePre": null,
+        "sharpePost": null,
+        "sharpeSameSign": null,
+        "totalPnlPre": 0,
+        "totalPnlPost": 0
+      },
+      {
+        "presetId": "iceAgeHeadlines",
+        "sharpePre": null,
+        "sharpePost": null,
+        "sharpeSameSign": null,
+        "totalPnlPre": 0,
+        "totalPnlPost": 0
+      },
+      {
+        "presetId": "mediaReversalLite",
+        "sharpePre": null,
+        "sharpePost": null,
+        "sharpeSameSign": null,
+        "totalPnlPre": 0,
+        "totalPnlPost": 0
+      }
+    ],
+    "lowSampleWarning": false,
+    "minRowsRecommended": 30
+  },
+  "rollingSnapshots": [
+    {
+      "windowDays": 60,
+      "rowsUsed": 60,
+      "buyHoldPnl": 0.04153999999999991,
+      "bestSharpePresetId": null,
+      "bestSharpe": null,
+      "variantTable": [
+        {
+          "id": "mainstreamTriple",
+          "label": "Mainstream triple-lock",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.04153999999999991
+        },
+        {
+          "id": "slowConviction",
+          "label": "Slow conviction",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.04153999999999991
+        },
+        {
+          "id": "attentionBurst",
+          "label": "Attention burst only",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.04153999999999991
+        },
+        {
+          "id": "quietUptrend",
+          "label": "Quiet uptrend / loud downtrend",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.04153999999999991
+        },
+        {
+          "id": "contrarianMood",
+          "label": "Contrarian mood",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.04153999999999991
+        },
+        {
+          "id": "yesterdayHeadlines",
+          "label": "Yesterday’s headlines",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.04153999999999991
+        },
+        {
+          "id": "fadeSearchMania",
+          "label": "Fade search mania (anti-hype)",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.04153999999999991
+        },
+        {
+          "id": "iceAgeHeadlines",
+          "label": "Ice-age headlines (5d lag)",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.04153999999999991
+        },
+        {
+          "id": "mediaReversalLite",
+          "label": "Media-reversal lite (no Trends gate)",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.04153999999999991
+        }
+      ]
+    },
+    {
+      "windowDays": 120,
+      "rowsUsed": 120,
+      "buyHoldPnl": 0.06359999999999999,
+      "bestSharpePresetId": null,
+      "bestSharpe": null,
+      "variantTable": [
+        {
+          "id": "mainstreamTriple",
+          "label": "Mainstream triple-lock",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.06359999999999999
+        },
+        {
+          "id": "slowConviction",
+          "label": "Slow conviction",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.06359999999999999
+        },
+        {
+          "id": "attentionBurst",
+          "label": "Attention burst only",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.06359999999999999
+        },
+        {
+          "id": "quietUptrend",
+          "label": "Quiet uptrend / loud downtrend",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.06359999999999999
+        },
+        {
+          "id": "contrarianMood",
+          "label": "Contrarian mood",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.06359999999999999
+        },
+        {
+          "id": "yesterdayHeadlines",
+          "label": "Yesterday’s headlines",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.06359999999999999
+        },
+        {
+          "id": "fadeSearchMania",
+          "label": "Fade search mania (anti-hype)",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.06359999999999999
+        },
+        {
+          "id": "iceAgeHeadlines",
+          "label": "Ice-age headlines (5d lag)",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.06359999999999999
+        },
+        {
+          "id": "mediaReversalLite",
+          "label": "Media-reversal lite (no Trends gate)",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.06359999999999999
+        }
+      ]
+    },
+    {
+      "windowDays": 252,
+      "rowsUsed": 252,
+      "buyHoldPnl": 0.07486999999999999,
+      "bestSharpePresetId": null,
+      "bestSharpe": null,
+      "variantTable": [
+        {
+          "id": "mainstreamTriple",
+          "label": "Mainstream triple-lock",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.07486999999999999
+        },
+        {
+          "id": "slowConviction",
+          "label": "Slow conviction",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.07486999999999999
+        },
+        {
+          "id": "attentionBurst",
+          "label": "Attention burst only",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.07486999999999999
+        },
+        {
+          "id": "quietUptrend",
+          "label": "Quiet uptrend / loud downtrend",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.07486999999999999
+        },
+        {
+          "id": "contrarianMood",
+          "label": "Contrarian mood",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.07486999999999999
+        },
+        {
+          "id": "yesterdayHeadlines",
+          "label": "Yesterday’s headlines",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.07486999999999999
+        },
+        {
+          "id": "fadeSearchMania",
+          "label": "Fade search mania (anti-hype)",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.07486999999999999
+        },
+        {
+          "id": "iceAgeHeadlines",
+          "label": "Ice-age headlines (5d lag)",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.07486999999999999
+        },
+        {
+          "id": "mediaReversalLite",
+          "label": "Media-reversal lite (no Trends gate)",
+          "totalPnl": 0,
+          "trades": 0,
+          "sharpeAnnualized": null,
+          "maxDrawdown": 0,
+          "profitFactor": 0,
+          "winRate": 0,
+          "buyHoldPnl": 0.07486999999999999
+        }
+      ]
+    }
+  ],
+  "rollingStability": {
+    "windowCount": 3,
+    "bestSharpeLeadersByWindow": [
+      {
+        "windowDays": 60,
+        "presetId": null
+      },
+      {
+        "windowDays": 120,
+        "presetId": null
+      },
+      {
+        "windowDays": 252,
+        "presetId": null
+      }
+    ],
+    "bestSharpeLeaderChangesAcrossWindows": false,
+    "presetsPositivePnlAllWindows": [],
+    "presetsPositiveSharpeAllWindows": [],
+    "positiveSharpeWindowCountByPreset": {
+      "attentionBurst": 0,
+      "contrarianMood": 0,
+      "fadeSearchMania": 0,
+      "iceAgeHeadlines": 0,
+      "mainstreamTriple": 0,
+      "mediaReversalLite": 0,
+      "quietUptrend": 0,
+      "slowConviction": 0,
+      "yesterdayHeadlines": 0
+    },
+    "positivePnlWindowCountByPreset": {
+      "attentionBurst": 0,
+      "contrarianMood": 0,
+      "fadeSearchMania": 0,
+      "iceAgeHeadlines": 0,
+      "mainstreamTriple": 0,
+      "mediaReversalLite": 0,
+      "quietUptrend": 0,
+      "slowConviction": 0,
+      "yesterdayHeadlines": 0
+    },
+    "mostStableSharpePresetId": null,
+    "mostStableSharpeDispersion": null,
+    "note": "Same best-Sharpe leader across all rolling windows shown (still not causal)."
+  }
+}

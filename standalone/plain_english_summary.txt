@@ -1,0 +1,54 @@
+What happened in this run
+=========================
+
+Operator view (beginner)
+-------------------------
+
+Current lean: no strong edge right now (latest signal is FLAT on AUDUSD).
+Preset used for latest signal: mainstreamTriple — Mainstream triple-lock.
+
+Why (short):
+- Latest daily move in the loaded CSV: up (0.00879 rate units day-over-day).
+- Price is above its ~50-day average in this sample (simple trend filter).
+- Sentiment is near its recent norm (not an extreme mood read).
+- Recent-window leaders agree on the same best-Sharpe preset (still a small-sample effect).
+
+Trust:
+- Trust detail incomplete until you run `npm run go` (pipeline snapshot).
+
+Recent paper check (merged CSV):
+- Merged CSV paper check: on 2026-04-13 signal was FLAT — no one-day directional score to 2026-04-14.
+
+Caution:
+- Pipeline snapshot missing — run `npm run go` once so the page can show real-vs-fallback clearly.
+
+At a glance
+-----------
+- **Best recent preset:** not enough history for rolling windows (60+ rows) — use full-sample leader below.
+- **Most stable preset:** need at least two rolling windows with comparable Sharpes — see analyst_bundle.json when available.
+- **Biggest warning:** none flagged by automated health + pipeline checks.
+- **Weird angle to test:** 53 large |1d| move days; often coincide with sentiment extremes — forward returns after shocks are a cheap event-study target (see analyst_bundle.json → priceShockDays).
+
+You ran `npm run trial` only (no `npm run go` pipeline context).
+
+Backtest (full sample)
+- No finite Sharpe in table (too few trades or flat equity).
+
+Recent windows (same presets, last N rows only)
+- Last 60 rows (~60 days): leader **—** (Sharpe n/a).
+- Last 120 rows (~120 days): leader **—** (Sharpe n/a).
+- Last 252 rows (~252 days): leader **—** (Sharpe n/a).
+  → Same best-Sharpe leader across all rolling windows shown (still not causal).
+
+Unusual: large daily moves (exploratory)
+- 53 "shock" days (|1d return| >= 90th percentile of |1d returns| in sample). Mean fwd returns (rate units): 1d 0.000410, 5d 0.001847, 10d 0.004427.
+- Share of shock days with sentiment already extreme (series tails): 100%.
+- Share of shock days with stretched |WoW| (top decile among non-null WoW): 0%.
+
+Data health
+- No automated health warnings.
+
+Try next
+- If Trends was synthetic: `pip install -r scripts/requirements.txt` then `npm run go` again.
+- For news-backed sentiment: set NEWSAPI_KEY and ensure Python deps (see docs/OPERATOR_GUIDE.md).
+- Sanity check: `npm run doctor`

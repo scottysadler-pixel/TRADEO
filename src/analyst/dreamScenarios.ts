@@ -66,6 +66,19 @@ export interface DreamScenarios {
   };
   /** Rank correlation style: attention level vs next-day absolute move. */
   trendsIndexLevelVsNextAbsMove: number | null;
+  /** Days where |1d return| is in top decile vs series — crude "shock" study. */
+  priceShockDays: {
+    thresholdNote: string;
+    count: number;
+    meanFwdRet1d: number | null;
+    meanFwdRet5d: number | null;
+    meanFwdRet10d: number | null;
+    /** Share of shock days where sentiment was in top/bottom 15% of series. */
+    shareWithSentimentExtreme: number | null;
+    /** Share of shock days where |WoW| is in top decile of |WoW| (non-null rows). */
+    shareWithTrendsWowExtreme: number | null;
+    note: string;
+  };
 }
 
 function fwdRet(
@@ -197,6 +210,50 @@ export function computeDreamScenarios(sortedInput: DailyRow[]): DreamScenarios {
   }
   const trendVsNextAbs = pearson(xsTrend, ysNextAbs);
 
+  const absRet1d = ret1.slice(1).map((r) => Math.abs(r));
+  const shockCut = absRet1d.length
+    ? percentile(sortedCopy(absRet1d), 0.9)
+    : 0;
+  const shockIdx: number[] = [];
+  for (let i = 1; i < n; i++) {
+    if (Math.abs(ret1[i]!) >= shockCut && shockCut > 0) shockIdx.push(i);
+  }
+  const sentSorted = sortedCopy(sentiments);
+  const lo15 = sentSorted.length
+    ? percentile(sentSorted, 0.15)
+    : 0;
+  const hi15 = sentSorted.length
+    ? percentile(sentSorted, 0.85)
+    : 0;
+  let extremeOnShock = 0;
+  for (const i of shockIdx) {
+    const s = sentiments[i]!;
+    if (s <= lo15 || s >= hi15) extremeOnShock++;
+  }
+  const absWowVals = wows
+    .filter((w): w is number => w !== null)
+    .map((w) => Math.abs(w));
+  const wowShockCut = absWowVals.length
+    ? percentile(sortedCopy(absWowVals), 0.9)
+    : 0;
+  let wowExtremeOnShock = 0;
+  let shockDaysWithWow = 0;
+  for (const i of shockIdx) {
+    const w = wows[i];
+    if (w === null) continue;
+    shockDaysWithWow++;
+    if (Math.abs(w) >= wowShockCut && wowShockCut > 0) wowExtremeOnShock++;
+  }
+  const shockFwd1 = shockIdx
+    .map((i) => fwdRet(closes, i, 1))
+    .filter((x): x is number => x !== null);
+  const shockFwd5 = shockIdx
+    .map((i) => fwdRet(closes, i, 5))
+    .filter((x): x is number => x !== null);
+  const shockFwd10 = shockIdx
+    .map((i) => fwdRet(closes, i, 10))
+    .filter((x): x is number => x !== null);
+
   return {
     ghostAttention: {
       count: ghostIdx.length,
@@ -236,5 +293,17 @@ export function computeDreamScenarios(sortedInput: DailyRow[]): DreamScenarios {
       note: "20d rolling std(sentiment): high = >=80th pct of rolling stds; calm = <50% of cut.",
     },
     trendsIndexLevelVsNextAbsMove: trendVsNextAbs,
+    priceShockDays: {
+      thresholdNote: "|1d return| >= 90th percentile of |1d returns| in sample",
+      count: shockIdx.length,
+      meanFwdRet1d: shockFwd1.length ? mean(shockFwd1) : null,
+      meanFwdRet5d: shockFwd5.length ? mean(shockFwd5) : null,
+      meanFwdRet10d: shockFwd10.length ? mean(shockFwd10) : null,
+      shareWithSentimentExtreme:
+        shockIdx.length > 0 ? extremeOnShock / shockIdx.length : null,
+      shareWithTrendsWowExtreme:
+        shockDaysWithWow > 0 ? wowExtremeOnShock / shockDaysWithWow : null,
+      note: "Exploratory only; overlapping events; not a trading rule.",
+    },
   };
 }

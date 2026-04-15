@@ -1,0 +1,10 @@
+id,label,total_pnl,trades,sharpe,max_dd,profit_factor,buy_hold
+mainstreamTriple,Mainstream triple-lock,0.000000,0,,0.000000,0.0000,0.064080
+slowConviction,Slow conviction,0.000000,0,,0.000000,0.0000,0.064080
+attentionBurst,Attention burst only,0.000000,0,,0.000000,0.0000,0.064080
+quietUptrend,Quiet uptrend / loud downtrend,0.000000,0,,0.000000,0.0000,0.064080
+contrarianMood,Contrarian mood,0.000000,0,,0.000000,0.0000,0.064080
+yesterdayHeadlines,Yesterday’s headlines,0.000000,0,,0.000000,0.0000,0.064080
+fadeSearchMania,Fade search mania (anti-hype),0.000000,0,,0.000000,0.0000,0.064080
+iceAgeHeadlines,Ice-age headlines (5d lag),0.000000,0,,0.000000,0.0000,0.064080
+mediaReversalLite,Media-reversal lite (no Trends gate),0.000000,0,,0.000000,0.0000,0.064080

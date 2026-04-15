@@ -21,6 +21,16 @@ This **automatically**:
 
 You do not need to remember file names or step order. For **real** Trends data, install Python and run `pip install -r scripts/requirements.txt` once.
 
+Optional **`config/pairs.json`** lists FX pairs: the first entry is the **primary** (full Trends + sentiment pipeline); extra pairs get Frankfurter prices plus **synthetic** Trends/sentiment for **ranking only** (`data/merged_<PAIR>.csv`). The dashboard shows a pair table after `npm run go` when more than one pair is configured.
+
+### Health check
+
+```powershell
+npm run doctor
+```
+
+Checks Python, `pytrends`, `NEWSAPI_KEY` / `GEMINI_API_KEY`, required CSVs, and whether `output/` has a recent trial (`<72h`). Fix any `WARN` lines, then run `npm run verify` or `npm run go`.
+
 ## What runs where
 
 | Action | Network | API keys |
@@ -68,12 +78,55 @@ You do not need to remember file names or step order. For **real** Trends data, 
 |------|------|
 | `output/variant_comparison.csv` | Metrics per preset |
 | `output/variant_equity_chart.html` | Chart.js equity curves |
-| `output/trial_dashboard.html` | Simple operator landing page |
-| `output/analyst_bundle.json` | Full analyst export (dream scenarios, optional regime split) |
+| `output/trial_dashboard.html` | Operator landing page (**Start here** beginner block: current lean, why, paper what-if, trust/caution), **historical replay** (date picker: as-of lean with no future leakage; 1d/5d/10d paper outcomes; illustrative notionals), trust signals, top presets, plain-English summary, optional pair ranking |
+| `output/replay_data.json` | Precomputed replay rows (same logic as the dashboard picker). Regenerated on each `npm run trial`. Short CSVs may produce an empty `days` list — the dashboard explains the minimum history. |
+| `output/run_status.json` | Machine-readable run metadata (schema v2: trial steps, fallback flags, row counts, merged warnings, top presets, pipeline snapshot when from `npm run go`) |
+| `output/plain_english_summary.txt` | Short human-readable “what happened” (same text as dashboard) |
+| `output/analyst_bundle.json` | Full analyst export (dream scenarios, rolling windows, optional regime split) |
 | `output/analyst_for_llm.md` | Markdown companion for other models |
 | `output/gemini_research_brief.md` | Paste into Gemini **web** (optional) |
 | `output/gemini_response.md` | Only if API key set — model reply or error |
 | `output/data_health.json` | Row counts, dates, `%` rows with `trends_wow`, warnings |
+| `standalone/index.html` | Standalone static app bundle. Open this file directly on desktop, or host/sync the whole `standalone/` folder for phone/iPad viewing. |
+
+### Standalone app
+
+- Double-click **`Open Trade1 App.cmd`** on Windows to open the standalone bundle without typing commands.
+- Each fresh `trial` run now refreshes the whole **`standalone/`** folder automatically.
+- For iPad or phone use, the practical path is to put the **entire `standalone/` folder** somewhere web-reachable or cloud-synced. The app itself stays static; no backend was added.
+- GitHub Pages is now prewired via **`.github/workflows/pages.yml`**. After you connect this repo to your real GitHub repository and push `main`, GitHub can publish the standalone app automatically from the generated **`standalone/`** folder.
+- Small Pages-friendly extras are generated too: **`standalone/.nojekyll`**, **`standalone/404.html`**, app manifest, and icon.
+
+#### GitHub Pages next steps
+
+1. Point this local repo at your real GitHub repo instead of the placeholder `origin`.
+2. Push the `main` branch.
+3. In GitHub: **Settings → Pages** and make sure the source is **GitHub Actions**.
+4. Wait for the **Deploy Standalone App** workflow to finish.
+5. Open the Pages URL on desktop or iPad and optionally **Add to Home Screen** in Safari.
+
+### Historical replay (paper)
+
+After `npm run trial`, open **`output/trial_dashboard.html`** and scroll to **Historical replay (paper)**.
+
+1. Choose an **as-of date** in the picker (only dates covered by the merged CSV and with enough rows for a fair window).
+2. Click **Analyze** to see what the system **would have leaned** using **only data through that date** (no look-ahead in the signal or preset choice).
+3. Read **What happened next** for **+1 / +5 / +10 trading rows** in the CSV — crude quote-term paper only (not a brokerage record).
+4. **Illustrative notionals** (500 / 2,000 / 5,000 base-currency units) use the same simple assumptions as the operator view: no spreads, fees, slippage, or leverage.
+
+Beginner reading:
+- **LONG** = the model leaned toward the base currency strengthening.
+- **SHORT** = the model leaned toward the base currency weakening.
+- **FLAT** = no strong edge; treat it as a wait / observe day.
+- **Helped / hurt** = whether that historical lean matched what the market actually did next.
+
+**Trust:** Replay now shows an **as-of trust** read for the selected date: an overall label plus separate **Trends** / **sentiment** notes. These are estimated from the as-of slice and the latest pipeline context when available; exact row-level source metadata is still not stored. The dashboard still shows **% of rows with Trends WoW** in the slice so you can see whether attention columns were thin at that time.
+
+Placeholder lines under the replay block reserve space for future **AU vs NZ** / **RBA vs RBNZ** / **risk-off USD** headline comparisons — not wired in this build.
+
+### Paper trail (`data/daily_log.csv`)
+
+`npx tsx scripts/dailyCheck.ts` appends one line per run with the **signal** (LONG / SHORT / FLAT). By default it now auto-picks the same **leading preset** the dashboard prefers; you can still override with `--preset`. Re-run `npm run trial` afterward: the dashboard’s **Paper “what would have happened”** section reads this file and shows a crude last-step and last-30-transition summary. Numbers are **illustrative only** (no spreads, fees, or broker execution).
 
 ## Troubleshooting
 

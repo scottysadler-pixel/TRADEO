@@ -28,12 +28,16 @@ Uses **`data/audusd_merged.csv`** if it exists, otherwise **`data/audusd_example
 
 - `output/variant_comparison.csv` — table of all presets  
 - `output/variant_equity_chart.html` — open in browser (`npm run open:chart` on Windows)  
-- **`output/analyst_bundle.json`** (v2) — full-sample metrics + **dream scenarios** (ghost attention, divergence bars, weekday splits, sentiment‑vol regime) + **pre/post regime split** (every preset’s Sharpe & PnL in each half, stability table) + tail panel (**upload with the markdown file to another AI**)  
-- **`output/analyst_for_llm.md`** — brief + tables + JSON blocks for splits / dream stats  
+- **`output/analyst_bundle.json`** (v4) — full-sample metrics + **dream scenarios** (incl. **price shock** days with sentiment + **WoW stretch** overlap) + **rolling windows** (60 / 120 / 252 rows) + **rolling stability** (cross-window positive counts, leader churn, most-stable Sharpe preset) + **pre/post regime split** (every preset’s Sharpe & PnL in each half, stability table) + tail panel (**upload with the markdown file to another AI**)  
+- **`output/analyst_for_llm.md`** — brief + tables + JSON blocks for splits / dream / rolling stats  
+- **`output/run_status.json`** — top presets + pipeline flags when the run came from **`npm run go`**  
+- **`output/plain_english_summary.txt`** — same short narrative as the dashboard  
 - **`output/gemini_research_brief.md`** — copy-paste prompt for **Gemini** (API ideas, creative tests); pair with `analyst_bundle.json`  
 - **`output/gemini_response.md`** — only if **`GEMINI_API_KEY`** was set during trial (API reply or error note)  
-- **`output/trial_dashboard.html`** — simple landing page (`npm run open:dashboard` on Windows)  
+- **`output/trial_dashboard.html`** — landing page: data-source badges, top presets, plain English, optional multi-pair table (`npm run open:dashboard` on Windows)  
 - **`output/data_health.json`** — row counts, span, `%` rows with WoW, warnings  
+
+Any time: **`npm run doctor`** — Python, `pytrends`, keys, CSVs, fresh `output/` (see [`OPERATOR_GUIDE.md`](OPERATOR_GUIDE.md)).  
 
 Optional flags:
 
@@ -78,8 +82,9 @@ These are **hypothesis prompts**, not live edges: a second model should attack m
 | `weekdayMeanRet1d` | Calendar noise vs your signal pipeline (UTC) |
 | `sentimentVolRegime` | High rolling sentiment volatility vs calm — does realized vol change? |
 | `trendsIndexLevelVsNextAbsMove` | Exploratory Pearson: attention **level** vs next-day \|return\| |
+| `priceShockDays` | Large \|1d\| moves — forward returns and overlap with sentiment extremes and stretched \|WoW\| |
 
-`regimeSplit` repeats variant metrics **pre** and **post** your split date and lists **Sharpe sign stability** per preset.
+`regimeSplit` repeats variant metrics **pre** and **post** your split date and lists **Sharpe sign stability** per preset. **`rollingSnapshots`** summarizes best-Sharpe presets on the last 60 / 120 / 252 **rows** (trading-day-ish cadence). **`rollingStability`** adds leader churn, presets positive in every window, and a **most stable Sharpe** heuristic (low cross-window dispersion).
 
 ## Research angles you can **approximate** without new code (data / keywords only)
 

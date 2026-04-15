@@ -8,8 +8,9 @@ import { compareIsoDates } from "../utils/dateUtils.js";
 import { computeDreamScenarios, type DreamScenarios } from "./dreamScenarios.js";
 import { mean, pearson, std } from "./stats.js";
 import type { VariantComparisonResult } from "./variantComparison.js";
+import { runVariantComparison } from "./variantComparison.js";
 
-export const ANALYST_BUNDLE_VERSION = 2;
+export const ANALYST_BUNDLE_VERSION = 4;
 
 export interface VariantTableRow {
   id: string;
@@ -60,6 +61,31 @@ export interface RegimeSplitBlock {
   minRowsRecommended: number;
 }
 
+/** Preset metrics on the last N rows only (rolling “recent regime” view). */
+export interface RollingSnapshot {
+  windowDays: number;
+  rowsUsed: number;
+  buyHoldPnl: number;
+  bestSharpePresetId: string | null;
+  bestSharpe: number | null;
+  variantTable: VariantTableRow[];
+}
+
+/** Cross-window summary: who leads often, who stays positive, Sharpe dispersion. */
+export interface RollingStabilitySummary {
+  windowCount: number;
+  bestSharpeLeadersByWindow: { windowDays: number; presetId: string | null }[];
+  bestSharpeLeaderChangesAcrossWindows: boolean;
+  presetsPositivePnlAllWindows: string[];
+  presetsPositiveSharpeAllWindows: string[];
+  positiveSharpeWindowCountByPreset: Record<string, number>;
+  positivePnlWindowCountByPreset: Record<string, number>;
+  /** Lowest std of Sharpe across windows (finite values only); tie-break higher mean Sharpe. */
+  mostStableSharpePresetId: string | null;
+  mostStableSharpeDispersion: number | null;
+  note: string;
+}
+
 export interface AnalystBundle {
   bundleVersion: number;
   generatedAt: string;
@@ -100,6 +126,10 @@ export interface AnalystBundle {
   dreamScenarios: DreamScenarios;
   /** Omitted when `--no-split` or insufficient rows. */
   regimeSplit?: RegimeSplitBlock;
+  /** Last 60 / 120 / 252 rows when sample is long enough. */
+  rollingSnapshots: RollingSnapshot[];
+  /** Null when there are no rolling snapshots. */
+  rollingStability: RollingStabilitySummary | null;
 }
 
 function zscoreAtIndex(sorted: DailyRow[], i: number, window: number): number | null {
@@ -151,6 +181,132 @@ function buildExploratoryCorrelations(sorted: DailyRow[]): ExploratoryCorrelatio
     sentiment_vs_fwdReturn5d: pearson(s5, f5),
     sentiment_vs_fwdReturn10d: pearson(s10, f10),
     trends_wow_vs_fwdReturn5d: pearson(w5, wf5),
+  };
+}
+
+function buildRollingSnapshots(sorted: DailyRow[]): RollingSnapshot[] {
+  const windows = [60, 120, 252];
+  const out: RollingSnapshot[] = [];
+  for (const w of windows) {
+    if (sorted.length < w) continue;
+    const slice = sorted.slice(-w);
+    const vr = runVariantComparison(slice);
+    const vt = variantTableFromResult(vr);
+    let bestId: string | null = null;
+    let bestS: number | null = null;
+    let bestNum = -Infinity;
+    for (const row of vt) {
+      const sh = row.sharpeAnnualized;
+      if (typeof sh === "number" && Number.isFinite(sh) && sh > bestNum) {
+        bestNum = sh;
+        bestId = row.id;
+        bestS = sh;
+      }
+    }
+    if (bestId === null) {
+      bestS = null;
+    }
+    out.push({
+      windowDays: w,
+      rowsUsed: slice.length,
+      buyHoldPnl: vr.buyHoldPnl,
+      bestSharpePresetId: bestId,
+      bestSharpe: bestS,
+      variantTable: vt,
+    });
+  }
+  return out;
+}
+
+function buildRollingStabilitySummary(
+  snapshots: RollingSnapshot[]
+): RollingStabilitySummary | null {
+  if (snapshots.length === 0) return null;
+  const ordered = [...snapshots].sort((a, b) => a.windowDays - b.windowDays);
+  const bestSharpeLeadersByWindow = ordered.map((s) => ({
+    windowDays: s.windowDays,
+    presetId: s.bestSharpePresetId,
+  }));
+  const leaderIds = bestSharpeLeadersByWindow
+    .map((l) => l.presetId)
+    .filter((id): id is string => Boolean(id));
+  const bestSharpeLeaderChangesAcrossWindows = new Set(leaderIds).size > 1;
+
+  const idSet = new Set<string>();
+  for (const s of ordered) {
+    for (const r of s.variantTable) idSet.add(r.id);
+  }
+  const presetIds = [...idSet].sort();
+
+  const positiveSharpeWindowCountByPreset: Record<string, number> = {};
+  const positivePnlWindowCountByPreset: Record<string, number> = {};
+  for (const id of presetIds) {
+    positiveSharpeWindowCountByPreset[id] = 0;
+    positivePnlWindowCountByPreset[id] = 0;
+  }
+
+  for (const id of presetIds) {
+    for (const s of ordered) {
+      const row = s.variantTable.find((r) => r.id === id);
+      if (!row) continue;
+      if (row.totalPnl > 0) positivePnlWindowCountByPreset[id]!++;
+      const sh = row.sharpeAnnualized;
+      if (typeof sh === "number" && Number.isFinite(sh) && sh > 0) {
+        positiveSharpeWindowCountByPreset[id]!++;
+      }
+    }
+  }
+
+  const presetsPositivePnlAllWindows = presetIds.filter(
+    (id) => positivePnlWindowCountByPreset[id] === ordered.length
+  );
+  const presetsPositiveSharpeAllWindows = presetIds.filter(
+    (id) => positiveSharpeWindowCountByPreset[id] === ordered.length
+  );
+
+  const sharpesByPreset: { id: string; sharpes: number[] }[] = [];
+  for (const id of presetIds) {
+    const sharpes: number[] = [];
+    for (const s of ordered) {
+      const row = s.variantTable.find((r) => r.id === id);
+      const sh = row?.sharpeAnnualized;
+      if (typeof sh === "number" && Number.isFinite(sh)) sharpes.push(sh);
+    }
+    if (sharpes.length >= 2) sharpesByPreset.push({ id, sharpes });
+  }
+
+  let mostStableSharpePresetId: string | null = null;
+  let mostStableSharpeDispersion: number | null = null;
+  let bestMean = -Infinity;
+  for (const { id, sharpes } of sharpesByPreset) {
+    const dispersion = std(sharpes);
+    const m = mean(sharpes);
+    if (
+      mostStableSharpeDispersion === null ||
+      dispersion < mostStableSharpeDispersion - 1e-9 ||
+      (Math.abs(dispersion - mostStableSharpeDispersion) < 1e-9 && m > bestMean)
+    ) {
+      mostStableSharpeDispersion = dispersion;
+      mostStableSharpePresetId = id;
+      bestMean = m;
+    }
+  }
+
+  const note = bestSharpeLeaderChangesAcrossWindows
+    ? "Best-Sharpe leader differs across windows; short-sample rankings are fragile."
+    : "Same best-Sharpe leader across all rolling windows shown (still not causal).";
+
+  return {
+    windowCount: ordered.length,
+    bestSharpeLeadersByWindow,
+    bestSharpeLeaderChangesAcrossWindows,
+    presetsPositivePnlAllWindows,
+    presetsPositiveSharpeAllWindows,
+    positiveSharpeWindowCountByPreset,
+    positivePnlWindowCountByPreset,
+    mostStableSharpePresetId,
+    mostStableSharpeDispersion,
+    note,
   };
 }
 
@@ -344,6 +500,8 @@ export function buildAnalystBundle(
   const variantTable = variantTableFromResult(variantResult);
   const exploratoryCorrelations = buildExploratoryCorrelations(sorted);
   const dreamScenarios = computeDreamScenarios(sorted);
+  const rollingSnapshots = buildRollingSnapshots(sorted);
+  const rollingStability = buildRollingStabilitySummary(rollingSnapshots);
 
   let regimeSplit: RegimeSplitBlock | undefined;
   if (options.regimeSplit) {
@@ -370,7 +528,16 @@ export function buildAnalystBundle(
     `Sentiment std=${std(sentiments).toFixed(4)}; ${((wowCount / n) * 100).toFixed(0)}% rows have trends_wow.`,
     `Exploratory Pearson: sentiment vs fwd1d=${exploratoryCorrelations.sentiment_vs_fwdReturn1d?.toFixed(3) ?? "n/a"}, fwd5d=${exploratoryCorrelations.sentiment_vs_fwdReturn5d?.toFixed(3) ?? "n/a"}, fwd10d=${exploratoryCorrelations.sentiment_vs_fwdReturn10d?.toFixed(3) ?? "n/a"}; wow vs fwd5d=${exploratoryCorrelations.trends_wow_vs_fwdReturn5d?.toFixed(3) ?? "n/a"} (NOT causal).`,
     `Unconventional: panicAttentionDays=${panicAttentionDays}, regimeWildShare=${(regimeWildShare * 100).toFixed(1)}%.`,
-    `Dream scenarios: ghostAttention days=${dreamScenarios.ghostAttention.count}; strength+coolSearch count=${dreamScenarios.strengthWhileSearchCools.count}.`,
+    `Dream scenarios: ghostAttention days=${dreamScenarios.ghostAttention.count}; strength+coolSearch count=${dreamScenarios.strengthWhileSearchCools.count}; priceShock days=${dreamScenarios.priceShockDays.count}.`,
+    rollingSnapshots.length > 0
+      ? `Rolling leaders: ${rollingSnapshots.map((r) => `${r.windowDays}d→${r.bestSharpePresetId ?? "n/a"}`).join(", ")}.` +
+          (rollingStability
+            ? ` Stability: ${rollingStability.note}` +
+              (rollingStability.mostStableSharpePresetId
+                ? ` Most stable Sharpe (low cross-window dispersion): ${rollingStability.mostStableSharpePresetId}.`
+                : "")
+            : "")
+      : "Rolling snapshots: not enough history for 60d windows.",
     regimeSplit
       ? `Regime split @ ${regimeSplit.splitDateIso} (${regimeSplit.chosenBy}): ${countSameSignStability(regimeSplit.stability)}${regimeSplit.lowSampleWarning ? " [LOW_SAMPLE]" : ""}.`
       : "No regime split in this export (use default trial or drop --no-split).",
@@ -410,6 +577,8 @@ export function buildAnalystBundle(
     llmBrief,
     dreamScenarios,
     regimeSplit,
+    rollingSnapshots,
+    rollingStability,
   };
 }
 
@@ -444,6 +613,23 @@ export function formatAnalystMarkdown(bundle: AnalystBundle): string {
   lines.push("```", "", "## Dream scenarios (hypothesis prompts only)", "", "```json");
   lines.push(JSON.stringify(bundle.dreamScenarios, null, 2));
   lines.push("```");
+
+  if (bundle.rollingSnapshots.length > 0) {
+    lines.push("", "## Rolling windows (recent rows only)", "");
+    lines.push("| window | rows | buyHold | bestSharpe preset | sharpe |");
+    lines.push("|---:|---:|---:|---|---:|");
+    for (const r of bundle.rollingSnapshots) {
+      lines.push(
+        `| ${r.windowDays} | ${r.rowsUsed} | ${r.buyHoldPnl.toFixed(5)} | ${r.bestSharpePresetId ?? "—"} | ${r.bestSharpe?.toFixed(3) ?? "—"} |`
+      );
+    }
+    lines.push("", "Full tables: see `analyst_bundle.json` → `rollingSnapshots`.");
+    if (bundle.rollingStability) {
+      lines.push("", "## Rolling stability (cross-window)", "", "```json");
+      lines.push(JSON.stringify(bundle.rollingStability, null, 2));
+      lines.push("```");
+    }
+  }
 
   if (bundle.regimeSplit) {
     lines.push(

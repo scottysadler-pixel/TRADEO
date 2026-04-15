@@ -1,0 +1,26 @@
+[
+  {
+    "id": "AUDUSD",
+    "from": "AUD",
+    "to": "USD",
+    "trendsKeyword": "AUD USD"
+  },
+  {
+    "id": "NZDUSD",
+    "from": "NZD",
+    "to": "USD",
+    "trendsKeyword": "NZD USD"
+  },
+  {
+    "id": "EURUSD",
+    "from": "EUR",
+    "to": "USD",
+    "trendsKeyword": "EUR USD"
+  },
+  {
+    "id": "GBPUSD",
+    "from": "GBP",
+    "to": "USD",
+    "trendsKeyword": "GBP USD"
+  }
+]

@@ -1,13 +1,14 @@
 /**
- * Fetch daily AUD/USD closes from Frankfurter (ECB proxy, no API key).
+ * Fetch daily FX closes from Frankfurter (ECB proxy, no API key).
  *
- * Usage: npx tsx scripts/fetchPrice.ts [--start YYYY-MM-DD] [--end YYYY-MM-DD]
- * Output: data/prices.csv (date, audusd_close)
+ * Usage:
+ *   npx tsx scripts/fetchPrice.ts [--start YYYY-MM-DD] [--end YYYY-MM-DD]
+ *   npx tsx scripts/fetchPrice.ts --from EUR --to USD --out data/prices_eur.csv
+ *
+ * Default: AUD/USD → data/prices.csv
  */
-import { mkdirSync } from "node:fs";
-import { writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { stringify } from "csv-stringify/sync";
+import { fetchFrankfurterToCsv } from "../src/data/frankfurterFetch.ts";
 
 function parseArg(name: string, argv: string[], fallback: string | null): string | null {
   const i = argv.indexOf(name);
@@ -22,40 +23,18 @@ function addYears(iso: string, deltaY: number): string {
   return dt.toISOString().slice(0, 10);
 }
 
-interface FrankfurterResponse {
-  rates: Record<string, { USD: number }>;
-}
-
 async function main(): Promise<void> {
   const argv = process.argv.slice(2);
   const end = parseArg("--end", argv, new Date().toISOString().slice(0, 10))!;
   const start =
-    parseArg("--start", argv, addYears(end, -2)) ??
-    addYears(end, -2);
+    parseArg("--start", argv, addYears(end, -2)) ?? addYears(end, -2);
+  const from = parseArg("--from", argv, "AUD")!;
+  const to = parseArg("--to", argv, "USD")!;
+  const out =
+    parseArg("--out", argv, resolve(process.cwd(), "data", "prices.csv"))!;
 
-  const url = `https://api.frankfurter.app/${start}..${end}?from=AUD&to=USD`;
-  const res = await fetch(url);
-  if (!res.ok) {
-    throw new Error(`Frankfurter HTTP ${res.status}: ${await res.text()}`);
-  }
-  const body = (await res.json()) as FrankfurterResponse;
-  const rates = body.rates;
-  if (!rates || typeof rates !== "object") {
-    throw new Error("Unexpected Frankfurter response (no rates)");
-  }
-
-  const dates = Object.keys(rates).sort();
-  const rows = dates.map((date) => ({
-    date,
-    audusd_close: rates[date]!.USD,
-  }));
-
-  const outDir = resolve(process.cwd(), "data");
-  mkdirSync(outDir, { recursive: true });
-  const csvPath = resolve(outDir, "prices.csv");
-  const csv = stringify(rows, { header: true });
-  await writeFile(csvPath, csv, "utf8");
-  console.log(`Wrote ${rows.length} rows to ${csvPath}`);
+  const n = await fetchFrankfurterToCsv({ start, end, from, to, outPath: out });
+  console.log(`Wrote ${n} rows to ${out}`);
 }
 
 main().catch((e) => {

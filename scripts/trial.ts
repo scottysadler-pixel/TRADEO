@@ -13,7 +13,7 @@
  * Default CSV: data/audusd_merged.csv if it exists, else data/audusd_example.csv
  * Default split: midpoint row date (omit with --no-split).
  */
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync, unlinkSync } from "node:fs";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { spawnSync } from "node:child_process";
@@ -30,6 +30,19 @@ import {
   getGeminiModel,
 } from "../src/analyst/geminiApi.ts";
 import { formatGeminiResearchBrief } from "../src/analyst/geminiResearchBrief.ts";
+import { buildPlainEnglishSummary } from "../src/analyst/plainEnglishSummary.ts";
+import {
+  buildOperatorGuidance,
+  buildOperatorGuidanceHtml,
+} from "../src/analyst/operatorGuidance.ts";
+import {
+  buildRunStatus,
+  PIPELINE_CONTEXT_FILENAME,
+  RUN_STATUS_FILENAME,
+  type PipelineContext,
+} from "../src/analyst/runStatus.ts";
+import { buildReplayCatalog } from "../src/analyst/replay.ts";
+import { publishStandaloneSite } from "../src/analyst/standaloneSite.ts";
 import { buildTrialDashboardHtml } from "../src/analyst/trialDashboard.ts";
 import { writeVariantEquityChartHtml } from "../src/analyst/variantChartHtml.ts";
 import { runVariantComparison } from "../src/analyst/variantComparison.ts";
@@ -209,30 +222,130 @@ async function main(): Promise<void> {
     console.log("\nGemini API: skipped (--no-gemini-fetch).");
   }
 
-  const dashPath = resolve(outDir, "trial_dashboard.html");
+  const pipelinePath = resolve(outDir, PIPELINE_CONTEXT_FILENAME);
+  let pipeline: PipelineContext | null = null;
+  if (existsSync(pipelinePath)) {
+    try {
+      pipeline = JSON.parse(
+        readFileSync(pipelinePath, "utf8")
+      ) as PipelineContext;
+    } catch {
+      pipeline = null;
+    }
+  }
+
+  const replayCatalog = buildReplayCatalog(
+    daily,
+    csvPath.replace(/\\/g, "/"),
+    priceColumnUsed,
+    pipeline
+  );
   writeFileSync(
-    dashPath,
-    buildTrialDashboardHtml({
-      generatedAt: new Date().toISOString(),
-      sourceCsv: csvPath.replace(/\\/g, "/"),
-      outputDir: outDir.replace(/\\/g, "/"),
-      health,
-      bundle,
-      geminiBriefPath: geminiBriefPath
-        ? "gemini_research_brief.md"
-        : null,
-      geminiResponsePath: geminiResponsePath ? "gemini_response.md" : null,
-    }),
+    resolve(outDir, "replay_data.json"),
+    JSON.stringify(replayCatalog, null, 2),
     "utf8"
   );
+
+  const runStatus = buildRunStatus(
+    pipeline,
+    bundle,
+    health,
+    csvPath.replace(/\\/g, "/")
+  );
+  writeFileSync(
+    resolve(outDir, RUN_STATUS_FILENAME),
+    JSON.stringify(runStatus, null, 2),
+    "utf8"
+  );
+
+  const dailyLogPath = resolve(cwd, "data/daily_log.csv");
+  const dailyLogCsv = existsSync(dailyLogPath)
+    ? readFileSync(dailyLogPath, "utf8")
+    : null;
+
+  const operatorGuidance = buildOperatorGuidance({
+    daily,
+    bundle,
+    health,
+    pipeline,
+    runStatus,
+    dailyLogCsv,
+  });
+  const operatorHeroHtml = buildOperatorGuidanceHtml(operatorGuidance);
+  const operatorHelpHtml = operatorGuidance.helpHtml;
+
+  const plainEnglish = buildPlainEnglishSummary(
+    pipeline,
+    bundle,
+    health,
+    operatorGuidance
+  );
+  writeFileSync(
+    resolve(outDir, "plain_english_summary.txt"),
+    plainEnglish,
+    "utf8"
+  );
+
+  if (existsSync(pipelinePath)) {
+    try {
+      unlinkSync(pipelinePath);
+    } catch {
+      /* keep */
+    }
+  }
+
+  const dashPath = resolve(outDir, "trial_dashboard.html");
+  const generatedAt = new Date().toISOString();
+  const dashboardHtml = buildTrialDashboardHtml({
+    generatedAt,
+    sourceCsv: csvPath.replace(/\\/g, "/"),
+    outputDir: outDir.replace(/\\/g, "/"),
+    health,
+    bundle,
+    geminiBriefPath: geminiBriefPath
+      ? "gemini_research_brief.md"
+      : null,
+    geminiResponsePath: geminiResponsePath ? "gemini_response.md" : null,
+    pipeline,
+    plainEnglish,
+    runStatus,
+    operatorHeroHtml,
+    operatorHelpHtml,
+    replayCatalog,
+  });
+  writeFileSync(dashPath, dashboardHtml, "utf8");
+
+  const standaloneDir = publishStandaloneSite({
+    projectRoot: cwd,
+    outputDir: outDir,
+    dashboardHtml,
+    pairId: health.pairId,
+    generatedAt,
+    artifactFiles: [
+      "variant_comparison.csv",
+      "variant_equity_chart.html",
+      "run_status.json",
+      "plain_english_summary.txt",
+      "data_health.json",
+      "replay_data.json",
+      "analyst_bundle.json",
+      "analyst_for_llm.md",
+      ...(geminiBriefPath ? ["gemini_research_brief.md"] : []),
+      ...(geminiResponsePath ? ["gemini_response.md"] : []),
+    ],
+  });
 
   console.log("\nWrote:");
   console.log(`  ${resolve(outDir, "variant_comparison.csv")}`);
   console.log(`  ${resolve(outDir, "variant_equity_chart.html")}`);
   console.log(`  ${resolve(outDir, "trial_dashboard.html")}  ← open in browser`);
+  console.log(`  ${resolve(outDir, RUN_STATUS_FILENAME)}`);
+  console.log(`  ${resolve(outDir, "plain_english_summary.txt")}`);
   console.log(`  ${resolve(outDir, "data_health.json")}`);
+  console.log(`  ${resolve(outDir, "replay_data.json")}`);
   console.log(`  ${resolve(outDir, "analyst_bundle.json")}  ← v${bundle.bundleVersion}: dream scenarios + regime split (unless --no-split)`);
   console.log(`  ${resolve(outDir, "analyst_for_llm.md")}`);
+  console.log(`  ${standaloneDir}  ← standalone app bundle`);
   if (geminiBriefPath) {
     console.log(
       `  ${geminiBriefPath}  ← paste into Gemini web or use GEMINI_API_KEY`

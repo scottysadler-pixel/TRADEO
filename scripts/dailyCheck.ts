@@ -8,8 +8,11 @@
  */
 import { appendFileSync, mkdirSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { buildAnalystBundle } from "../src/analyst/bundle.ts";
+import { pickLeadingPresetIdFromBundle } from "../src/analyst/operatorGuidance.ts";
 import { loadDataFromCsv } from "../src/data/csvLoader.ts";
 import { enrichRows } from "../src/pipeline.ts";
+import { runVariantComparison } from "../src/analyst/variantComparison.ts";
 import { getPresetById } from "../src/strategy/presets.ts";
 import type { TrendsMode } from "../src/types.ts";
 import { compareIsoDates } from "../src/utils/dateUtils.ts";
@@ -61,12 +64,29 @@ async function main(): Promise<void> {
   };
 
   const combined = [...history, todayRow];
+  const resolvedPresetId =
+    presetId ??
+    (() => {
+      const vr = runVariantComparison(history);
+      const bundle = buildAnalystBundle(
+        history,
+        vr,
+        path.replace(/\\/g, "/"),
+        {}
+      );
+      return pickLeadingPresetIdFromBundle(bundle);
+    })();
+
   const enrichOpts =
-    presetId !== null
+    resolvedPresetId !== null
       ? (() => {
-          const p = getPresetById(presetId);
-          if (!p) throw new Error(`Unknown --preset "${presetId}"`);
-          console.log(`Preset: ${p.id} — ${p.label}`);
+          const p = getPresetById(resolvedPresetId);
+          if (!p) throw new Error(`Unknown preset "${resolvedPresetId}"`);
+          console.log(
+            presetId
+              ? `Preset: ${p.id} — ${p.label}`
+              : `Preset (auto-picked to match dashboard default): ${p.id} — ${p.label}`
+          );
           return { ...p.enrich };
         })()
       : {
@@ -84,8 +104,12 @@ async function main(): Promise<void> {
   const enriched = enrichRows(combined, enrichOpts);
   const sig = enriched[enriched.length - 1]!.signal;
 
-  const modeTag = presetId ?? trendsMode;
-  const line = `${latest.date},${latest.rate.toFixed(5)},${sig},${modeTag},carry_forward_alt_data\n`;
+  const modeTag = resolvedPresetId ?? trendsMode;
+  const note =
+    presetId !== null
+      ? "carry_forward_alt_data"
+      : "carry_forward_alt_data;auto_preset_matches_dashboard";
+  const line = `${latest.date},${latest.rate.toFixed(5)},${sig},${modeTag},${note}\n`;
   const logDir = resolve(process.cwd(), "data");
   mkdirSync(logDir, { recursive: true });
   const logPath = resolve(logDir, "daily_log.csv");
@@ -102,6 +126,7 @@ async function main(): Promise<void> {
     `(Trends/sentiment copied from last file row ${last.date} — refresh merged CSV for fresh alt data.)`
   );
   console.log(`Signal: ${sig}`);
+  console.log(`Mode tag: ${modeTag}`);
   console.log(`Logged to ${logPath}`);
 }
 

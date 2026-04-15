@@ -27,7 +27,7 @@ function syntheticDaily(n = 80): DailyRow[] {
 }
 
 describe("buildAnalystBundle", () => {
-  it("produces v2 fingerprint, dream scenarios, correlations incl wow vs fwd5d", () => {
+  it("produces current bundle version, dream scenarios, rolling windows, correlations incl wow vs fwd5d", () => {
     const daily = syntheticDaily();
     const variant = runVariantComparison(daily);
     const bundle = buildAnalystBundle(daily, variant, "test/synthetic.csv");
@@ -38,6 +38,15 @@ describe("buildAnalystBundle", () => {
     expect(bundle.tailDailyPanel.length).toBeGreaterThan(0);
     expect(bundle.llmBrief.length).toBeGreaterThan(50);
     expect(bundle.dreamScenarios.ghostAttention).toBeDefined();
+    expect(bundle.dreamScenarios.priceShockDays).toBeDefined();
+    expect(bundle.rollingSnapshots.length).toBeGreaterThan(0);
+    expect(bundle.rollingStability).not.toBeNull();
+    expect(bundle.rollingStability!.windowCount).toBe(
+      bundle.rollingSnapshots.length
+    );
+    expect(bundle.dreamScenarios.priceShockDays).toHaveProperty(
+      "shareWithTrendsWowExtreme"
+    );
     expect(bundle.exploratoryCorrelations).toHaveProperty(
       "trends_wow_vs_fwdReturn5d"
     );
@@ -45,6 +54,8 @@ describe("buildAnalystBundle", () => {
     const md = formatAnalystMarkdown(bundle);
     expect(md).toContain("Analyst export");
     expect(md).toContain("Dream scenarios");
+    expect(md).toContain("Rolling windows (recent rows only)");
+    expect(md).toContain("Rolling stability (cross-window)");
   });
 
   it("includes regime split + stability when options.regimeSplit set", () => {
