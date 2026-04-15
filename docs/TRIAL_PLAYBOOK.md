@@ -4,19 +4,27 @@ This project is built for **paper trials**: same data, many rule sets, one chart
 
 **Operators start here:** [`docs/OPERATOR_GUIDE.md`](OPERATOR_GUIDE.md) — runbook, troubleshooting, scheduling, Gemini static vs API, multi-pair CSV.
 
+## Zero-setup run
+
+```bash
+npm run go
+```
+
+Fetches prices, trends (or synthetic fallback), sentiment, merges, runs the full trial, and opens the dashboard. See the operator guide for details.
+
 ## When the coding agent (or you) needs Google Gemini
 
 If something is **underspecified** — API vendor names, free-tier limits, weird research angles, or “what should we try next?” — run **`npm run trial`** and open **`output/gemini_research_brief.md`**. Paste that file into Gemini and, if possible, attach **`output/analyst_bundle.json`** from the same run so answers are grounded in your latest numbers.
 
 The agent will **tell you explicitly** when it wants that handoff (blocked on naming, policy, or open-ended design). You can paste Gemini’s reply back into Cursor as plain instructions.
 
-## One command (simplest)
+## Trial only (if data is already merged)
 
 ```bash
 npm run trial
 ```
 
-Uses **`data/audusd_merged.csv`** if it exists, otherwise **`data/audusd_example.csv`**. Writes:
+Uses **`data/audusd_merged.csv`** if it exists, otherwise **`data/audusd_example.csv`**. Prefer **`npm run go`** when you want the pipeline to refresh data first. Writes:
 
 - `output/variant_comparison.csv` — table of all presets  
 - `output/variant_equity_chart.html` — open in browser (`npm run open:chart` on Windows)  

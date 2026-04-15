@@ -2,10 +2,30 @@
 
 This repo backtests **daily FX + Google Trends + sentiment** with many strategy presets. You operate it from the command line on Windows (PowerShell). No server is required unless you add one later.
 
+## Easiest path (one command)
+
+From the project folder:
+
+```powershell
+npm run go
+```
+
+This **automatically**:
+
+1. Downloads ~2 years of **AUD/USD** daily closes (Frankfurter, no API key).
+2. Tries **Google Trends** via Python; if that fails, writes **flat synthetic** trends so nothing breaks.
+3. Runs **sentiment** via Python (neutral `0.0` if you have no `NEWSAPI_KEY`).
+4. **Merges** into `data/audusd_merged.csv`.
+5. Runs **`npm run trial`** (all presets, analyst bundle, dashboard, health JSON).
+6. Tries to **open** `output/trial_dashboard.html` in your browser.
+
+You do not need to remember file names or step order. For **real** Trends data, install Python and run `pip install -r scripts/requirements.txt` once.
+
 ## What runs where
 
 | Action | Network | API keys |
 |--------|---------|----------|
+| **`npm run go`** | Yes (Frankfurter + optional Trends) | Optional (`NEWSAPI_KEY` for richer sentiment) |
 | `npm run trial` | No* | No* |
 | `npm run fetch:price` | Yes (data vendor) | Often (e.g. Twelve Data) |
 | Python `fetchTrends.py` / `fetchSentiment.py` | Yes | Optional (NewsAPI, etc.) |
@@ -18,17 +38,13 @@ This repo backtests **daily FX + Google Trends + sentiment** with many strategy 
 - **`output/gemini_research_brief.md`** — always written when you run trial (unless `--no-gemini-brief`). This is a **prompt for you to paste** into the Gemini **website** (or another chat). **No API, no cost, no automatic answer.**
 - **`output/gemini_response.md`** — only if **`GEMINI_API_KEY`** is set in the environment. Trial then **calls** the Gemini API once, appends the model reply here. Quotas and billing are **your** Google Cloud / AI Studio account — check current Google pricing. If the call fails, the file still contains an error note (fail-soft).
 
-## End-to-end: refresh data → trial → view
+## Manual steps (if you prefer not to use `npm run go`)
 
-1. **Price** (example): `npm run fetch:price` → updates `data/prices.csv` (configure vendor in [`scripts/fetchPrice.ts`](../scripts/fetchPrice.ts)).
-2. **Trends / sentiment** (Python): run your scripts or manual CSV exports into `data/trends.csv`, `data/sentiment.csv`.
+1. **Price**: `npm run fetch:price` → `data/prices.csv` ([`scripts/fetchPrice.ts`](../scripts/fetchPrice.ts)).
+2. **Trends / sentiment** (Python): `scripts/fetchTrends.py`, `scripts/fetchSentiment.py`, or manual CSVs.
 3. **Join**: `npm run join:daily -- --trends data/trends.csv --sentiment data/sentiment.csv --out data/audusd_merged.csv`
-4. **Trial**: `npm run trial`  
-   - Reads `data/audusd_merged.csv` if present, else `data/audusd_example.csv`.
-5. **Open**:
-   - `npm run open:chart` — equity chart (Windows).
-   - Open **`output/trial_dashboard.html`** in the browser for a simple summary and file list.
-   - `output/analyst_bundle.json` + `analyst_for_llm.md` for another AI.
+4. **Trial**: `npm run trial` (reads merged CSV if present).
+5. **Open**: `npm run open:dashboard` / `npm run open:chart`, or open HTML files from `output/`.
 
 ## Environment variables
 
