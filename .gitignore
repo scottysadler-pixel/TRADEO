@@ -10,6 +10,7 @@ output/
 # Secrets & local env
 .env
 .env.*
+!.env.example
 
 # Fetched or merged data (keep examples tracked below)
 data/daily_log.csv

@@ -31,6 +31,7 @@ describe("formatGeminiResearchBrief", () => {
     });
 
     expect(md).toContain("Google Gemini");
+    expect(md).toContain("OPERATOR_GUIDE");
     expect(md).toContain("NewsAPI");
     expect(md).toContain("falsifiable");
     expect(md).toContain("data/test.csv");

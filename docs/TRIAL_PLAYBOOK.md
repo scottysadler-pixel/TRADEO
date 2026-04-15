@@ -2,6 +2,8 @@
 
 This project is built for **paper trials**: same data, many rule sets, one chart. You do **not** need extra Cursor permissions. Optional: **NewsAPI** key, **Python** + `scripts/requirements.txt` for Trends/sentiment automation.
 
+**Operators start here:** [`docs/OPERATOR_GUIDE.md`](OPERATOR_GUIDE.md) — runbook, troubleshooting, scheduling, Gemini static vs API, multi-pair CSV.
+
 ## When the coding agent (or you) needs Google Gemini
 
 If something is **underspecified** — API vendor names, free-tier limits, weird research angles, or “what should we try next?” — run **`npm run trial`** and open **`output/gemini_research_brief.md`**. Paste that file into Gemini and, if possible, attach **`output/analyst_bundle.json`** from the same run so answers are grounded in your latest numbers.
@@ -21,6 +23,9 @@ Uses **`data/audusd_merged.csv`** if it exists, otherwise **`data/audusd_example
 - **`output/analyst_bundle.json`** (v2) — full-sample metrics + **dream scenarios** (ghost attention, divergence bars, weekday splits, sentiment‑vol regime) + **pre/post regime split** (every preset’s Sharpe & PnL in each half, stability table) + tail panel (**upload with the markdown file to another AI**)  
 - **`output/analyst_for_llm.md`** — brief + tables + JSON blocks for splits / dream stats  
 - **`output/gemini_research_brief.md`** — copy-paste prompt for **Gemini** (API ideas, creative tests); pair with `analyst_bundle.json`  
+- **`output/gemini_response.md`** — only if **`GEMINI_API_KEY`** was set during trial (API reply or error note)  
+- **`output/trial_dashboard.html`** — simple landing page (`npm run open:dashboard` on Windows)  
+- **`output/data_health.json`** — row counts, span, `%` rows with WoW, warnings  
 
 Optional flags:
 

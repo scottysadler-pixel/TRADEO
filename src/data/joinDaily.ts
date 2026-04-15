@@ -3,29 +3,44 @@
  */
 import { readFile } from "node:fs/promises";
 import { parse } from "csv-parse/sync";
-import type { DailyRow } from "../types.js";
+import type { DailyRow, PriceColumnUsed } from "../types.js";
 import { compareIsoDates, normalizeDateString } from "../utils/dateUtils.js";
+import {
+  parseNumberStrict,
+  resolvePriceFromRecord,
+} from "./resolvePriceColumn.js";
 
-function parseNum(v: string, ctx: string): number {
-  const n = Number(String(v).trim());
-  if (Number.isNaN(n)) throw new Error(`Invalid number in ${ctx}: ${v}`);
-  return n;
-}
-
-/** prices.csv: date, audusd_close */
-export async function loadPricesCsv(path: string): Promise<
-  { date: string; audusd_close: number }[]
-> {
+/** prices.csv: date, audusd_close **or** date, fx_close */
+export async function loadPricesCsv(path: string): Promise<{
+  rows: { date: string; audusd_close: number }[];
+  priceColumnUsed: PriceColumnUsed;
+}> {
   const text = await readFile(path, "utf8");
   const recs = parse(text, {
     columns: true,
     skip_empty_lines: true,
     trim: true,
   }) as Record<string, string>[];
-  return recs.map((r, i) => ({
-    date: normalizeDateString(r.date),
-    audusd_close: parseNum(r.audusd_close, `prices row ${i}`),
-  }));
+  let fileCol: PriceColumnUsed | null = null;
+  const rows: { date: string; audusd_close: number }[] = [];
+  for (let i = 0; i < recs.length; i++) {
+    const r = recs[i]!;
+    const { close, which } = resolvePriceFromRecord(r, `prices row ${i}`);
+    if (fileCol === null) fileCol = which;
+    else if (fileCol !== which) {
+      throw new Error(
+        `prices row ${i}: inconsistent price column (${fileCol} vs ${which})`
+      );
+    }
+    rows.push({
+      date: normalizeDateString(r.date),
+      audusd_close: close,
+    });
+  }
+  if (rows.length === 0 || fileCol === null) {
+    throw new Error("prices CSV is empty");
+  }
+  return { rows, priceColumnUsed: fileCol };
 }
 
 /** trends CSV: date, trends_index [, trends_wow] */
@@ -45,11 +60,11 @@ export async function loadTrendsCsv(path: string): Promise<
       r.trends_wow !== undefined &&
       String(r.trends_wow).trim() !== ""
     ) {
-      wow = parseNum(r.trends_wow, `trends row ${i} trends_wow`);
+      wow = parseNumberStrict(r.trends_wow, `trends row ${i} trends_wow`);
     }
     return {
       date: normalizeDateString(r.date),
-      trends_index: parseNum(r.trends_index, `trends row ${i}`),
+      trends_index: parseNumberStrict(r.trends_index, `trends row ${i}`),
       trends_wow: wow,
     };
   });
@@ -67,7 +82,7 @@ export async function loadSentimentCsv(path: string): Promise<
   }) as Record<string, string>[];
   return recs.map((r, i) => ({
     date: normalizeDateString(r.date),
-    sentiment_score: parseNum(r.sentiment_score, `sentiment row ${i}`),
+    sentiment_score: parseNumberStrict(r.sentiment_score, `sentiment row ${i}`),
   }));
 }
 
@@ -123,10 +138,10 @@ export async function joinDailyFromFiles(
   trendsPath: string,
   sentimentPath: string
 ): Promise<DailyRow[]> {
-  const [prices, trends, sentiment] = await Promise.all([
+  const [priceResult, trends, sentiment] = await Promise.all([
     loadPricesCsv(pricesPath),
     loadTrendsCsv(trendsPath),
     loadSentimentCsv(sentimentPath),
   ]);
-  return asOfJoinDaily(prices, trends, sentiment);
+  return asOfJoinDaily(priceResult.rows, trends, sentiment);
 }

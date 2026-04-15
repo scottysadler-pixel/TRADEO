@@ -2,6 +2,9 @@
  * Shared types for the daily AUD/USD backtest pipeline.
  */
 
+/** Which CSV column supplied the FX close (merged / prices files). */
+export type PriceColumnUsed = "audusd_close" | "fx_close";
+
 export type Signal = "LONG" | "SHORT" | "FLAT";
 
 export type PositionSide = "LONG" | "SHORT" | "FLAT";
@@ -36,7 +39,10 @@ export type SignalFlavor =
 
 export interface DailyRow {
   date: string;
+  /** Daily close in rate units (pair implied by `pair_id` or project default). */
   audusd_close: number;
+  /** Optional label e.g. EURUSD — from CSV `pair_id` or env `FX_PAIR_ID`. */
+  pair_id?: string;
   trends_index: number;
   /**
    * Week-over-week change in Trends interest (e.g. this week minus last week).

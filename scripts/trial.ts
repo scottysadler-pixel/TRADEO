@@ -8,6 +8,7 @@
  *   npm run trial -- --split-date 2023-01-01
  *   npm run trial -- --no-split
  *   npm run trial -- --no-gemini-brief
+ *   npm run trial -- --no-gemini-fetch   (skip API even if GEMINI_API_KEY is set)
  *
  * Default CSV: data/audusd_merged.csv if it exists, else data/audusd_example.csv
  * Default split: midpoint row date (omit with --no-split).
@@ -22,10 +23,17 @@ import {
   formatAnalystMarkdown,
   type BuildAnalystBundleOptions,
 } from "../src/analyst/bundle.ts";
+import { buildDataHealthReport } from "../src/analyst/dataHealth.ts";
+import {
+  fetchGeminiResearchReply,
+  formatGeminiResponseMarkdown,
+  getGeminiModel,
+} from "../src/analyst/geminiApi.ts";
 import { formatGeminiResearchBrief } from "../src/analyst/geminiResearchBrief.ts";
+import { buildTrialDashboardHtml } from "../src/analyst/trialDashboard.ts";
 import { writeVariantEquityChartHtml } from "../src/analyst/variantChartHtml.ts";
 import { runVariantComparison } from "../src/analyst/variantComparison.ts";
-import { loadDataFromCsv } from "../src/data/csvLoader.ts";
+import { loadDataFromCsvWithMeta } from "../src/data/csvLoader.ts";
 import { splitByDate } from "../src/pipeline.ts";
 import { compareIsoDates } from "../src/utils/dateUtils.ts";
 
@@ -69,7 +77,9 @@ async function main(): Promise<void> {
   }
 
   console.log(`Using: ${csvPath}`);
-  const daily = await loadDataFromCsv(csvPath);
+  const { rows: daily, priceColumnUsed } = await loadDataFromCsvWithMeta(
+    csvPath
+  );
   daily.sort((a, b) => compareIsoDates(a.date, b.date));
 
   const variantResult = runVariantComparison(daily);
@@ -149,27 +159,89 @@ async function main(): Promise<void> {
     "utf8"
   );
 
+  const health = buildDataHealthReport(
+    daily,
+    csvPath.replace(/\\/g, "/"),
+    priceColumnUsed
+  );
+  writeFileSync(
+    resolve(outDir, "data_health.json"),
+    JSON.stringify(health, null, 2),
+    "utf8"
+  );
+
+  let geminiBriefPath: string | null = null;
+  let geminiBriefText = "";
   if (!hasFlag("--no-gemini-brief", argv)) {
+    geminiBriefText = formatGeminiResearchBrief(bundle, {
+      sourceCsvHint: csvPath.replace(/\\/g, "/"),
+    });
+    geminiBriefPath = resolve(outDir, "gemini_research_brief.md");
+    writeFileSync(geminiBriefPath, geminiBriefText, "utf8");
+  }
+
+  let geminiResponsePath: string | null = null;
+  const apiKey = process.env.GEMINI_API_KEY?.trim();
+  if (
+    apiKey &&
+    !hasFlag("--no-gemini-fetch", argv) &&
+    geminiBriefText.length > 0
+  ) {
+    const model = getGeminiModel();
+    console.log(`\nGemini API: calling model ${model}…`);
+    const result = await fetchGeminiResearchReply(apiKey, geminiBriefText);
+    geminiResponsePath = resolve(outDir, "gemini_response.md");
     writeFileSync(
-      resolve(outDir, "gemini_research_brief.md"),
-      formatGeminiResearchBrief(bundle, {
-        sourceCsvHint: csvPath.replace(/\\/g, "/"),
-      }),
+      geminiResponsePath,
+      formatGeminiResponseMarkdown(result, model),
       "utf8"
     );
+    console.log(
+      result.ok
+        ? `Wrote ${geminiResponsePath}`
+        : `Gemini API returned an error (see gemini_response.md); trial finished OK.`
+    );
+  } else if (!apiKey) {
+    console.log(
+      "\nGemini: brief is for manual paste (set GEMINI_API_KEY to auto-fetch; see docs/OPERATOR_GUIDE.md)."
+    );
+  } else if (hasFlag("--no-gemini-fetch", argv)) {
+    console.log("\nGemini API: skipped (--no-gemini-fetch).");
   }
+
+  const dashPath = resolve(outDir, "trial_dashboard.html");
+  writeFileSync(
+    dashPath,
+    buildTrialDashboardHtml({
+      generatedAt: new Date().toISOString(),
+      sourceCsv: csvPath.replace(/\\/g, "/"),
+      outputDir: outDir.replace(/\\/g, "/"),
+      health,
+      bundle,
+      geminiBriefPath: geminiBriefPath
+        ? "gemini_research_brief.md"
+        : null,
+      geminiResponsePath: geminiResponsePath ? "gemini_response.md" : null,
+    }),
+    "utf8"
+  );
 
   console.log("\nWrote:");
   console.log(`  ${resolve(outDir, "variant_comparison.csv")}`);
   console.log(`  ${resolve(outDir, "variant_equity_chart.html")}`);
+  console.log(`  ${resolve(outDir, "trial_dashboard.html")}  ← open in browser`);
+  console.log(`  ${resolve(outDir, "data_health.json")}`);
   console.log(`  ${resolve(outDir, "analyst_bundle.json")}  ← v${bundle.bundleVersion}: dream scenarios + regime split (unless --no-split)`);
   console.log(`  ${resolve(outDir, "analyst_for_llm.md")}`);
-  if (!hasFlag("--no-gemini-brief", argv)) {
+  if (geminiBriefPath) {
     console.log(
-      `  ${resolve(outDir, "gemini_research_brief.md")}  ← paste into Gemini + attach analyst_bundle.json`
+      `  ${geminiBriefPath}  ← paste into Gemini web or use GEMINI_API_KEY`
     );
   }
-  console.log("\nNext: npm run open:chart   (Windows opens the chart in browser)");
+  if (geminiResponsePath) {
+    console.log(`  ${geminiResponsePath}`);
+  }
+  console.log("\nNext: npm run open:chart   | npm run open:dashboard");
 }
 
 main().catch((e) => {

@@ -50,7 +50,7 @@ export function formatGeminiResearchBrief(
   return [
     "# Handoff for Google Gemini (or similar)",
     "",
-    "_Paste this whole file into Gemini. Optionally attach **`output/analyst_bundle.json`** from the same trial so the model sees numbers, not just this text. When your Cursor agent is unsure about **API names, tiers, or open-ended research design**, it should direct you here instead of guessing._",
+    "_Paste this whole file into Gemini (web), or set **`GEMINI_API_KEY`** so `npm run trial` can write **`gemini_response.md`** automatically — see **`docs/OPERATOR_GUIDE.md`**. Optionally attach **`output/analyst_bundle.json`** from the same trial. When your Cursor agent is unsure about **API names, tiers, or open-ended research design**, it should direct you here instead of guessing._",
     "",
     "## Why you are pasting this",
     "",
