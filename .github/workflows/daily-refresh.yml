@@ -44,21 +44,21 @@ jobs:
       - name: Fetch AUD/USD prices
         run: npm run fetch:price
 
-      - name: Fetch Google Trends
-        run: npm run fetch:trends || echo "Trends fetch failed, continuing..."
+      - name: Fetch Google Trends  
+        run: python scripts/fetchTrends.py || echo "Trends failed, will use fallback"
 
-      - name: Fetch real news (GDELT + RSS)
+      - name: Fetch real news sentiment (GDELT + RSS + VADER)
         run: python aud_strategy/scripts/fetch_news_gdelt.py
 
-      - name: Fetch gold and rates
+      - name: Fetch gold and interest rates
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
         run: python aud_strategy/scripts/fetch_real_data.py
 
-      - name: Merge CSVs
+      - name: Merge all CSVs
         run: npm run join:daily -- --trends data/trends.csv --sentiment data/sentiment.csv --out data/audusd_merged.csv
 
-      - name: Python three-signal backtest
+      - name: Run Python three-signal backtest
         run: python aud_strategy/run.py --simple
 
       - name: Build trial dashboard
@@ -68,7 +68,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/commodities.csv data/rates.csv data/sentiment.csv standalone
+          git add data/commodities.csv data/rates.csv data/sentiment.csv output standalone || true
           git diff --staged --quiet || git commit -m "chore: daily refresh $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           git push
 
