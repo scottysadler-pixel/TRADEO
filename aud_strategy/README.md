@@ -23,6 +23,20 @@ With the key set, `fetch_real_data.py` downloads the daily **effective federal f
 
 Optional: `--fred-series DFEDTARU` for the **upper** bound of the FOMC target range instead of `DFF`.
 
+**One command** (from repo root, after `.env` has `FRED_API_KEY`):
+
+```bash
+npm run refresh:data
+```
+
+First time or after dependency changes (runs `pip install` then the same pipeline):
+
+```bash
+npm run refresh:all
+```
+
+Manual steps (equivalent to `refresh:data`):
+
 ```bash
 pip install -r aud_strategy/requirements.txt
 python aud_strategy/scripts/fetch_real_data.py

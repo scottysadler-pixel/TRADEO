@@ -92,7 +92,11 @@ Checks Python, `pytrends`, `NEWSAPI_KEY` / `GEMINI_API_KEY`, required CSVs, and 
 
 ### Python three-signal backtest (`aud_strategy/`)
 
-Separate from the TypeScript preset grid: a **rule-based** AUD/USD read using **RBA−Fed rate diff**, **20-day commodity momentum** (gold; optional iron ore), and **daily sentiment** scores. See [`aud_strategy/README.md`](../aud_strategy/README.md). If `data/commodities.csv` or `data/rates.csv` are missing, the first Python run creates **demo-aligned** stubs from `data/prices.csv` — replace with real series for research. FinBERT scoring: `aud_strategy/scripts/score_sentiment.py` (heavy deps in `requirements-finbert.txt`).
+Separate from the TypeScript preset grid: a **rule-based** AUD/USD read using **RBA−Fed rate diff**, **20-day commodity momentum** (gold; optional iron ore), and **daily sentiment** scores. See [`aud_strategy/README.md`](../aud_strategy/README.md).
+
+**Refresh real data + merged CSV + Python outputs + dashboard in one go:** `npm run refresh:data` (expects repo-root `.env` with `FRED_API_KEY` for FRED; first time or after Python dep changes: `npm run refresh:all`).
+
+For **US Fed funds**, set **`FRED_API_KEY`** in `.env` or the shell (see [FRED API keys](https://fredaccount.stlouisfed.org/apikeys)); without it, the fetch script uses a hardcoded Fed ladder. Optional GitHub Actions: add repo secret `FRED_API_KEY` so Pages builds use FRED too. FinBERT scoring: `aud_strategy/scripts/score_sentiment.py` (heavy deps in `requirements-finbert.txt`).
 
 ### Standalone app
 
