@@ -34,12 +34,34 @@ jobs:
           cache: pip
           cache-dependency-path: aud_strategy/requirements.txt
 
-      - name: Fetch real gold / rates / sentiment proxy + Python backtest
+      - name: Install Python dependencies
         run: |
+          pip install -r scripts/requirements.txt
           pip install -r aud_strategy/requirements.txt
-          python aud_strategy/scripts/fetch_real_data.py
+
+      - name: Fetch AUD/USD prices
+        run: npm run fetch:price
+
+      - name: Fetch Google Trends
+        run: python scripts/fetchTrends.py || echo "Trends fetch skipped"
+
+      - name: Fetch news sentiment (GDELT + VADER)
+        run: python aud_strategy/scripts/fetch_news_gdelt.py || echo "News fetch skipped, using existing sentiment"
+
+      - name: Fetch gold and interest rates
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: python aud_strategy/scripts/fetch_real_data.py
+
+      - name: Merge CSVs and run backtest
+        run: |
           npm run join:daily -- --trends data/trends.csv --sentiment data/sentiment.csv --out data/audusd_merged.csv
           python aud_strategy/run.py --simple
+
+      - name: Update trading apps
+        run: |
+          python scripts/update_chameleon.py
+          python scripts/update_catchup.py
 
       - name: Build standalone bundle
         run: npx tsx scripts/trial.ts --no-gemini-fetch --no-gemini-brief
