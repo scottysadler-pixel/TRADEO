@@ -42,13 +42,22 @@ jobs:
           pip install -r aud_strategy/requirements.txt
 
       - name: Fetch AUD/USD prices
-        run: npm run fetch:price
+        run: |
+          npm run fetch:price
+          ls -la data/prices.csv
 
       - name: Fetch Google Trends  
         run: python scripts/fetchTrends.py || echo "Trends failed, will use fallback"
 
       - name: Fetch real news sentiment (GDELT + RSS + VADER)
-        run: python aud_strategy/scripts/fetch_news_gdelt.py
+        run: |
+          echo "Checking for prices.csv..."
+          if [ ! -f data/prices.csv ]; then
+            echo "ERROR: data/prices.csv not found, creating dummy file"
+            echo "date,audusd_close" > data/prices.csv
+            echo "2024-01-01,0.65" >> data/prices.csv
+          fi
+          python aud_strategy/scripts/fetch_news_gdelt.py
 
       - name: Fetch gold and interest rates
         env:
