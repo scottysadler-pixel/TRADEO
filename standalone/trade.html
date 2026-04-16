@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade1 - Simple FX Trading</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <style>
+        :root {
+            --green: #10b981;
+            --red: #ef4444;
+            --gray: #64748b;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --card2: #334155;
+            --text: #f1f5f9;
+            --muted: #94a3b8;
+            --accent: #6366f1;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        .app { max-width: 900px; margin: 0 auto; padding: 16px; }
+
+        /* Navigation tabs */
+        .tabs {
+            display: flex; gap: 4px; background: var(--card); border-radius: 12px;
+            padding: 4px; margin-bottom: 20px; overflow-x: auto;
+        }
+        .tab {
+            flex: 1; padding: 12px 8px; text-align: center; border-radius: 8px;
+            cursor: pointer; font-weight: 600; font-size: 0.85em;
+            color: var(--muted); transition: all 0.2s; white-space: nowrap;
+        }
+        .tab.active { background: var(--accent); color: white; }
+        .tab:hover:not(.active) { color: var(--text); }
+
+        .page { display: none; }
+        .page.active { display: block; }
+
+        /* Cards */
+        .card {
+            background: var(--card); border-radius: 16px; padding: 24px;
+            margin-bottom: 16px;
+        }
+        .card h2 { font-size: 1.1em; color: var(--muted); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Signal display */
+        .signal-hero { text-align: center; padding: 40px 20px; border-radius: 16px; margin-bottom: 16px; }
+        .signal-hero.long { background: linear-gradient(135deg, #065f46, #10b981); }
+        .signal-hero.short { background: linear-gradient(135deg, #7f1d1d, #ef4444); }
+        .signal-hero.flat { background: linear-gradient(135deg, #334155, #64748b); }
+        .signal-label { font-size: 0.9em; opacity: 0.8; margin-bottom: 8px; }
+        .signal-action { font-size: 2.8em; font-weight: 800; margin-bottom: 8px; }
+        .signal-reason { font-size: 1em; opacity: 0.9; max-width: 500px; margin: 0 auto; }
+
+        /* Strategy selector */
+        .strategy-toggle { display: flex; gap: 4px; background: var(--card2); border-radius: 10px; padding: 3px; margin-bottom: 20px; }
+        .strat-btn { flex: 1; padding: 10px; text-align: center; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.85em; color: var(--muted); transition: all 0.2s; }
+        .strat-btn.active { background: var(--accent); color: white; }
+
+        /* Market data grid */
+        .data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; }
+        .data-cell { background: var(--card2); padding: 16px; border-radius: 10px; text-align: center; }
+        .data-val { font-size: 1.6em; font-weight: 700; margin-bottom: 4px; }
+        .data-lbl { font-size: 0.8em; color: var(--muted); }
+        .up { color: var(--green); }
+        .down { color: var(--red); }
+        .neutral { color: var(--muted); }
+
+        /* Position calculator */
+        .calc-form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group label { font-size: 0.85em; color: var(--muted); }
+        .form-group input, .form-group select {
+            background: var(--card2); border: 1px solid #475569; border-radius: 8px;
+            padding: 12px; color: var(--text); font-size: 1em;
+        }
+        .form-group input:focus { border-color: var(--accent); outline: none; }
+        .calc-result {
+            grid-column: 1 / -1; background: var(--accent); padding: 20px;
+            border-radius: 10px; text-align: center; margin-top: 8px;
+        }
+        .calc-result .big { font-size: 2em; font-weight: 800; }
+        .calc-result .detail { font-size: 0.9em; opacity: 0.9; margin-top: 8px; }
+
+        /* Trade journal */
+        .journal-entry {
+            background: var(--card2); border-radius: 10px; padding: 16px;
+            margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .journal-entry .je-left { flex: 1; }
+        .journal-entry .je-date { font-size: 0.8em; color: var(--muted); }
+        .journal-entry .je-pair { font-weight: 700; }
+        .journal-entry .je-dir { font-size: 0.85em; }
+        .journal-entry .je-pnl { font-size: 1.3em; font-weight: 700; min-width: 80px; text-align: right; }
+        .journal-btn {
+            background: var(--accent); color: white; border: none; padding: 12px 24px;
+            border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; font-size: 1em;
+        }
+        .journal-btn:hover { opacity: 0.9; }
+        .journal-form { display: none; }
+        .journal-form.show { display: block; }
+
+        /* Info list */
+        .info-list { list-style: none; }
+        .info-list li { padding: 12px 0; border-bottom: 1px solid var(--card2); display: flex; justify-content: space-between; }
+        .info-list li:last-child { border: none; }
+        .info-list .il-label { color: var(--muted); }
+        .info-list .il-value { font-weight: 600; }
+
+        /* Regime bar */
+        .regime-bar { display: flex; gap: 4px; margin: 16px 0; }
+        .regime-seg { flex: 1; padding: 12px; border-radius: 8px; text-align: center; opacity: 0.25; transition: all 0.3s; }
+        .regime-seg.active { opacity: 1; transform: scale(1.03); }
+        .regime-seg.low-vol { background: #3b82f6; }
+        .regime-seg.med-vol { background: #f59e0b; }
+        .regime-seg.high-vol { background: #ef4444; }
+        .regime-seg .r-name { font-weight: 700; font-size: 0.9em; }
+        .regime-seg .r-strat { font-size: 0.75em; opacity: 0.8; margin-top: 4px; }
+
+        /* Divergence visual */
+        .div-compare { display: flex; gap: 16px; margin: 16px 0; align-items: center; }
+        .div-box { flex: 1; padding: 20px; border-radius: 12px; text-align: center; }
+        .div-box.gold-box { background: linear-gradient(135deg, #b8860b, #daa520); }
+        .div-box.aud-box { background: linear-gradient(135deg, #4338ca, #6366f1); }
+        .div-box .db-name { font-size: 0.85em; opacity: 0.9; margin-bottom: 6px; }
+        .div-box .db-val { font-size: 2em; font-weight: 800; }
+        .div-arrow { font-size: 2em; color: var(--muted); }
+
+        .disclaimer {
+            text-align: center; font-size: 0.75em; color: var(--muted);
+            padding: 20px; margin-top: 20px; border-top: 1px solid var(--card2);
+        }
+
+        @media (max-width: 600px) {
+            .signal-action { font-size: 2em; }
+            .calc-form { grid-template-columns: 1fr; }
+            .div-compare { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+<div class="app">
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <div class="tab active" onclick="showPage('signals')">Signals</div>
+        <div class="tab" onclick="showPage('calculator')">Position Size</div>
+        <div class="tab" onclick="showPage('journal')">Journal</div>
+        <div class="tab" onclick="showPage('learn')">Learn</div>
+    </div>
+
+    <!-- PAGE: Signals -->
+    <div class="page active" id="page-signals">
+
+        <div class="strategy-toggle">
+            <div class="strat-btn active" onclick="switchStrategy('chameleon')">The Chameleon</div>
+            <div class="strat-btn" onclick="switchStrategy('catchup')">Catchup Trader</div>
+        </div>
+
+        <!-- Chameleon view -->
+        <div id="view-chameleon">
+            <div class="signal-hero flat" id="cham-hero">
+                <div class="signal-label">THE CHAMELEON says</div>
+                <div class="signal-action" id="cham-signal">LOADING</div>
+                <div class="signal-reason" id="cham-reason">Fetching data...</div>
+            </div>
+
+            <div class="card">
+                <h2>Volatility Regime</h2>
+                <div class="regime-bar">
+                    <div class="regime-seg low-vol" id="reg-low"><div class="r-name">LOW</div><div class="r-strat">Follow trends</div></div>
+                    <div class="regime-seg med-vol" id="reg-med"><div class="r-name">MED</div><div class="r-strat">Wait</div></div>
+                    <div class="regime-seg high-vol" id="reg-high"><div class="r-name">HIGH</div><div class="r-strat">Fade extremes</div></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Market Data</h2>
+                <div class="data-grid">
+                    <div class="data-cell"><div class="data-val" id="cham-price">--</div><div class="data-lbl">AUD/USD</div></div>
+                    <div class="data-cell"><div class="data-val" id="cham-ma">--</div><div class="data-lbl">20-Day MA</div></div>
+                    <div class="data-cell"><div class="data-val" id="cham-vol">--</div><div class="data-lbl">Volatility</div></div>
+                    <div class="data-cell"><div class="data-val" id="cham-dist">--</div><div class="data-lbl">Price vs MA</div></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Backtest Performance</h2>
+                <div class="data-grid">
+                    <div class="data-cell"><div class="data-val up">+14.91%</div><div class="data-lbl">Total Return</div></div>
+                    <div class="data-cell"><div class="data-val">1.42</div><div class="data-lbl">Sharpe Ratio</div></div>
+                    <div class="data-cell"><div class="data-val down">-4.13%</div><div class="data-lbl">Max Drawdown</div></div>
+                    <div class="data-cell"><div class="data-val">55.7%</div><div class="data-lbl">Win Rate</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Catchup view -->
+        <div id="view-catchup" style="display:none">
+            <div class="signal-hero flat" id="catch-hero">
+                <div class="signal-label">CATCHUP TRADER says</div>
+                <div class="signal-action" id="catch-signal">LOADING</div>
+                <div class="signal-reason" id="catch-reason">Fetching data...</div>
+            </div>
+
+            <div class="card">
+                <h2>Gold vs AUD Momentum (5-day)</h2>
+                <div class="div-compare">
+                    <div class="div-box gold-box">
+                        <div class="db-name">GOLD</div>
+                        <div class="db-val" id="catch-gold">--</div>
+                    </div>
+                    <div class="div-arrow" id="catch-arrow">--</div>
+                    <div class="div-box aud-box">
+                        <div class="db-name">AUD/USD</div>
+                        <div class="db-val" id="catch-aud">--</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" id="catch-explain-card">
+                <h2>What's Happening</h2>
+                <p id="catch-explain" style="line-height:1.6">Analyzing...</p>
+            </div>
+
+            <div class="card">
+                <h2>Backtest Performance</h2>
+                <div class="data-grid">
+                    <div class="data-cell"><div class="data-val up">+13.26%</div><div class="data-lbl">Total Return</div></div>
+                    <div class="data-cell"><div class="data-val">1.30</div><div class="data-lbl">Sharpe Ratio</div></div>
+                    <div class="data-cell"><div class="data-val down">-3.26%</div><div class="data-lbl">Max Drawdown</div></div>
+                    <div class="data-cell"><div class="data-val">56.7%</div><div class="data-lbl">Win Rate</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE: Position Calculator -->
+    <div class="page" id="page-calculator">
+        <div class="card">
+            <h2>Position Size Calculator</h2>
+            <p style="color:var(--muted);margin-bottom:20px">Work out how much to trade based on your risk tolerance. Never risk more than you can afford to lose.</p>
+            <div class="calc-form">
+                <div class="form-group">
+                    <label>Your Account Balance (AUD)</label>
+                    <input type="number" id="calc-balance" value="5000" min="100">
+                </div>
+                <div class="form-group">
+                    <label>Risk Per Trade (%)</label>
+                    <input type="number" id="calc-risk" value="2" min="0.5" max="10" step="0.5">
+                </div>
+                <div class="form-group">
+                    <label>Stop Loss (pips)</label>
+                    <input type="number" id="calc-stop" value="50" min="5">
+                </div>
+                <div class="form-group">
+                    <label>Currency Pair</label>
+                    <select id="calc-pair">
+                        <option value="AUDUSD">AUD/USD</option>
+                    </select>
+                </div>
+                <div class="calc-result" id="calc-output">
+                    <div class="big">$0</div>
+                    <div class="detail">Enter your details above</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Risk Management Rules</h2>
+            <ul class="info-list">
+                <li><span class="il-label">Max risk per trade</span><span class="il-value">1-2% of account</span></li>
+                <li><span class="il-label">Max open positions</span><span class="il-value">1-3 at a time</span></li>
+                <li><span class="il-label">Always use stop loss</span><span class="il-value">Non-negotiable</span></li>
+                <li><span class="il-label">Don't chase losses</span><span class="il-value">Stick to the signal</span></li>
+                <li><span class="il-label">Take profit target</span><span class="il-value">1.5x your stop loss</span></li>
+                <li><span class="il-label">Weekly loss limit</span><span class="il-value">Stop at -5% for the week</span></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Quick Reference: AUD/USD</h2>
+            <ul class="info-list">
+                <li><span class="il-label">Pip value (standard lot)</span><span class="il-value">~$10 USD per pip</span></li>
+                <li><span class="il-label">Pip value (mini lot)</span><span class="il-value">~$1 USD per pip</span></li>
+                <li><span class="il-label">Pip value (micro lot)</span><span class="il-value">~$0.10 USD per pip</span></li>
+                <li><span class="il-label">Typical daily range</span><span class="il-value">50-100 pips</span></li>
+                <li><span class="il-label">Typical spread</span><span class="il-value">1-3 pips</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- PAGE: Journal -->
+    <div class="page" id="page-journal">
+        <div class="card">
+            <h2>Trade Journal</h2>
+            <p style="color:var(--muted);margin-bottom:20px">Track your trades to learn what works. Stored in your browser (private).</p>
+            <button class="journal-btn" onclick="toggleJournalForm()">+ Log New Trade</button>
+
+            <div class="journal-form" id="journal-form">
+                <div class="calc-form" style="margin-top:16px">
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" id="j-date">
+                    </div>
+                    <div class="form-group">
+                        <label>Direction</label>
+                        <select id="j-dir">
+                            <option value="LONG">LONG (Buy AUD)</option>
+                            <option value="SHORT">SHORT (Sell AUD)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Entry Price</label>
+                        <input type="number" id="j-entry" step="0.0001" placeholder="0.7122">
+                    </div>
+                    <div class="form-group">
+                        <label>Exit Price</label>
+                        <input type="number" id="j-exit" step="0.0001" placeholder="0.7150">
+                    </div>
+                    <div class="form-group">
+                        <label>Size (units)</label>
+                        <input type="number" id="j-size" value="1000" placeholder="1000">
+                    </div>
+                    <div class="form-group">
+                        <label>Strategy Used</label>
+                        <select id="j-strat">
+                            <option value="Chameleon">The Chameleon</option>
+                            <option value="Catchup">Catchup Trader</option>
+                            <option value="Manual">Manual / Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="grid-column:1/-1">
+                        <label>Notes</label>
+                        <input type="text" id="j-notes" placeholder="Why I took this trade...">
+                    </div>
+                    <button class="journal-btn" onclick="saveTrade()" style="grid-column:1/-1">Save Trade</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Your Trades</h2>
+            <div id="journal-list">
+                <p style="color:var(--muted);text-align:center;padding:30px 0">No trades logged yet. Start tracking to see patterns!</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Journal Stats</h2>
+            <div class="data-grid" id="journal-stats">
+                <div class="data-cell"><div class="data-val" id="js-total">0</div><div class="data-lbl">Total Trades</div></div>
+                <div class="data-cell"><div class="data-val" id="js-wins">0%</div><div class="data-lbl">Win Rate</div></div>
+                <div class="data-cell"><div class="data-val" id="js-pnl">$0</div><div class="data-lbl">Total P&L</div></div>
+                <div class="data-cell"><div class="data-val" id="js-best">$0</div><div class="data-lbl">Best Trade</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE: Learn -->
+    <div class="page" id="page-learn">
+        <div class="card">
+            <h2>Getting Started with FX Trading</h2>
+            <ul class="info-list">
+                <li><span class="il-label">What is AUD/USD?</span><span class="il-value">How many US cents 1 AUD buys</span></li>
+                <li><span class="il-label">AUD/USD = 0.7122 means</span><span class="il-value">$1 AUD = $0.7122 USD</span></li>
+                <li><span class="il-label">LONG (Buy) means</span><span class="il-value">You think AUD will go UP</span></li>
+                <li><span class="il-label">SHORT (Sell) means</span><span class="il-value">You think AUD will go DOWN</span></li>
+                <li><span class="il-label">FLAT means</span><span class="il-value">No clear signal - don't trade</span></li>
+                <li><span class="il-label">A "pip" is</span><span class="il-value">0.0001 move (e.g. 0.7100 to 0.7101)</span></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>The Chameleon Strategy</h2>
+            <ul class="info-list">
+                <li><span class="il-label">Idea</span><span class="il-value">Different markets need different strategies</span></li>
+                <li><span class="il-label">In calm markets</span><span class="il-value">Follow the trend (momentum)</span></li>
+                <li><span class="il-label">In crazy markets</span><span class="il-value">Buy dips, sell rallies (mean revert)</span></li>
+                <li><span class="il-label">Why unconventional</span><span class="il-value">Most people stick to one strategy always</span></li>
+                <li><span class="il-label">Historical return</span><span class="il-value">+14.91% over 14 months</span></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>The Catchup Trader Strategy</h2>
+            <ul class="info-list">
+                <li><span class="il-label">Idea</span><span class="il-value">AUD follows gold (Australia exports it)</span></li>
+                <li><span class="il-label">The edge</span><span class="il-value">Trade BEFORE AUD catches up to gold's move</span></li>
+                <li><span class="il-label">Example</span><span class="il-value">Gold up 3%, AUD only up 0.5% = Buy AUD</span></li>
+                <li><span class="il-label">Why unconventional</span><span class="il-value">Most people trade AFTER alignment, not before</span></li>
+                <li><span class="il-label">Historical return</span><span class="il-value">+13.26% over 14 months</span></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Where to Trade (Beginner-Friendly Brokers)</h2>
+            <ul class="info-list">
+                <li><span class="il-label">Pepperstone</span><span class="il-value">Australian, low spreads, ASIC regulated</span></li>
+                <li><span class="il-label">IC Markets</span><span class="il-value">Australian, popular, micro lots OK</span></li>
+                <li><span class="il-label">OANDA</span><span class="il-value">No minimum deposit, good for beginners</span></li>
+                <li><span class="il-label">IG Markets</span><span class="il-value">Well known, educational resources</span></li>
+                <li><span class="il-label">Demo accounts</span><span class="il-value">All above offer free practice accounts</span></li>
+            </ul>
+            <p style="color:var(--muted);margin-top:16px;font-size:0.85em">Start with a demo account for at least 1 month before using real money. When ready, start with micro lots ($0.10 per pip).</p>
+        </div>
+
+        <div class="card">
+            <h2>Data Sources</h2>
+            <ul class="info-list">
+                <li><span class="il-label">AUD/USD prices</span><span class="il-value">ECB via Frankfurter (free, no key)</span></li>
+                <li><span class="il-label">Gold prices</span><span class="il-value">Yahoo Finance via yfinance (free)</span></li>
+                <li><span class="il-label">RBA rate</span><span class="il-value">RBA website scrape (free)</span></li>
+                <li><span class="il-label">Fed rate</span><span class="il-value">FRED API (free key)</span></li>
+                <li><span class="il-label">News sentiment</span><span class="il-value">GDELT + ABC News RSS (free)</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="disclaimer">
+        Not financial advice. Past performance does not guarantee future results.<br>
+        Always use a demo account first. Never risk money you can't afford to lose.
+    </div>
+</div>
+
+<script>
+/* Navigation */
+function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    event.target.classList.add('active');
+}
+
+function switchStrategy(id) {
+    document.querySelectorAll('.strat-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById('view-chameleon').style.display = id === 'chameleon' ? 'block' : 'none';
+    document.getElementById('view-catchup').style.display = id === 'catchup' ? 'block' : 'none';
+}
+
+/* Load Chameleon data */
+async function loadChameleon() {
+    try {
+        const r = await fetch('chameleon_data.json');
+        const d = await r.json();
+        const hero = document.getElementById('cham-hero');
+        hero.className = 'signal-hero ' + d.signal.toLowerCase();
+        document.getElementById('cham-signal').textContent = d.signal;
+        document.getElementById('cham-reason').textContent = d.description;
+        document.getElementById('cham-price').textContent = d.aud_price.toFixed(4);
+        document.getElementById('cham-ma').textContent = d.ma_20.toFixed(4);
+        document.getElementById('cham-vol').textContent = (d.volatility * 100).toFixed(2) + '%';
+        const dist = d.price_vs_ma_pct;
+        const distEl = document.getElementById('cham-dist');
+        distEl.textContent = (dist > 0 ? '+' : '') + dist.toFixed(2) + '%';
+        distEl.className = 'data-val ' + (dist > 0.5 ? 'up' : dist < -0.5 ? 'down' : 'neutral');
+        document.getElementById('reg-low').classList.toggle('active', d.regime === 'low');
+        document.getElementById('reg-med').classList.toggle('active', d.regime === 'med');
+        document.getElementById('reg-high').classList.toggle('active', d.regime === 'high');
+    } catch(e) { console.error('Chameleon load error:', e); }
+}
+
+/* Load Catchup data */
+async function loadCatchup() {
+    try {
+        const r = await fetch('catchup_data.json');
+        const d = await r.json();
+        const hero = document.getElementById('catch-hero');
+        hero.className = 'signal-hero ' + d.signal.toLowerCase();
+        document.getElementById('catch-signal').textContent = d.signal;
+        document.getElementById('catch-reason').textContent = d.description;
+        const gm = d.gold_momentum;
+        const am = d.aud_momentum;
+        document.getElementById('catch-gold').textContent = (gm > 0 ? '+' : '') + gm.toFixed(2) + '%';
+        document.getElementById('catch-aud').textContent = (am > 0 ? '+' : '') + am.toFixed(2) + '%';
+        document.getElementById('catch-arrow').textContent = d.is_diverged ? '!=' : '=';
+        document.getElementById('catch-explain').textContent = d.explanation;
+    } catch(e) { console.error('Catchup load error:', e); }
+}
+
+/* Position size calculator */
+function calcPosition() {
+    const balance = parseFloat(document.getElementById('calc-balance').value) || 0;
+    const riskPct = parseFloat(document.getElementById('calc-risk').value) || 2;
+    const stopPips = parseFloat(document.getElementById('calc-stop').value) || 50;
+    const riskAmt = balance * (riskPct / 100);
+    const pipValueMicro = 0.10;
+    const microLots = Math.floor(riskAmt / (stopPips * pipValueMicro));
+    const units = microLots * 1000;
+    const out = document.getElementById('calc-output');
+    out.innerHTML = '<div class="big">' + units.toLocaleString() + ' units</div>' +
+        '<div class="detail">' + microLots + ' micro lots | Risk: $' + riskAmt.toFixed(2) + 
+        ' | ' + stopPips + ' pip stop = $' + (stopPips * pipValueMicro * microLots).toFixed(2) + ' max loss</div>';
+}
+
+document.getElementById('calc-balance').addEventListener('input', calcPosition);
+document.getElementById('calc-risk').addEventListener('input', calcPosition);
+document.getElementById('calc-stop').addEventListener('input', calcPosition);
+
+/* Trade Journal (localStorage) */
+function getJournal() {
+    try { return JSON.parse(localStorage.getItem('trade1_journal') || '[]'); }
+    catch { return []; }
+}
+
+function toggleJournalForm() {
+    document.getElementById('journal-form').classList.toggle('show');
+    const dateInput = document.getElementById('j-date');
+    if (!dateInput.value) dateInput.value = new Date().toISOString().split('T')[0];
+}
+
+function saveTrade() {
+    const trade = {
+        id: Date.now(),
+        date: document.getElementById('j-date').value,
+        dir: document.getElementById('j-dir').value,
+        entry: parseFloat(document.getElementById('j-entry').value),
+        exit: parseFloat(document.getElementById('j-exit').value),
+        size: parseInt(document.getElementById('j-size').value),
+        strat: document.getElementById('j-strat').value,
+        notes: document.getElementById('j-notes').value
+    };
+    if (!trade.entry || !trade.exit) { alert('Please enter entry and exit prices'); return; }
+    const pnl = trade.dir === 'LONG' ? (trade.exit - trade.entry) * trade.size : (trade.entry - trade.exit) * trade.size;
+    trade.pnl = pnl;
+    const journal = getJournal();
+    journal.unshift(trade);
+    localStorage.setItem('trade1_journal', JSON.stringify(journal));
+    renderJournal();
+    document.getElementById('journal-form').classList.remove('show');
+    document.getElementById('j-entry').value = '';
+    document.getElementById('j-exit').value = '';
+    document.getElementById('j-notes').value = '';
+}
+
+function deleteTrade(id) {
+    const journal = getJournal().filter(t => t.id !== id);
+    localStorage.setItem('trade1_journal', JSON.stringify(journal));
+    renderJournal();
+}
+
+function renderJournal() {
+    const journal = getJournal();
+    const list = document.getElementById('journal-list');
+    if (journal.length === 0) {
+        list.innerHTML = '<p style="color:var(--muted);text-align:center;padding:30px 0">No trades logged yet.</p>';
+    } else {
+        list.innerHTML = journal.map(t => {
+            const pnlClass = t.pnl >= 0 ? 'up' : 'down';
+            return '<div class="journal-entry">' +
+                '<div class="je-left">' +
+                '<div class="je-date">' + t.date + ' | ' + t.strat + '</div>' +
+                '<div class="je-pair">AUD/USD <span class="je-dir">' + t.dir + '</span> ' + t.entry + ' -> ' + t.exit + '</div>' +
+                (t.notes ? '<div class="je-date">' + t.notes + '</div>' : '') +
+                '</div>' +
+                '<div class="je-pnl ' + pnlClass + '">$' + t.pnl.toFixed(2) + '</div>' +
+                '</div>';
+        }).join('');
+    }
+
+    // Stats
+    const total = journal.length;
+    const wins = journal.filter(t => t.pnl > 0).length;
+    const totalPnl = journal.reduce((s, t) => s + t.pnl, 0);
+    const best = journal.length ? Math.max(...journal.map(t => t.pnl)) : 0;
+    document.getElementById('js-total').textContent = total;
+    document.getElementById('js-wins').textContent = total ? (wins/total*100).toFixed(0) + '%' : '0%';
+    const pnlEl = document.getElementById('js-pnl');
+    pnlEl.textContent = '$' + totalPnl.toFixed(2);
+    pnlEl.className = 'data-val ' + (totalPnl >= 0 ? 'up' : 'down');
+    document.getElementById('js-best').textContent = '$' + best.toFixed(2);
+}
+
+/* Init */
+loadChameleon();
+loadCatchup();
+calcPosition();
+renderJournal();
+setInterval(() => { loadChameleon(); loadCatchup(); }, 5 * 60 * 1000);
+</script>
+</body>
+</html>

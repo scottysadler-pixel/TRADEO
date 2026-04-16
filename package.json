@@ -20,6 +20,7 @@
     "trial": "tsx scripts/trial.ts",
     "refresh:data": "python aud_strategy/scripts/fetch_real_data.py && npm run join:daily -- --trends data/trends.csv --sentiment data/sentiment.csv --out data/audusd_merged.csv && python aud_strategy/run.py && npm run trial",
     "refresh:all": "pip install -q -r aud_strategy/requirements.txt && npm run refresh:data",
+    "refresh:apps": "python scripts/update_chameleon.py && python scripts/update_catchup.py",
     "py:strategy": "python aud_strategy/run.py",
     "open:chart": "start output/variant_equity_chart.html",
     "open:dashboard": "start output/trial_dashboard.html"

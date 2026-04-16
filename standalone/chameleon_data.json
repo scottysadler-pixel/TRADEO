@@ -1,0 +1,16 @@
+{
+  "signal": "SHORT",
+  "description": "High volatility + price 1.5%+ above MA \u2192 Sell the rally",
+  "regime": "high",
+  "aud_price": 0.71222,
+  "ma_20": 0.699239,
+  "volatility": 0.008295321704659176,
+  "price_vs_ma_pct": 1.856446794300648,
+  "stats": {
+    "total_return": "+14.91%",
+    "sharpe": "1.42",
+    "max_dd": "-4.13%",
+    "win_rate": "55.7%"
+  },
+  "last_updated": "2026-04-16 01:47 UTC"
+}
