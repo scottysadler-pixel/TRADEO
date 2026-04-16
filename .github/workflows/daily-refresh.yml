@@ -1,0 +1,86 @@
+name: Daily Data Refresh
+
+on:
+  schedule:
+    # 8 PM UTC = 6 AM AEST (Sydney, no DST) / 7 AM AEDT (Sydney DST)
+    # Adjust if you want exact 6 AM year-round (split cron for DST periods)
+    - cron: "0 20 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: daily-refresh
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Install Python dependencies
+        run: |
+          pip install -r scripts/requirements.txt
+          pip install -r aud_strategy/requirements.txt
+
+      - name: Fetch real news (GDELT + RSS)
+        run: python aud_strategy/scripts/fetch_news_gdelt.py
+
+      - name: Fetch gold and rates
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: python aud_strategy/scripts/fetch_real_data.py
+
+      - name: Merge CSVs
+        run: npm run join:daily -- --trends data/trends.csv --sentiment data/sentiment.csv --out data/audusd_merged.csv
+
+      - name: Python three-signal backtest
+        run: python aud_strategy/run.py --simple
+
+      - name: Build trial dashboard
+        run: npm run trial -- --no-gemini-fetch --no-gemini-brief
+
+      - name: Commit updated data and outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/commodities.csv data/rates.csv standalone
+          git diff --staged --quiet || git commit -m "chore: daily refresh $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git push
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: standalone
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: refresh
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

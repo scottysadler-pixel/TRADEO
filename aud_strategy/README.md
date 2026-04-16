@@ -10,7 +10,24 @@ Hypothesis-driven, **non-curve-fit** rule set:
 
 ## Real data (recommended)
 
-Before backtesting, refresh **gold**, **RBA/Fed rates**, and a **price-action sentiment proxy** aligned to `data/prices.csv`:
+Before backtesting, refresh **gold**, **RBA/Fed rates**, and **news sentiment** aligned to `data/prices.csv`.
+
+### News sentiment (GDELT + VADER — free, no keys)
+
+The repo now fetches **real Australian economic news** daily:
+
+```bash
+python aud_strategy/scripts/fetch_news_gdelt.py
+```
+
+This uses:
+- **GDELT Doc API** (no signup): searches for AUD/Australia/RBA headlines from the last 7 days.
+- **RSS feeds** (ABC News, RBA speeches) as backup if GDELT fails.
+- **VADER sentiment** (rule-based, already in `scripts/requirements.txt`) to score each headline.
+
+Output: `data/sentiment.csv` (one score per trading day, forward-filled when no news).
+
+**Automatic via GitHub Actions:** `.github/workflows/daily-refresh.yml` runs this script every morning (6 AM Sydney) + fetches gold/rates + runs the backtest + deploys the dashboard to GitHub Pages. Zero manual steps on your end.
 
 ### FRED API key (Fed funds — free)
 

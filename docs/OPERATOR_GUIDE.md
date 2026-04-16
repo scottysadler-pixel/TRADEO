@@ -2,7 +2,7 @@
 
 This repo backtests **daily FX + Google Trends + sentiment** with many strategy presets. You operate it from the command line on Windows (PowerShell). No server is required unless you add one later.
 
-**No Cursor needed:** double-click **`Refresh Trade1 Data.cmd`** in the project folder (full data + Python + dashboard), or schedule it — see [`docs/RUN_WITHOUT_CURSOR.md`](RUN_WITHOUT_CURSOR.md).
+**No Cursor needed:** The app updates itself daily via GitHub Actions (fetches news, runs backtest, deploys to Pages). Or double-click **`Refresh Trade1 Data.cmd`** for manual refresh — see [`docs/RUN_WITHOUT_CURSOR.md`](RUN_WITHOUT_CURSOR.md).
 
 ## Easiest path (one command)
 
@@ -24,6 +24,30 @@ This **automatically**:
 You do not need to remember file names or step order. For **real** Trends data, install Python and run `pip install -r scripts/requirements.txt` once.
 
 Optional **`config/pairs.json`** lists FX pairs: the first entry is the **primary** (full Trends + sentiment pipeline); extra pairs get Frankfurter prices plus **synthetic** Trends/sentiment for **ranking only** (`data/merged_<PAIR>.csv`). The dashboard shows a pair table after `npm run go` when more than one pair is configured.
+
+## Automated Daily Refresh (GitHub Actions)
+
+The repo includes `.github/workflows/daily-refresh.yml` that runs every morning (6–7 AM Sydney time):
+
+1. Fetches **real Australian economic news** from GDELT Doc API + ABC News / RBA RSS feeds.
+2. Scores headlines with **VADER sentiment** (no API key needed).
+3. Fetches **gold prices** (yfinance) and **RBA/Fed rates** (RBA website scrape + FRED API).
+4. Runs the **Three Green Lights Python backtest** (Interest Rate Differential, Commodity Momentum, News Sentiment).
+5. Rebuilds the **Trade1 dashboard** and commits updated files.
+6. Deploys to **GitHub Pages** automatically.
+
+**Result:** Your iPad/phone always shows today's signal and fresh backtest metrics when you open the Pages URL. Zero manual steps, zero Cursor.
+
+### Setup (one-time)
+
+1. **FRED API key** (free): Sign up at [fred.stlouisfed.org/docs/api/api_key.html](https://fred.stlouisfed.org/docs/api/api_key.html) to get a key for Fed Funds Rate data.
+2. In your GitHub repo, go to **Settings → Secrets and variables → Actions**.
+3. Add secret `FRED_API_KEY` with your key.
+4. Push this repo to GitHub. The workflow runs daily at the scheduled time, or click **Actions → Daily Data Refresh → Run workflow** to test immediately.
+
+### Manual refresh (optional)
+
+If you want to see results now without waiting for the scheduled run, double-click **`Refresh Trade1 Data.cmd`** in the project folder (full data + Python + dashboard), or schedule it locally via Task Scheduler — see [`docs/RUN_WITHOUT_CURSOR.md`](RUN_WITHOUT_CURSOR.md).
 
 ### Health check
 
