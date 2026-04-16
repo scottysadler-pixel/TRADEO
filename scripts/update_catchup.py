@@ -36,6 +36,16 @@ df['aud_mom_5'] = df['audusd_close'].pct_change(5) * 100
 
 df = df.dropna().reset_index(drop=True)
 
+
+def catchup_signal_for_row(gold_m, aud_m, gold_thr=2.0, aud_thr=1.0):
+    """Return (signal, is_diverged) for the Catchup rules."""
+    if gold_m > gold_thr and aud_m < aud_thr:
+        return 'LONG', True
+    if gold_m < -gold_thr and aud_m > -aud_thr:
+        return 'SHORT', True
+    return 'FLAT', False
+
+
 # Get latest
 latest = df.iloc[-1]
 gold_mom = latest['gold_mom_5']
@@ -97,3 +107,31 @@ print(f"  Signal: {signal}")
 print(f"  Gold momentum: {gold_mom:+.2f}%")
 print(f"  AUD momentum: {aud_mom:+.2f}%")
 print(f"  Diverged: {is_diverged}")
+
+# Rolling history (for Sandbox replay). Last ~250 trading days.
+HISTORY_WINDOW = 250
+hist_df = df.tail(HISTORY_WINDOW).copy()
+history_rows = []
+for _, row in hist_df.iterrows():
+    gm = float(row['gold_mom_5'])
+    am = float(row['aud_mom_5'])
+    sig, diverged = catchup_signal_for_row(gm, am, GOLD_THRESHOLD, AUD_THRESHOLD)
+    history_rows.append({
+        'date': row['date'].strftime('%Y-%m-%d'),
+        'signal': sig,
+        'price': float(row['audusd_close']),
+        'gold_momentum': gm,
+        'aud_momentum': am,
+        'is_diverged': bool(diverged),
+    })
+
+history_out = {
+    'strategy': 'catchup',
+    'last_updated': output['last_updated'],
+    'count': len(history_rows),
+    'rows': history_rows,
+}
+history_path = repo / 'standalone' / 'catchup_history.json'
+with open(history_path, 'w') as f:
+    json.dump(history_out, f, indent=2)
+print(f"[OK] Updated {history_path} ({len(history_rows)} rows)")

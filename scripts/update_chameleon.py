@@ -45,6 +45,28 @@ df['price_vs_ma'] = ((df['audusd_close'] - df['ma_20']) / df['ma_20']) * 100
 
 df = df.dropna().reset_index(drop=True)
 
+
+def chameleon_signal_for_row(row):
+    """Return (signal, description) for a single row using the same rules as 'latest'."""
+    r = row['vol_regime']
+    p = row['audusd_close']
+    m = row['ma_20']
+    d = row['price_vs_ma']
+    if r == 'low':
+        if p > m:
+            return 'LONG', 'Low vol + price above MA → trend up'
+        if p < m:
+            return 'SHORT', 'Low vol + price below MA → trend down'
+        return 'FLAT', 'Low vol + price at MA'
+    if r == 'high':
+        if d < -1.5:
+            return 'LONG', 'High vol + price >1.5% below MA → buy dip'
+        if d > 1.5:
+            return 'SHORT', 'High vol + price >1.5% above MA → sell rally'
+        return 'FLAT', 'High vol but no extreme'
+    return 'FLAT', 'Medium vol → no edge'
+
+
 # Get latest row
 latest = df.iloc[-1]
 
@@ -108,3 +130,29 @@ print(f"[OK] Updated {output_path}")
 print(f"  Signal: {signal}")
 print(f"  Regime: {regime}")
 print(f"  AUD/USD: {aud_price:.4f}")
+
+# Rolling history (for Sandbox replay). Last ~250 trading days.
+HISTORY_WINDOW = 250
+hist_df = df.tail(HISTORY_WINDOW).copy()
+history_rows = []
+for _, row in hist_df.iterrows():
+    sig, _desc = chameleon_signal_for_row(row)
+    history_rows.append({
+        'date': row['date'].strftime('%Y-%m-%d'),
+        'signal': sig,
+        'price': float(row['audusd_close']),
+        'ma_20': float(row['ma_20']),
+        'regime': str(row['vol_regime']),
+        'price_vs_ma_pct': float(row['price_vs_ma']),
+    })
+
+history_out = {
+    'strategy': 'chameleon',
+    'last_updated': output['last_updated'],
+    'count': len(history_rows),
+    'rows': history_rows,
+}
+history_path = repo / 'standalone' / 'chameleon_history.json'
+with open(history_path, 'w') as f:
+    json.dump(history_out, f, indent=2)
+print(f"[OK] Updated {history_path} ({len(history_rows)} rows)")

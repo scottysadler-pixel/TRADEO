@@ -147,6 +147,33 @@
         .health-banner.bad { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--red); }
         .health-live { font-size: 0.9em; color: var(--muted); margin-top: 12px; white-space: pre-wrap; }
 
+        /* Status pill (Signals) */
+        .status-pill {
+            display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; font-size: 0.8em;
+        }
+        .pill {
+            padding: 6px 10px; border-radius: 999px; background: var(--card2); color: var(--muted);
+            border: 1px solid transparent;
+        }
+        .pill.ok   { color: var(--green); border-color: rgba(16,185,129,0.4); }
+        .pill.warn { color: #f59e0b; border-color: rgba(245,158,11,0.4); }
+        .pill.bad  { color: var(--red); border-color: rgba(239,68,68,0.4); }
+
+        /* Sandbox */
+        .equity-svg { width: 100%; height: 160px; display: block; background: var(--card2); border-radius: 10px; }
+        .trades-table { width: 100%; border-collapse: collapse; font-size: 0.85em; }
+        .trades-table th, .trades-table td { padding: 8px 6px; text-align: left; border-bottom: 1px solid var(--card2); }
+        .trades-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.72em; letter-spacing: 0.5px; }
+        .saved-run { background: var(--card2); padding: 12px; border-radius: 10px; margin-bottom: 8px; display:flex; justify-content: space-between; align-items:center; gap: 8px; }
+        .saved-run .sr-meta { font-size: 0.75em; color: var(--muted); }
+        .btn-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+        .btn-secondary {
+            background: var(--card2); color: var(--text); border: 1px solid #475569;
+            padding: 10px 14px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.9em;
+        }
+        .btn-secondary:hover { background: #475569; }
+        .btn-danger { background: #7f1d1d; color: #fecaca; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8em; }
+
         @media (max-width: 600px) {
             .signal-action { font-size: 2em; }
             .calc-form { grid-template-columns: 1fr; }
@@ -160,6 +187,7 @@
     <!-- Tabs -->
     <div class="tabs">
         <div class="tab active" onclick="showPage('signals', this)">Signals</div>
+        <div class="tab" onclick="showPage('sandbox', this)">Sandbox</div>
         <div class="tab" onclick="showPage('calculator', this)">Position Size</div>
         <div class="tab" onclick="showPage('journal', this)">Journal</div>
         <div class="tab" onclick="showPage('learn', this)">Learn</div>
@@ -169,9 +197,15 @@
     <!-- PAGE: Signals -->
     <div class="page active" id="page-signals">
 
+        <div class="status-pill">
+            <span class="pill" id="pill-age">Data age: --</span>
+            <span class="pill" id="pill-live">Live quote: --</span>
+            <span class="pill" id="pill-score">Readiness: --</span>
+        </div>
+
         <div class="strategy-toggle">
-            <div class="strat-btn active" onclick="switchStrategy('chameleon')">The Chameleon</div>
-            <div class="strat-btn" onclick="switchStrategy('catchup')">Catchup Trader</div>
+            <div class="strat-btn active" onclick="switchStrategy('chameleon', this)">The Chameleon</div>
+            <div class="strat-btn" onclick="switchStrategy('catchup', this)">Catchup Trader</div>
         </div>
 
         <!-- Chameleon view -->
@@ -252,6 +286,84 @@
         </div>
     </div>
 
+    <!-- PAGE: Sandbox -->
+    <div class="page" id="page-sandbox">
+        <div class="card">
+            <h2>Example runs (replay past signals)</h2>
+            <p style="color:var(--muted);margin-bottom:16px">Replay the baked daily history as if you had followed the signals. This is a <strong>learning tool</strong>: it uses closing prices only, no slippage or spread, and a single open position at a time. Good enough to see whether the strategy <em>would have worked</em> lately; not a real backtest.</p>
+            <div class="calc-form">
+                <div class="form-group">
+                    <label>Strategy</label>
+                    <select id="sb-strategy">
+                        <option value="chameleon">The Chameleon</option>
+                        <option value="catchup">Catchup Trader</option>
+                        <option value="both">Both must agree</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Lookback (days)</label>
+                    <select id="sb-lookback">
+                        <option value="30">Last 30</option>
+                        <option value="90" selected>Last 90</option>
+                        <option value="180">Last 180</option>
+                        <option value="250">All available</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Account (AUD)</label>
+                    <input type="number" id="sb-balance" value="5000" min="100">
+                </div>
+                <div class="form-group">
+                    <label>Risk per trade (%)</label>
+                    <input type="number" id="sb-risk" value="2" min="0.5" max="10" step="0.5">
+                </div>
+                <div class="form-group">
+                    <label>Stop loss (pips)</label>
+                    <input type="number" id="sb-stop" value="50" min="5">
+                </div>
+                <div class="form-group">
+                    <label>Take profit (× stop)</label>
+                    <input type="number" id="sb-tp" value="1.5" min="0.5" step="0.25">
+                </div>
+                <div class="form-group" style="grid-column:1/-1">
+                    <label style="display:flex;align-items:center;gap:8px">
+                        <input type="checkbox" id="sb-skip-flat" checked style="width:auto"> Skip FLAT days (don&apos;t hold)
+                    </label>
+                </div>
+            </div>
+            <div class="btn-row">
+                <button class="journal-btn" onclick="runSandbox()" style="flex:1;min-width:180px">Run replay</button>
+                <button class="btn-secondary" onclick="saveRun()" id="sb-save-btn" disabled>Save this run</button>
+            </div>
+        </div>
+
+        <div class="card" id="sb-results" style="display:none">
+            <h2>Result</h2>
+            <div class="data-grid" id="sb-stats"></div>
+            <h2 style="margin-top:20px">Equity curve</h2>
+            <svg class="equity-svg" id="sb-equity" viewBox="0 0 600 160" preserveAspectRatio="none"></svg>
+            <p id="sb-summary" style="margin-top:12px;color:var(--muted);line-height:1.5"></p>
+            <h2 style="margin-top:20px">Trades</h2>
+            <div style="overflow-x:auto">
+                <table class="trades-table" id="sb-trades"></table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Saved runs</h2>
+            <p style="color:var(--muted);margin-bottom:12px">Saved in this browser. Export to send a run to iPad Files, Google Drive, email, etc.</p>
+            <div id="saved-runs-list">
+                <p style="color:var(--muted);text-align:center;padding:20px 0">No saved runs yet.</p>
+            </div>
+            <div class="btn-row">
+                <button class="btn-secondary" onclick="exportRuns('json')">Export all (JSON)</button>
+                <button class="btn-secondary" onclick="exportRuns('csv')">Export all (CSV)</button>
+                <button class="btn-secondary" onclick="importRunsPrompt()">Import JSON</button>
+                <input type="file" id="sb-import-input" accept=".json" style="display:none" onchange="importRunsFile(event)">
+            </div>
+        </div>
+    </div>
+
     <!-- PAGE: Position Calculator -->
     <div class="page" id="page-calculator">
         <div class="card">
@@ -311,8 +423,14 @@
     <div class="page" id="page-journal">
         <div class="card">
             <h2>Trade Journal</h2>
-            <p style="color:var(--muted);margin-bottom:20px">Track your trades to learn what works. Stored in your browser (private).</p>
+            <p style="color:var(--muted);margin-bottom:20px">Track your trades to learn what works. Stored in your browser (private). Use Export for iPad Files / Google Drive / email.</p>
             <button class="journal-btn" onclick="toggleJournalForm()">+ Log New Trade</button>
+            <div class="btn-row">
+                <button class="btn-secondary" onclick="exportJournal('json')">Export JSON</button>
+                <button class="btn-secondary" onclick="exportJournal('csv')">Export CSV</button>
+                <button class="btn-secondary" onclick="importJournalPrompt()">Import JSON</button>
+                <input type="file" id="j-import-input" accept=".json" style="display:none" onchange="importJournalFile(event)">
+            </div>
 
             <div class="journal-form" id="journal-form">
                 <div class="calc-form" style="margin-top:16px">
@@ -480,11 +598,12 @@ function showPage(id, el) {
     document.getElementById('page-' + id).classList.add('active');
     if (el) el.classList.add('active');
     if (id === 'health') refreshHealthPanel();
+    if (id === 'signals') refreshStatusPills();
 }
 
-function switchStrategy(id) {
+function switchStrategy(id, el) {
     document.querySelectorAll('.strat-btn').forEach(b => b.classList.remove('active'));
-    event.target.classList.add('active');
+    if (el) el.classList.add('active');
     document.getElementById('view-chameleon').style.display = id === 'chameleon' ? 'block' : 'none';
     document.getElementById('view-catchup').style.display = id === 'catchup' ? 'block' : 'none';
 }
@@ -606,11 +725,7 @@ async function runLiveQuoteCheck() {
     out.style.color = 'var(--muted)';
     out.textContent = 'Requesting Frankfurter…';
     try {
-        var r = await fetch('https://api.frankfurter.app/latest?from=AUD&to=USD');
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        var j = await r.json();
-        var rate = j.rates && j.rates.USD;
-        if (typeof rate !== 'number') throw new Error('Unexpected response');
+        var rate = await fetchLiveAudUsd();
         var msg = 'Live API OK. 1 AUD = ' + rate + ' USD (Frankfurter, reference rate).';
         var cham = window.__trade1Data && window.__trade1Data.cham;
         if (cham && typeof cham.aud_price === 'number') {
@@ -624,6 +739,431 @@ async function runLiveQuoteCheck() {
         out.textContent = 'Browser could not fetch Frankfurter (' + (e.message || e) + '). Open manually:\nhttps://api.frankfurter.app/latest?from=AUD&to=USD\nand compare to the Signals tab.';
         out.style.color = 'var(--red)';
     }
+}
+
+async function fetchLiveAudUsd() {
+    var r = await fetch('https://api.frankfurter.app/latest?from=AUD&to=USD');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    var j = await r.json();
+    var rate = j.rates && j.rates.USD;
+    if (typeof rate !== 'number') throw new Error('Unexpected response');
+    return rate;
+}
+
+/* Status pill (Signals header) - shows at-a-glance whether you should trust signals */
+async function refreshStatusPills() {
+    var pAge = document.getElementById('pill-age');
+    var pLive = document.getElementById('pill-live');
+    var pScore = document.getElementById('pill-score');
+    if (!pAge || !pLive || !pScore) return;
+
+    var c = window.__trade1Data;
+    var cham = c && c.cham;
+    var cat = c && c.catch;
+
+    // Age pill
+    var hours = null;
+    if (cham && cham.last_updated && cat && cat.last_updated) {
+        var d1 = parseBundleDate(cham.last_updated);
+        var d2 = parseBundleDate(cat.last_updated);
+        if (d1 && d2) {
+            var older = d1 < d2 ? d1 : d2;
+            hours = (new Date() - older) / 3600000;
+        }
+    }
+    if (hours === null) {
+        pAge.textContent = 'Data age: unknown';
+        pAge.className = 'pill warn';
+    } else {
+        var ageTxt = hours < 1 ? Math.round(hours * 60) + ' min' : hours.toFixed(1) + 'h';
+        pAge.textContent = 'Data age: ' + ageTxt;
+        pAge.className = 'pill ' + (hours > 72 ? 'bad' : hours > 36 ? 'warn' : 'ok');
+    }
+
+    // Live quote pill (auto)
+    var liveGap = null;
+    try {
+        var rate = await fetchLiveAudUsd();
+        if (cham && typeof cham.aud_price === 'number') {
+            liveGap = Math.abs(rate - cham.aud_price) / rate * 100;
+            pLive.textContent = 'Live gap: ' + liveGap.toFixed(2) + '%';
+            pLive.className = 'pill ' + (liveGap > 2 ? 'bad' : liveGap > 0.5 ? 'warn' : 'ok');
+        } else {
+            pLive.textContent = 'Live quote OK';
+            pLive.className = 'pill ok';
+        }
+    } catch (e) {
+        pLive.textContent = 'Live quote: blocked';
+        pLive.className = 'pill warn';
+    }
+
+    // Readiness score (0-5)
+    var score = 0;
+    var reasons = [];
+    if (hours !== null && hours < 36) { score++; reasons.push('fresh data'); }
+    if (liveGap !== null && liveGap < 0.5) { score++; reasons.push('live match'); }
+    if (cham && cham.signal && cham.signal !== 'FLAT') { score++; reasons.push('Chameleon active'); }
+    if (cat && cat.signal && cat.signal !== 'FLAT') { score++; reasons.push('Catchup active'); }
+    if (cham && cat && cham.signal === cat.signal && cham.signal !== 'FLAT') { score++; reasons.push('strategies agree'); }
+
+    pScore.textContent = 'Readiness: ' + score + '/5';
+    pScore.className = 'pill ' + (score >= 4 ? 'ok' : score >= 2 ? 'warn' : 'bad');
+    pScore.title = reasons.length ? reasons.join(', ') : 'Low score: weak / stale / no agreement';
+}
+
+/* ---------- Sandbox: replay baked history as if you traded the signals ---------- */
+window.__trade1History = { cham: null, catch: null };
+
+async function loadHistories() {
+    try {
+        var r1 = await fetch('chameleon_history.json');
+        if (r1.ok) window.__trade1History.cham = await r1.json();
+    } catch (e) { console.warn('chameleon_history missing', e); }
+    try {
+        var r2 = await fetch('catchup_history.json');
+        if (r2.ok) window.__trade1History.catch = await r2.json();
+    } catch (e) { console.warn('catchup_history missing', e); }
+}
+
+function pipSize() { return 0.0001; }
+
+function combineSeries(cham, cat) {
+    // Build a map date -> {price, chamSig, catSig}. Prefer chameleon for price if both exist.
+    var m = {};
+    if (cham && cham.rows) cham.rows.forEach(function(r){ m[r.date] = { date: r.date, price: r.price, chamSig: r.signal }; });
+    if (cat && cat.rows) cat.rows.forEach(function(r){
+        if (!m[r.date]) m[r.date] = { date: r.date, price: r.price };
+        m[r.date].catSig = r.signal;
+    });
+    return Object.values(m).sort(function(a,b){ return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; });
+}
+
+function replay(series, opts) {
+    // Simple next-day fill: when signal changes, enter/exit at the next bar's close.
+    // One position at a time. Stop loss and take profit checked against each subsequent bar.
+    var trades = [];
+    var open = null; // {dir:'LONG'|'SHORT', entry, entryDate, units, stop, tp}
+    var equity = opts.balance;
+    var equityCurve = [{ date: series.length ? series[0].date : null, equity: equity }];
+    var pip = pipSize();
+    var riskAmt = opts.balance * (opts.riskPct / 100);
+    var pipValuePerUnit = 0.0001; // ~USD per pip per unit, close enough for demo
+    // Stop in price terms:
+    var stopPrice = opts.stopPips * pip;
+    var units = riskAmt / stopPrice; // size so that stop loss ~= riskAmt
+
+    function closeTrade(exit, exitDate, reason, pointIndex) {
+        if (!open) return;
+        var pnl;
+        if (open.dir === 'LONG') pnl = (exit - open.entry) * open.units;
+        else pnl = (open.entry - exit) * open.units;
+        trades.push({
+            entryDate: open.entryDate, entry: open.entry, exitDate: exitDate, exit: exit,
+            dir: open.dir, units: Math.round(open.units), pnl: pnl, reason: reason
+        });
+        equity += pnl;
+        equityCurve.push({ date: exitDate, equity: equity });
+        open = null;
+    }
+
+    for (var i = 0; i < series.length; i++) {
+        var bar = series[i];
+        var sig = chooseSignal(bar, opts.strategy);
+        if (!sig) continue;
+
+        // Check SL/TP against current bar's close first (daily granularity)
+        if (open) {
+            var hit = null;
+            if (open.dir === 'LONG') {
+                if (bar.price <= open.stop) hit = { px: open.stop, reason: 'SL' };
+                else if (bar.price >= open.tp) hit = { px: open.tp, reason: 'TP' };
+            } else {
+                if (bar.price >= open.stop) hit = { px: open.stop, reason: 'SL' };
+                else if (bar.price <= open.tp) hit = { px: open.tp, reason: 'TP' };
+            }
+            if (hit) closeTrade(hit.px, bar.date, hit.reason, i);
+        }
+
+        // Signal change handling
+        if (opts.skipFlat && sig === 'FLAT') {
+            if (open) closeTrade(bar.price, bar.date, 'FLAT');
+            continue;
+        }
+        if (!open && (sig === 'LONG' || sig === 'SHORT')) {
+            // Open at next bar's close if exists
+            var next = series[i + 1];
+            if (!next) break;
+            var entry = next.price;
+            var stop = sig === 'LONG' ? entry - stopPrice : entry + stopPrice;
+            var tp = sig === 'LONG' ? entry + stopPrice * opts.tpMult : entry - stopPrice * opts.tpMult;
+            open = { dir: sig, entry: entry, entryDate: next.date, units: units, stop: stop, tp: tp };
+        } else if (open && sig !== open.dir && (sig === 'LONG' || sig === 'SHORT')) {
+            var next2 = series[i + 1];
+            if (next2) {
+                closeTrade(next2.price, next2.date, 'FLIP');
+                var entry2 = next2.price;
+                var stop2 = sig === 'LONG' ? entry2 - stopPrice : entry2 + stopPrice;
+                var tp2 = sig === 'LONG' ? entry2 + stopPrice * opts.tpMult : entry2 - stopPrice * opts.tpMult;
+                open = { dir: sig, entry: entry2, entryDate: next2.date, units: units, stop: stop2, tp: tp2 };
+            }
+        }
+    }
+
+    if (open && series.length) {
+        var last = series[series.length - 1];
+        closeTrade(last.price, last.date, 'END');
+    }
+
+    var wins = trades.filter(function(t){ return t.pnl > 0; }).length;
+    var totalPnl = trades.reduce(function(s,t){ return s + t.pnl; }, 0);
+    var peak = opts.balance, maxDD = 0;
+    equityCurve.forEach(function(p){ if (p.equity > peak) peak = p.equity; var dd = (peak - p.equity) / peak; if (dd > maxDD) maxDD = dd; });
+
+    return {
+        trades: trades,
+        equityCurve: equityCurve,
+        stats: {
+            startBalance: opts.balance,
+            endBalance: equity,
+            totalPnl: totalPnl,
+            totalPnlPct: (totalPnl / opts.balance) * 100,
+            trades: trades.length,
+            wins: wins,
+            winRate: trades.length ? (wins / trades.length * 100) : 0,
+            maxDD: maxDD * 100
+        }
+    };
+}
+
+function chooseSignal(bar, strategy) {
+    if (strategy === 'chameleon') return bar.chamSig || 'FLAT';
+    if (strategy === 'catchup')  return bar.catSig  || 'FLAT';
+    // both must agree
+    var a = bar.chamSig, b = bar.catSig;
+    if (!a || !b) return 'FLAT';
+    if (a === b) return a;
+    return 'FLAT';
+}
+
+function runSandbox() {
+    var cham = window.__trade1History.cham;
+    var cat = window.__trade1History.catch;
+    if (!cham && !cat) {
+        alert('No history loaded. Refresh data (npm run update:all or run Python update scripts) and reload this page.');
+        return;
+    }
+    var all = combineSeries(cham, cat);
+    var lookback = parseInt(document.getElementById('sb-lookback').value, 10);
+    if (all.length > lookback) all = all.slice(all.length - lookback);
+
+    var opts = {
+        strategy: document.getElementById('sb-strategy').value,
+        balance:  parseFloat(document.getElementById('sb-balance').value) || 5000,
+        riskPct:  parseFloat(document.getElementById('sb-risk').value) || 2,
+        stopPips: parseFloat(document.getElementById('sb-stop').value) || 50,
+        tpMult:   parseFloat(document.getElementById('sb-tp').value) || 1.5,
+        skipFlat: document.getElementById('sb-skip-flat').checked
+    };
+
+    var result = replay(all, opts);
+    window.__trade1LastRun = { opts: opts, result: result, rangeStart: all[0] && all[0].date, rangeEnd: all[all.length - 1] && all[all.length - 1].date };
+    document.getElementById('sb-save-btn').disabled = false;
+    renderSandboxResult(result, opts, all);
+}
+
+function renderSandboxResult(result, opts, series) {
+    document.getElementById('sb-results').style.display = 'block';
+    var s = result.stats;
+    var pnlClass = s.totalPnl >= 0 ? 'up' : 'down';
+    document.getElementById('sb-stats').innerHTML =
+        '<div class="data-cell"><div class="data-val ' + pnlClass + '">' + (s.totalPnlPct >= 0 ? '+' : '') + s.totalPnlPct.toFixed(2) + '%</div><div class="data-lbl">Return</div></div>' +
+        '<div class="data-cell"><div class="data-val">' + s.trades + '</div><div class="data-lbl">Trades</div></div>' +
+        '<div class="data-cell"><div class="data-val">' + s.winRate.toFixed(0) + '%</div><div class="data-lbl">Win rate</div></div>' +
+        '<div class="data-cell"><div class="data-val down">-' + s.maxDD.toFixed(2) + '%</div><div class="data-lbl">Max DD</div></div>';
+
+    drawEquitySvg('sb-equity', result.equityCurve, opts.balance);
+
+    var first = series[0], last = series[series.length - 1];
+    document.getElementById('sb-summary').textContent =
+        'Period: ' + (first && first.date) + ' → ' + (last && last.date) +
+        '. Starting balance $' + opts.balance.toFixed(0) +
+        ', ending $' + s.endBalance.toFixed(2) +
+        ' (P&L $' + s.totalPnl.toFixed(2) + ').';
+
+    var t = result.trades;
+    var tbl = document.getElementById('sb-trades');
+    if (!t.length) {
+        tbl.innerHTML = '<tr><td style="color:var(--muted);padding:16px 0">No trades were triggered in this window.</td></tr>';
+    } else {
+        var head = '<thead><tr><th>Entry</th><th>Exit</th><th>Dir</th><th>Entry px</th><th>Exit px</th><th>End</th><th>P&amp;L</th></tr></thead>';
+        var rows = t.slice(-50).reverse().map(function(x){
+            var cls = x.pnl >= 0 ? 'up' : 'down';
+            return '<tr><td>' + x.entryDate + '</td><td>' + x.exitDate + '</td><td>' + x.dir + '</td>' +
+                   '<td>' + x.entry.toFixed(4) + '</td><td>' + x.exit.toFixed(4) + '</td>' +
+                   '<td>' + x.reason + '</td><td class="' + cls + '">$' + x.pnl.toFixed(2) + '</td></tr>';
+        }).join('');
+        tbl.innerHTML = head + '<tbody>' + rows + '</tbody>';
+    }
+}
+
+function drawEquitySvg(id, curve, startBalance) {
+    var svg = document.getElementById(id);
+    if (!svg) return;
+    if (!curve || curve.length < 2) { svg.innerHTML = ''; return; }
+    var W = 600, H = 160, pad = 8;
+    var vals = curve.map(function(p){ return p.equity; });
+    var minV = Math.min.apply(null, vals), maxV = Math.max.apply(null, vals);
+    if (minV === maxV) { minV -= 1; maxV += 1; }
+    var xStep = (W - pad * 2) / (curve.length - 1);
+    var scaleY = function(v){ return H - pad - ((v - minV) / (maxV - minV)) * (H - pad * 2); };
+    var path = curve.map(function(p, i){ return (i === 0 ? 'M' : 'L') + (pad + i * xStep).toFixed(2) + ' ' + scaleY(p.equity).toFixed(2); }).join(' ');
+    var baselineY = scaleY(startBalance);
+    var endAbove = curve[curve.length - 1].equity >= startBalance;
+    var color = endAbove ? '#10b981' : '#ef4444';
+    svg.innerHTML =
+        '<line x1="' + pad + '" y1="' + baselineY.toFixed(2) + '" x2="' + (W - pad) + '" y2="' + baselineY.toFixed(2) + '" stroke="#475569" stroke-dasharray="3 3" stroke-width="1"/>' +
+        '<path d="' + path + '" fill="none" stroke="' + color + '" stroke-width="2"/>';
+}
+
+/* Saved runs */
+function getRuns() {
+    try { return JSON.parse(localStorage.getItem('trade1_runs') || '[]'); } catch { return []; }
+}
+function setRuns(runs) { localStorage.setItem('trade1_runs', JSON.stringify(runs)); renderRuns(); }
+
+function saveRun() {
+    if (!window.__trade1LastRun) return;
+    var name = prompt('Name this run:', 'Run ' + new Date().toLocaleDateString());
+    if (!name) return;
+    var entry = {
+        id: Date.now(),
+        name: name,
+        savedAt: new Date().toISOString(),
+        opts: window.__trade1LastRun.opts,
+        stats: window.__trade1LastRun.result.stats,
+        trades: window.__trade1LastRun.result.trades,
+        rangeStart: window.__trade1LastRun.rangeStart,
+        rangeEnd: window.__trade1LastRun.rangeEnd
+    };
+    var runs = getRuns();
+    runs.unshift(entry);
+    setRuns(runs);
+}
+
+function deleteRun(id) {
+    if (!confirm('Delete this saved run?')) return;
+    setRuns(getRuns().filter(function(r){ return r.id !== id; }));
+}
+
+function renderRuns() {
+    var list = document.getElementById('saved-runs-list');
+    if (!list) return;
+    var runs = getRuns();
+    if (!runs.length) {
+        list.innerHTML = '<p style="color:var(--muted);text-align:center;padding:20px 0">No saved runs yet.</p>';
+        return;
+    }
+    list.innerHTML = runs.map(function(r){
+        var pct = r.stats.totalPnlPct;
+        var cls = pct >= 0 ? 'up' : 'down';
+        return '<div class="saved-run">' +
+            '<div>' +
+            '<div style="font-weight:700">' + escapeHtml(r.name) + '</div>' +
+            '<div class="sr-meta">' + r.opts.strategy + ' · ' + r.rangeStart + ' → ' + r.rangeEnd + ' · ' + r.stats.trades + ' trades</div>' +
+            '</div>' +
+            '<div style="display:flex;align-items:center;gap:10px">' +
+            '<div class="data-val ' + cls + '" style="font-size:1.1em">' + (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%</div>' +
+            '<button class="btn-danger" onclick="deleteRun(' + r.id + ')">Delete</button>' +
+            '</div>' +
+            '</div>';
+    }).join('');
+}
+
+function escapeHtml(s) { return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+
+function downloadBlob(content, filename, mime) {
+    var blob = new Blob([content], { type: mime });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); }, 0);
+}
+
+function exportRuns(fmt) {
+    var runs = getRuns();
+    if (!runs.length) { alert('No saved runs to export.'); return; }
+    var ts = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 16);
+    if (fmt === 'json') {
+        downloadBlob(JSON.stringify(runs, null, 2), 'trade1-runs-' + ts + '.json', 'application/json');
+    } else {
+        var header = ['name','savedAt','strategy','rangeStart','rangeEnd','balance','riskPct','stopPips','tpMult','skipFlat','trades','winRate','totalPnl','totalPnlPct','maxDD'];
+        var rows = runs.map(function(r){
+            return [r.name, r.savedAt, r.opts.strategy, r.rangeStart, r.rangeEnd,
+                r.opts.balance, r.opts.riskPct, r.opts.stopPips, r.opts.tpMult, r.opts.skipFlat,
+                r.stats.trades, r.stats.winRate.toFixed(2), r.stats.totalPnl.toFixed(2), r.stats.totalPnlPct.toFixed(2), r.stats.maxDD.toFixed(2)
+            ].map(csvCell).join(',');
+        });
+        downloadBlob([header.join(',')].concat(rows).join('\n'), 'trade1-runs-' + ts + '.csv', 'text/csv');
+    }
+}
+function csvCell(v) {
+    var s = String(v == null ? '' : v);
+    if (/[",\n]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+    return s;
+}
+
+function importRunsPrompt() { document.getElementById('sb-import-input').click(); }
+function importRunsFile(ev) {
+    var f = ev.target.files && ev.target.files[0];
+    if (!f) return;
+    var fr = new FileReader();
+    fr.onload = function() {
+        try {
+            var data = JSON.parse(fr.result);
+            if (!Array.isArray(data)) throw new Error('Expected an array');
+            var merged = getRuns().concat(data);
+            setRuns(merged);
+            alert('Imported ' + data.length + ' run(s).');
+        } catch (e) { alert('Import failed: ' + (e.message || e)); }
+        ev.target.value = '';
+    };
+    fr.readAsText(f);
+}
+
+/* Journal export / import */
+function exportJournal(fmt) {
+    var list = getJournal();
+    if (!list.length) { alert('Journal is empty.'); return; }
+    var ts = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 16);
+    if (fmt === 'json') {
+        downloadBlob(JSON.stringify(list, null, 2), 'trade1-journal-' + ts + '.json', 'application/json');
+    } else {
+        var header = ['date','dir','entry','exit','size','strat','pnl','notes'];
+        var rows = list.map(function(t){
+            return [t.date, t.dir, t.entry, t.exit, t.size, t.strat, t.pnl.toFixed(2), t.notes || ''].map(csvCell).join(',');
+        });
+        downloadBlob([header.join(',')].concat(rows).join('\n'), 'trade1-journal-' + ts + '.csv', 'text/csv');
+    }
+}
+function importJournalPrompt() { document.getElementById('j-import-input').click(); }
+function importJournalFile(ev) {
+    var f = ev.target.files && ev.target.files[0];
+    if (!f) return;
+    var fr = new FileReader();
+    fr.onload = function() {
+        try {
+            var data = JSON.parse(fr.result);
+            if (!Array.isArray(data)) throw new Error('Expected an array');
+            var merged = getJournal().concat(data);
+            localStorage.setItem('trade1_journal', JSON.stringify(merged));
+            renderJournal();
+            alert('Imported ' + data.length + ' trade(s).');
+        } catch (e) { alert('Import failed: ' + (e.message || e)); }
+        ev.target.value = '';
+    };
+    fr.readAsText(f);
 }
 
 /* Position size calculator */
@@ -720,11 +1260,14 @@ function renderJournal() {
 }
 
 /* Init */
-loadChameleon();
-loadCatchup();
-calcPosition();
-renderJournal();
-setInterval(() => { loadChameleon(); loadCatchup(); }, 5 * 60 * 1000);
+(async function init() {
+    await Promise.all([loadChameleon(), loadCatchup()]);
+    loadHistories();
+    calcPosition();
+    renderJournal();
+    renderRuns();
+    refreshStatusPills();
+})();
 </script>
 </body>
 </html>

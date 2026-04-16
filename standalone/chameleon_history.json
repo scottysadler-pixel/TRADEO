@@ -1,0 +1,2007 @@
+{
+  "strategy": "chameleon",
+  "last_updated": "2026-04-16 20:45 UTC",
+  "count": 250,
+  "rows": [
+    {
+      "date": "2025-04-22",
+      "signal": "SHORT",
+      "price": 0.63951,
+      "ma_20": 0.6256655,
+      "regime": "high",
+      "price_vs_ma_pct": 2.212763849053534
+    },
+    {
+      "date": "2025-04-23",
+      "signal": "SHORT",
+      "price": 0.64079,
+      "ma_20": 0.626282,
+      "regime": "high",
+      "price_vs_ma_pct": 2.3165283370749865
+    },
+    {
+      "date": "2025-04-24",
+      "signal": "SHORT",
+      "price": 0.63828,
+      "ma_20": 0.6265864999999999,
+      "regime": "high",
+      "price_vs_ma_pct": 1.8662227800950109
+    },
+    {
+      "date": "2025-04-25",
+      "signal": "SHORT",
+      "price": 0.63814,
+      "ma_20": 0.6269069999999999,
+      "regime": "high",
+      "price_vs_ma_pct": 1.7918128207214408
+    },
+    {
+      "date": "2025-04-28",
+      "signal": "SHORT",
+      "price": 0.63956,
+      "ma_20": 0.627352,
+      "regime": "high",
+      "price_vs_ma_pct": 1.9459569747127603
+    },
+    {
+      "date": "2025-04-29",
+      "signal": "SHORT",
+      "price": 0.64059,
+      "ma_20": 0.627848,
+      "regime": "high",
+      "price_vs_ma_pct": 2.0294721015277637
+    },
+    {
+      "date": "2025-04-30",
+      "signal": "SHORT",
+      "price": 0.639,
+      "ma_20": 0.6285735,
+      "regime": "high",
+      "price_vs_ma_pct": 1.6587558972817031
+    },
+    {
+      "date": "2025-05-02",
+      "signal": "SHORT",
+      "price": 0.64376,
+      "ma_20": 0.629501,
+      "regime": "high",
+      "price_vs_ma_pct": 2.265127458097767
+    },
+    {
+      "date": "2025-05-05",
+      "signal": "SHORT",
+      "price": 0.64847,
+      "ma_20": 0.6304215,
+      "regime": "high",
+      "price_vs_ma_pct": 2.862925836127103
+    },
+    {
+      "date": "2025-05-06",
+      "signal": "SHORT",
+      "price": 0.64633,
+      "ma_20": 0.630938,
+      "regime": "high",
+      "price_vs_ma_pct": 2.4395423956078033
+    },
+    {
+      "date": "2025-05-07",
+      "signal": "SHORT",
+      "price": 0.64718,
+      "ma_20": 0.6327495,
+      "regime": "high",
+      "price_vs_ma_pct": 2.280602355276458
+    },
+    {
+      "date": "2025-05-08",
+      "signal": "FLAT",
+      "price": 0.64169,
+      "ma_20": 0.634662,
+      "regime": "high",
+      "price_vs_ma_pct": 1.1073610835373844
+    },
+    {
+      "date": "2025-05-09",
+      "signal": "FLAT",
+      "price": 0.64034,
+      "ma_20": 0.636385,
+      "regime": "high",
+      "price_vs_ma_pct": 0.6214791360575819
+    },
+    {
+      "date": "2025-05-12",
+      "signal": "FLAT",
+      "price": 0.63886,
+      "ma_20": 0.6382995,
+      "regime": "high",
+      "price_vs_ma_pct": 0.087811442747482
+    },
+    {
+      "date": "2025-05-13",
+      "signal": "FLAT",
+      "price": 0.64079,
+      "ma_20": 0.6393924999999999,
+      "regime": "med",
+      "price_vs_ma_pct": 0.21856684274527016
+    },
+    {
+      "date": "2025-05-14",
+      "signal": "FLAT",
+      "price": 0.64671,
+      "ma_20": 0.6405595,
+      "regime": "med",
+      "price_vs_ma_pct": 0.9601762209443556
+    },
+    {
+      "date": "2025-05-15",
+      "signal": "FLAT",
+      "price": 0.64072,
+      "ma_20": 0.6410525,
+      "regime": "med",
+      "price_vs_ma_pct": -0.05186782673807041
+    },
+    {
+      "date": "2025-05-16",
+      "signal": "FLAT",
+      "price": 0.6412,
+      "ma_20": 0.641293,
+      "regime": "med",
+      "price_vs_ma_pct": -0.01450195152605903
+    },
+    {
+      "date": "2025-05-19",
+      "signal": "FLAT",
+      "price": 0.64461,
+      "ma_20": 0.641656,
+      "regime": "med",
+      "price_vs_ma_pct": 0.4603712892889667
+    },
+    {
+      "date": "2025-05-20",
+      "signal": "FLAT",
+      "price": 0.64095,
+      "ma_20": 0.641874,
+      "regime": "med",
+      "price_vs_ma_pct": -0.14395348619821413
+    },
+    {
+      "date": "2025-05-21",
+      "signal": "FLAT",
+      "price": 0.64437,
+      "ma_20": 0.642117,
+      "regime": "med",
+      "price_vs_ma_pct": 0.3508706357252571
+    },
+    {
+      "date": "2025-05-22",
+      "signal": "FLAT",
+      "price": 0.64226,
+      "ma_20": 0.6421905000000001,
+      "regime": "med",
+      "price_vs_ma_pct": 0.010822333871327059
+    },
+    {
+      "date": "2025-05-23",
+      "signal": "FLAT",
+      "price": 0.64324,
+      "ma_20": 0.6424385,
+      "regime": "med",
+      "price_vs_ma_pct": 0.12475902362638766
+    },
+    {
+      "date": "2025-05-26",
+      "signal": "FLAT",
+      "price": 0.65079,
+      "ma_20": 0.643071,
+      "regime": "high",
+      "price_vs_ma_pct": 1.2003340222152814
+    },
+    {
+      "date": "2025-05-27",
+      "signal": "FLAT",
+      "price": 0.64435,
+      "ma_20": 0.6433104999999999,
+      "regime": "high",
+      "price_vs_ma_pct": 0.1615860459296222
+    },
+    {
+      "date": "2025-05-28",
+      "signal": "FLAT",
+      "price": 0.64374,
+      "ma_20": 0.643468,
+      "regime": "high",
+      "price_vs_ma_pct": 0.042270944320453994
+    },
+    {
+      "date": "2025-05-29",
+      "signal": "FLAT",
+      "price": 0.64415,
+      "ma_20": 0.6437255000000001,
+      "regime": "high",
+      "price_vs_ma_pct": 0.06594425729599632
+    },
+    {
+      "date": "2025-05-30",
+      "signal": "FLAT",
+      "price": 0.64255,
+      "ma_20": 0.643665,
+      "regime": "high",
+      "price_vs_ma_pct": -0.17322675615422434
+    },
+    {
+      "date": "2025-06-02",
+      "signal": "FLAT",
+      "price": 0.64859,
+      "ma_20": 0.6436710000000001,
+      "regime": "high",
+      "price_vs_ma_pct": 0.7642102875537184
+    },
+    {
+      "date": "2025-06-03",
+      "signal": "FLAT",
+      "price": 0.64546,
+      "ma_20": 0.6436275,
+      "regime": "high",
+      "price_vs_ma_pct": 0.28471437283211404
+    },
+    {
+      "date": "2025-06-04",
+      "signal": "FLAT",
+      "price": 0.64859,
+      "ma_20": 0.643698,
+      "regime": "high",
+      "price_vs_ma_pct": 0.7599837190732311
+    },
+    {
+      "date": "2025-06-05",
+      "signal": "FLAT",
+      "price": 0.65088,
+      "ma_20": 0.6441575,
+      "regime": "high",
+      "price_vs_ma_pct": 1.043611228620324
+    },
+    {
+      "date": "2025-06-06",
+      "signal": "FLAT",
+      "price": 0.64865,
+      "ma_20": 0.6445730000000001,
+      "regime": "high",
+      "price_vs_ma_pct": 0.6325117558445492
+    },
+    {
+      "date": "2025-06-09",
+      "signal": "FLAT",
+      "price": 0.65148,
+      "ma_20": 0.6452039999999999,
+      "regime": "high",
+      "price_vs_ma_pct": 0.972715606226877
+    },
+    {
+      "date": "2025-06-10",
+      "signal": "FLAT",
+      "price": 0.65201,
+      "ma_20": 0.645765,
+      "regime": "high",
+      "price_vs_ma_pct": 0.967070064187428
+    },
+    {
+      "date": "2025-06-11",
+      "signal": "FLAT",
+      "price": 0.65042,
+      "ma_20": 0.6459505,
+      "regime": "high",
+      "price_vs_ma_pct": 0.6919260841194511
+    },
+    {
+      "date": "2025-06-12",
+      "signal": "FLAT",
+      "price": 0.65138,
+      "ma_20": 0.6464835,
+      "regime": "med",
+      "price_vs_ma_pct": 0.7574052547358084
+    },
+    {
+      "date": "2025-06-13",
+      "signal": "FLAT",
+      "price": 0.64758,
+      "ma_20": 0.6468025,
+      "regime": "med",
+      "price_vs_ma_pct": 0.12020670915775644
+    },
+    {
+      "date": "2025-06-16",
+      "signal": "FLAT",
+      "price": 0.65272,
+      "ma_20": 0.647208,
+      "regime": "med",
+      "price_vs_ma_pct": 0.8516581995278119
+    },
+    {
+      "date": "2025-06-17",
+      "signal": "FLAT",
+      "price": 0.65382,
+      "ma_20": 0.6478515,
+      "regime": "med",
+      "price_vs_ma_pct": 0.9212759405511806
+    },
+    {
+      "date": "2025-06-18",
+      "signal": "FLAT",
+      "price": 0.65006,
+      "ma_20": 0.6481359999999999,
+      "regime": "med",
+      "price_vs_ma_pct": 0.2968512781268186
+    },
+    {
+      "date": "2025-06-19",
+      "signal": "FLAT",
+      "price": 0.64687,
+      "ma_20": 0.6483665,
+      "regime": "med",
+      "price_vs_ma_pct": -0.23081081456244454
+    },
+    {
+      "date": "2025-06-20",
+      "signal": "FLAT",
+      "price": 0.64859,
+      "ma_20": 0.648634,
+      "regime": "med",
+      "price_vs_ma_pct": -0.00678348652707752
+    },
+    {
+      "date": "2025-06-23",
+      "signal": "FLAT",
+      "price": 0.63865,
+      "ma_20": 0.648027,
+      "regime": "high",
+      "price_vs_ma_pct": -1.4470076092508442
+    },
+    {
+      "date": "2025-06-24",
+      "signal": "FLAT",
+      "price": 0.65084,
+      "ma_20": 0.6483515000000001,
+      "regime": "high",
+      "price_vs_ma_pct": 0.38381957934853134
+    },
+    {
+      "date": "2025-06-25",
+      "signal": "FLAT",
+      "price": 0.6496,
+      "ma_20": 0.6486445,
+      "regime": "high",
+      "price_vs_ma_pct": 0.14730719215224952
+    },
+    {
+      "date": "2025-06-26",
+      "signal": "FLAT",
+      "price": 0.65313,
+      "ma_20": 0.6490935,
+      "regime": "high",
+      "price_vs_ma_pct": 0.6218672656558721
+    },
+    {
+      "date": "2025-06-27",
+      "signal": "FLAT",
+      "price": 0.65342,
+      "ma_20": 0.649637,
+      "regime": "high",
+      "price_vs_ma_pct": 0.5823252062305535
+    },
+    {
+      "date": "2025-06-30",
+      "signal": "FLAT",
+      "price": 0.653,
+      "ma_20": 0.6498575,
+      "regime": "high",
+      "price_vs_ma_pct": 0.4835675513478028
+    },
+    {
+      "date": "2025-07-01",
+      "signal": "FLAT",
+      "price": 0.65849,
+      "ma_20": 0.650509,
+      "regime": "high",
+      "price_vs_ma_pct": 1.2268854081957385
+    },
+    {
+      "date": "2025-07-02",
+      "signal": "FLAT",
+      "price": 0.65546,
+      "ma_20": 0.6508525,
+      "regime": "high",
+      "price_vs_ma_pct": 0.7079176925647667
+    },
+    {
+      "date": "2025-07-03",
+      "signal": "FLAT",
+      "price": 0.65718,
+      "ma_20": 0.6511675,
+      "regime": "high",
+      "price_vs_ma_pct": 0.9233415365478124
+    },
+    {
+      "date": "2025-07-04",
+      "signal": "FLAT",
+      "price": 0.65562,
+      "ma_20": 0.651516,
+      "regime": "high",
+      "price_vs_ma_pct": 0.6299154587147509
+    },
+    {
+      "date": "2025-07-07",
+      "signal": "FLAT",
+      "price": 0.65,
+      "ma_20": 0.6514420000000001,
+      "regime": "high",
+      "price_vs_ma_pct": -0.22135508610130358
+    },
+    {
+      "date": "2025-07-08",
+      "signal": "FLAT",
+      "price": 0.65372,
+      "ma_20": 0.6515275,
+      "regime": "high",
+      "price_vs_ma_pct": 0.3365168776452153
+    },
+    {
+      "date": "2025-07-09",
+      "signal": "FLAT",
+      "price": 0.65214,
+      "ma_20": 0.6516135,
+      "regime": "high",
+      "price_vs_ma_pct": 0.080799430951031
+    },
+    {
+      "date": "2025-07-10",
+      "signal": "FLAT",
+      "price": 0.65512,
+      "ma_20": 0.6518005,
+      "regime": "high",
+      "price_vs_ma_pct": 0.5092815976667754
+    },
+    {
+      "date": "2025-07-11",
+      "signal": "FLAT",
+      "price": 0.6572,
+      "ma_20": 0.6522815000000001,
+      "regime": "high",
+      "price_vs_ma_pct": 0.7540456076095883
+    },
+    {
+      "date": "2025-07-14",
+      "signal": "FLAT",
+      "price": 0.65652,
+      "ma_20": 0.6524715,
+      "regime": "high",
+      "price_vs_ma_pct": 0.6204868718403809
+    },
+    {
+      "date": "2025-07-15",
+      "signal": "FLAT",
+      "price": 0.65589,
+      "ma_20": 0.652575,
+      "regime": "high",
+      "price_vs_ma_pct": 0.5079875876335987
+    },
+    {
+      "date": "2025-07-16",
+      "signal": "FLAT",
+      "price": 0.65202,
+      "ma_20": 0.6526730000000001,
+      "regime": "high",
+      "price_vs_ma_pct": -0.10005010165887275
+    },
+    {
+      "date": "2025-07-17",
+      "signal": "FLAT",
+      "price": 0.64604,
+      "ma_20": 0.6526315,
+      "regime": "high",
+      "price_vs_ma_pct": -1.0099880254017901
+    },
+    {
+      "date": "2025-07-18",
+      "signal": "FLAT",
+      "price": 0.65259,
+      "ma_20": 0.6528315,
+      "regime": "high",
+      "price_vs_ma_pct": -0.036992700260328366
+    },
+    {
+      "date": "2025-07-21",
+      "signal": "FLAT",
+      "price": 0.65241,
+      "ma_20": 0.6535195,
+      "regime": "high",
+      "price_vs_ma_pct": -0.1697730519135214
+    },
+    {
+      "date": "2025-07-22",
+      "signal": "FLAT",
+      "price": 0.65197,
+      "ma_20": 0.6535759999999999,
+      "regime": "med",
+      "price_vs_ma_pct": -0.24572505722362595
+    },
+    {
+      "date": "2025-07-23",
+      "signal": "FLAT",
+      "price": 0.65965,
+      "ma_20": 0.6540785,
+      "regime": "high",
+      "price_vs_ma_pct": 0.8518090718468733
+    },
+    {
+      "date": "2025-07-24",
+      "signal": "FLAT",
+      "price": 0.66153,
+      "ma_20": 0.6544985000000001,
+      "regime": "med",
+      "price_vs_ma_pct": 1.0743340129885486
+    },
+    {
+      "date": "2025-07-25",
+      "signal": "FLAT",
+      "price": 0.65673,
+      "ma_20": 0.654664,
+      "regime": "high",
+      "price_vs_ma_pct": 0.3155817335304847
+    },
+    {
+      "date": "2025-07-28",
+      "signal": "FLAT",
+      "price": 0.65278,
+      "ma_20": 0.6546529999999999,
+      "regime": "high",
+      "price_vs_ma_pct": -0.286105769010438
+    },
+    {
+      "date": "2025-07-29",
+      "signal": "FLAT",
+      "price": 0.64964,
+      "ma_20": 0.6542104999999999,
+      "regime": "high",
+      "price_vs_ma_pct": -0.6986283466865669
+    },
+    {
+      "date": "2025-07-30",
+      "signal": "FLAT",
+      "price": 0.6485,
+      "ma_20": 0.6538625,
+      "regime": "high",
+      "price_vs_ma_pct": -0.8201265556596452
+    },
+    {
+      "date": "2025-07-31",
+      "signal": "FLAT",
+      "price": 0.64441,
+      "ma_20": 0.653224,
+      "regime": "high",
+      "price_vs_ma_pct": -1.3493074351217942
+    },
+    {
+      "date": "2025-08-01",
+      "signal": "LONG",
+      "price": 0.64226,
+      "ma_20": 0.652556,
+      "regime": "high",
+      "price_vs_ma_pct": -1.5777956221381721
+    },
+    {
+      "date": "2025-08-04",
+      "signal": "FLAT",
+      "price": 0.64804,
+      "ma_20": 0.652458,
+      "regime": "high",
+      "price_vs_ma_pct": -0.6771317080946258
+    },
+    {
+      "date": "2025-08-05",
+      "signal": "FLAT",
+      "price": 0.64647,
+      "ma_20": 0.6520954999999999,
+      "regime": "high",
+      "price_vs_ma_pct": -0.8626803896055026
+    },
+    {
+      "date": "2025-08-06",
+      "signal": "FLAT",
+      "price": 0.6503,
+      "ma_20": 0.6520035,
+      "regime": "high",
+      "price_vs_ma_pct": -0.26127160360335017
+    },
+    {
+      "date": "2025-08-07",
+      "signal": "FLAT",
+      "price": 0.6522,
+      "ma_20": 0.6518575,
+      "regime": "high",
+      "price_vs_ma_pct": 0.052542158370506346
+    },
+    {
+      "date": "2025-08-08",
+      "signal": "FLAT",
+      "price": 0.65229,
+      "ma_20": 0.651612,
+      "regime": "high",
+      "price_vs_ma_pct": 0.10404964917774188
+    },
+    {
+      "date": "2025-08-11",
+      "signal": "FLAT",
+      "price": 0.6508,
+      "ma_20": 0.6513260000000001,
+      "regime": "high",
+      "price_vs_ma_pct": -0.08075832993002373
+    },
+    {
+      "date": "2025-08-12",
+      "signal": "FLAT",
+      "price": 0.64885,
+      "ma_20": 0.6509739999999999,
+      "regime": "high",
+      "price_vs_ma_pct": -0.3262803122705214
+    },
+    {
+      "date": "2025-08-13",
+      "signal": "FLAT",
+      "price": 0.65527,
+      "ma_20": 0.6511365,
+      "regime": "high",
+      "price_vs_ma_pct": 0.634813130580149
+    },
+    {
+      "date": "2025-08-14",
+      "signal": "FLAT",
+      "price": 0.65242,
+      "ma_20": 0.6514555,
+      "regime": "high",
+      "price_vs_ma_pct": 0.14805309034923103
+    },
+    {
+      "date": "2025-08-15",
+      "signal": "FLAT",
+      "price": 0.65125,
+      "ma_20": 0.6513885,
+      "regime": "med",
+      "price_vs_ma_pct": -0.02126227282183234
+    },
+    {
+      "date": "2025-08-18",
+      "signal": "FLAT",
+      "price": 0.651,
+      "ma_20": 0.6513180000000001,
+      "regime": "med",
+      "price_vs_ma_pct": -0.04882407671829129
+    },
+    {
+      "date": "2025-08-19",
+      "signal": "FLAT",
+      "price": 0.64922,
+      "ma_20": 0.6511804999999999,
+      "regime": "med",
+      "price_vs_ma_pct": -0.30106859772366046
+    },
+    {
+      "date": "2025-08-20",
+      "signal": "FLAT",
+      "price": 0.64392,
+      "ma_20": 0.650394,
+      "regime": "med",
+      "price_vs_ma_pct": -0.9953966365003336
+    },
+    {
+      "date": "2025-08-21",
+      "signal": "FLAT",
+      "price": 0.6424,
+      "ma_20": 0.6494375,
+      "regime": "med",
+      "price_vs_ma_pct": -1.0836300644788806
+    },
+    {
+      "date": "2025-08-22",
+      "signal": "FLAT",
+      "price": 0.64246,
+      "ma_20": 0.648724,
+      "regime": "med",
+      "price_vs_ma_pct": -0.965587830880303
+    },
+    {
+      "date": "2025-08-25",
+      "signal": "FLAT",
+      "price": 0.64965,
+      "ma_20": 0.6485675000000001,
+      "regime": "med",
+      "price_vs_ma_pct": 0.16690629733988754
+    },
+    {
+      "date": "2025-08-26",
+      "signal": "FLAT",
+      "price": 0.64914,
+      "ma_20": 0.6485425,
+      "regime": "med",
+      "price_vs_ma_pct": 0.09212965996831797
+    },
+    {
+      "date": "2025-08-27",
+      "signal": "FLAT",
+      "price": 0.64708,
+      "ma_20": 0.6484715000000001,
+      "regime": "med",
+      "price_vs_ma_pct": -0.2145815197738221
+    },
+    {
+      "date": "2025-08-28",
+      "signal": "FLAT",
+      "price": 0.65302,
+      "ma_20": 0.648902,
+      "regime": "med",
+      "price_vs_ma_pct": 0.6346104650625313
+    },
+    {
+      "date": "2025-08-29",
+      "signal": "FLAT",
+      "price": 0.65256,
+      "ma_20": 0.6494169999999999,
+      "regime": "med",
+      "price_vs_ma_pct": 0.4839725476850958
+    },
+    {
+      "date": "2025-09-01",
+      "signal": "FLAT",
+      "price": 0.65502,
+      "ma_20": 0.649766,
+      "regime": "med",
+      "price_vs_ma_pct": 0.8085987878713402
+    },
+    {
+      "date": "2025-09-02",
+      "signal": "FLAT",
+      "price": 0.65072,
+      "ma_20": 0.6499785,
+      "regime": "med",
+      "price_vs_ma_pct": 0.11408069651533866
+    },
+    {
+      "date": "2025-09-03",
+      "signal": "FLAT",
+      "price": 0.65382,
+      "ma_20": 0.6501545,
+      "regime": "med",
+      "price_vs_ma_pct": 0.5637890685983084
+    },
+    {
+      "date": "2025-09-04",
+      "signal": "FLAT",
+      "price": 0.65176,
+      "ma_20": 0.6501325,
+      "regime": "med",
+      "price_vs_ma_pct": 0.25033358584596277
+    },
+    {
+      "date": "2025-09-05",
+      "signal": "FLAT",
+      "price": 0.65456,
+      "ma_20": 0.650246,
+      "regime": "med",
+      "price_vs_ma_pct": 0.6634412207072462
+    },
+    {
+      "date": "2025-09-08",
+      "signal": "FLAT",
+      "price": 0.65891,
+      "ma_20": 0.6506514999999999,
+      "regime": "med",
+      "price_vs_ma_pct": 1.2692662661962753
+    },
+    {
+      "date": "2025-09-09",
+      "signal": "FLAT",
+      "price": 0.66085,
+      "ma_20": 0.6512515000000001,
+      "regime": "med",
+      "price_vs_ma_pct": 1.4738545707764132
+    },
+    {
+      "date": "2025-09-10",
+      "signal": "FLAT",
+      "price": 0.66067,
+      "ma_20": 0.6515215000000001,
+      "regime": "med",
+      "price_vs_ma_pct": 1.4041746895535898
+    },
+    {
+      "date": "2025-09-11",
+      "signal": "FLAT",
+      "price": 0.66028,
+      "ma_20": 0.6519145000000001,
+      "regime": "med",
+      "price_vs_ma_pct": 1.2832204223099675
+    },
+    {
+      "date": "2025-09-12",
+      "signal": "FLAT",
+      "price": 0.66406,
+      "ma_20": 0.652555,
+      "regime": "med",
+      "price_vs_ma_pct": 1.7630697795588093
+    },
+    {
+      "date": "2025-09-15",
+      "signal": "FLAT",
+      "price": 0.66629,
+      "ma_20": 0.6533195,
+      "regime": "med",
+      "price_vs_ma_pct": 1.985322648413218
+    },
+    {
+      "date": "2025-09-16",
+      "signal": "FLAT",
+      "price": 0.66714,
+      "ma_20": 0.6542155000000001,
+      "regime": "med",
+      "price_vs_ma_pct": 1.9755722693821673
+    },
+    {
+      "date": "2025-09-17",
+      "signal": "LONG",
+      "price": 0.6677,
+      "ma_20": 0.6554045000000001,
+      "regime": "low",
+      "price_vs_ma_pct": 1.8760170246008234
+    },
+    {
+      "date": "2025-09-18",
+      "signal": "LONG",
+      "price": 0.66464,
+      "ma_20": 0.6565165000000001,
+      "regime": "low",
+      "price_vs_ma_pct": 1.2373641789657914
+    },
+    {
+      "date": "2025-09-19",
+      "signal": "FLAT",
+      "price": 0.65925,
+      "ma_20": 0.657356,
+      "regime": "med",
+      "price_vs_ma_pct": 0.28812393893110444
+    },
+    {
+      "date": "2025-09-22",
+      "signal": "LONG",
+      "price": 0.65945,
+      "ma_20": 0.6578459999999999,
+      "regime": "low",
+      "price_vs_ma_pct": 0.24382606263472759
+    },
+    {
+      "date": "2025-09-23",
+      "signal": "LONG",
+      "price": 0.66052,
+      "ma_20": 0.658415,
+      "regime": "low",
+      "price_vs_ma_pct": 0.3197071755655664
+    },
+    {
+      "date": "2025-09-24",
+      "signal": "LONG",
+      "price": 0.66078,
+      "ma_20": 0.6591,
+      "regime": "low",
+      "price_vs_ma_pct": 0.25489303595812696
+    },
+    {
+      "date": "2025-09-25",
+      "signal": "SHORT",
+      "price": 0.65831,
+      "ma_20": 0.6593644999999999,
+      "regime": "low",
+      "price_vs_ma_pct": -0.15992671731644004
+    },
+    {
+      "date": "2025-09-26",
+      "signal": "SHORT",
+      "price": 0.65276,
+      "ma_20": 0.6593745,
+      "regime": "low",
+      "price_vs_ma_pct": -1.00314768011198
+    },
+    {
+      "date": "2025-09-29",
+      "signal": "FLAT",
+      "price": 0.65642,
+      "ma_20": 0.6594445,
+      "regime": "med",
+      "price_vs_ma_pct": -0.458643600788237
+    },
+    {
+      "date": "2025-09-30",
+      "signal": "LONG",
+      "price": 0.66109,
+      "ma_20": 0.6599630000000001,
+      "regime": "low",
+      "price_vs_ma_pct": 0.17076714906742924
+    },
+    {
+      "date": "2025-10-01",
+      "signal": "LONG",
+      "price": 0.66084,
+      "ma_20": 0.6603140000000001,
+      "regime": "low",
+      "price_vs_ma_pct": 0.07965907129031269
+    },
+    {
+      "date": "2025-10-02",
+      "signal": "LONG",
+      "price": 0.66086,
+      "ma_20": 0.6607689999999999,
+      "regime": "low",
+      "price_vs_ma_pct": 0.013771832516365518
+    },
+    {
+      "date": "2025-10-03",
+      "signal": "SHORT",
+      "price": 0.66029,
+      "ma_20": 0.6610555,
+      "regime": "low",
+      "price_vs_ma_pct": -0.11579965676103965
+    },
+    {
+      "date": "2025-10-06",
+      "signal": "SHORT",
+      "price": 0.65985,
+      "ma_20": 0.6611025,
+      "regime": "low",
+      "price_vs_ma_pct": -0.1894562492200513
+    },
+    {
+      "date": "2025-10-07",
+      "signal": "SHORT",
+      "price": 0.6588,
+      "ma_20": 0.6609999999999999,
+      "regime": "low",
+      "price_vs_ma_pct": -0.3328290468986186
+    },
+    {
+      "date": "2025-10-08",
+      "signal": "SHORT",
+      "price": 0.6573,
+      "ma_20": 0.6608314999999999,
+      "regime": "low",
+      "price_vs_ma_pct": -0.5344024914066461
+    },
+    {
+      "date": "2025-10-09",
+      "signal": "SHORT",
+      "price": 0.65972,
+      "ma_20": 0.6608034999999999,
+      "regime": "low",
+      "price_vs_ma_pct": -0.16396704920599
+    },
+    {
+      "date": "2025-10-10",
+      "signal": "SHORT",
+      "price": 0.65541,
+      "ma_20": 0.660371,
+      "regime": "low",
+      "price_vs_ma_pct": -0.751244376267279
+    },
+    {
+      "date": "2025-10-13",
+      "signal": "SHORT",
+      "price": 0.65086,
+      "ma_20": 0.6595995,
+      "regime": "low",
+      "price_vs_ma_pct": -1.324970682967469
+    },
+    {
+      "date": "2025-10-14",
+      "signal": "SHORT",
+      "price": 0.6452,
+      "ma_20": 0.6585025,
+      "regime": "low",
+      "price_vs_ma_pct": -2.020113818854142
+    },
+    {
+      "date": "2025-10-15",
+      "signal": "FLAT",
+      "price": 0.65149,
+      "ma_20": 0.657692,
+      "regime": "med",
+      "price_vs_ma_pct": -0.9429945932138509
+    },
+    {
+      "date": "2025-10-16",
+      "signal": "FLAT",
+      "price": 0.64984,
+      "ma_20": 0.656952,
+      "regime": "med",
+      "price_vs_ma_pct": -1.0825752870833802
+    },
+    {
+      "date": "2025-10-17",
+      "signal": "FLAT",
+      "price": 0.64912,
+      "ma_20": 0.6564455,
+      "regime": "med",
+      "price_vs_ma_pct": -1.1159342245471993
+    },
+    {
+      "date": "2025-10-20",
+      "signal": "FLAT",
+      "price": 0.64876,
+      "ma_20": 0.655911,
+      "regime": "med",
+      "price_vs_ma_pct": -1.0902393769886491
+    },
+    {
+      "date": "2025-10-21",
+      "signal": "FLAT",
+      "price": 0.64898,
+      "ma_20": 0.6553340000000001,
+      "regime": "med",
+      "price_vs_ma_pct": -0.9695819231109756
+    },
+    {
+      "date": "2025-10-22",
+      "signal": "FLAT",
+      "price": 0.64862,
+      "ma_20": 0.6547259999999999,
+      "regime": "med",
+      "price_vs_ma_pct": -0.9326038678775467
+    },
+    {
+      "date": "2025-10-23",
+      "signal": "FLAT",
+      "price": 0.65038,
+      "ma_20": 0.6543295,
+      "regime": "med",
+      "price_vs_ma_pct": -0.6035949777596838
+    },
+    {
+      "date": "2025-10-24",
+      "signal": "SHORT",
+      "price": 0.6501,
+      "ma_20": 0.6541965000000001,
+      "regime": "low",
+      "price_vs_ma_pct": -0.6261880031458527
+    },
+    {
+      "date": "2025-10-27",
+      "signal": "FLAT",
+      "price": 0.65589,
+      "ma_20": 0.6541699999999999,
+      "regime": "med",
+      "price_vs_ma_pct": 0.26292859654219164
+    },
+    {
+      "date": "2025-10-28",
+      "signal": "LONG",
+      "price": 0.6554,
+      "ma_20": 0.6538855,
+      "regime": "low",
+      "price_vs_ma_pct": 0.23161547396294524
+    },
+    {
+      "date": "2025-10-29",
+      "signal": "FLAT",
+      "price": 0.65997,
+      "ma_20": 0.6538419999999999,
+      "regime": "med",
+      "price_vs_ma_pct": 0.9372294835755463
+    },
+    {
+      "date": "2025-10-30",
+      "signal": "FLAT",
+      "price": 0.65358,
+      "ma_20": 0.653478,
+      "regime": "med",
+      "price_vs_ma_pct": 0.015608788666190216
+    },
+    {
+      "date": "2025-10-31",
+      "signal": "FLAT",
+      "price": 0.6538,
+      "ma_20": 0.6531534999999999,
+      "regime": "med",
+      "price_vs_ma_pct": 0.09898132674786332
+    },
+    {
+      "date": "2025-11-03",
+      "signal": "FLAT",
+      "price": 0.65432,
+      "ma_20": 0.6528769999999999,
+      "regime": "med",
+      "price_vs_ma_pct": 0.22102172384692417
+    },
+    {
+      "date": "2025-11-04",
+      "signal": "FLAT",
+      "price": 0.64954,
+      "ma_20": 0.652414,
+      "regime": "med",
+      "price_vs_ma_pct": -0.44051783070259726
+    },
+    {
+      "date": "2025-11-05",
+      "signal": "FLAT",
+      "price": 0.64839,
+      "ma_20": 0.6519685,
+      "regime": "med",
+      "price_vs_ma_pct": -0.5488762110439276
+    },
+    {
+      "date": "2025-11-06",
+      "signal": "FLAT",
+      "price": 0.65169,
+      "ma_20": 0.651567,
+      "regime": "med",
+      "price_vs_ma_pct": 0.01887756746427984
+    },
+    {
+      "date": "2025-11-07",
+      "signal": "FLAT",
+      "price": 0.64811,
+      "ma_20": 0.651202,
+      "regime": "med",
+      "price_vs_ma_pct": -0.47481426654094794
+    },
+    {
+      "date": "2025-11-10",
+      "signal": "FLAT",
+      "price": 0.65336,
+      "ma_20": 0.651327,
+      "regime": "med",
+      "price_vs_ma_pct": 0.31213200128354307
+    },
+    {
+      "date": "2025-11-11",
+      "signal": "FLAT",
+      "price": 0.65255,
+      "ma_20": 0.6516945,
+      "regime": "med",
+      "price_vs_ma_pct": 0.13127316557067906
+    },
+    {
+      "date": "2025-11-12",
+      "signal": "FLAT",
+      "price": 0.65416,
+      "ma_20": 0.651828,
+      "regime": "med",
+      "price_vs_ma_pct": 0.35776309087673447
+    },
+    {
+      "date": "2025-11-13",
+      "signal": "FLAT",
+      "price": 0.65563,
+      "ma_20": 0.6521175,
+      "regime": "med",
+      "price_vs_ma_pct": 0.5386299248218349
+    },
+    {
+      "date": "2025-11-14",
+      "signal": "FLAT",
+      "price": 0.65266,
+      "ma_20": 0.6522945,
+      "regime": "med",
+      "price_vs_ma_pct": 0.05603297283665868
+    },
+    {
+      "date": "2025-11-17",
+      "signal": "FLAT",
+      "price": 0.65137,
+      "ma_20": 0.6524249999999999,
+      "regime": "med",
+      "price_vs_ma_pct": -0.16170441046862355
+    },
+    {
+      "date": "2025-11-18",
+      "signal": "FLAT",
+      "price": 0.65003,
+      "ma_20": 0.6524775,
+      "regime": "med",
+      "price_vs_ma_pct": -0.3751087202240762
+    },
+    {
+      "date": "2025-11-19",
+      "signal": "FLAT",
+      "price": 0.6488,
+      "ma_20": 0.6524865,
+      "regime": "med",
+      "price_vs_ma_pct": -0.5649925324125367
+    },
+    {
+      "date": "2025-11-20",
+      "signal": "FLAT",
+      "price": 0.64784,
+      "ma_20": 0.6523595,
+      "regime": "med",
+      "price_vs_ma_pct": -0.692792854246778
+    },
+    {
+      "date": "2025-11-21",
+      "signal": "FLAT",
+      "price": 0.64455,
+      "ma_20": 0.6520819999999999,
+      "regime": "med",
+      "price_vs_ma_pct": -1.155069454455112
+    },
+    {
+      "date": "2025-11-24",
+      "signal": "SHORT",
+      "price": 0.64571,
+      "ma_20": 0.6515730000000001,
+      "regime": "low",
+      "price_vs_ma_pct": -0.8998224297200869
+    },
+    {
+      "date": "2025-11-25",
+      "signal": "SHORT",
+      "price": 0.64614,
+      "ma_20": 0.65111,
+      "regime": "low",
+      "price_vs_ma_pct": -0.7633118827847705
+    },
+    {
+      "date": "2025-11-26",
+      "signal": "SHORT",
+      "price": 0.64974,
+      "ma_20": 0.6505985,
+      "regime": "low",
+      "price_vs_ma_pct": -0.1319554225839722
+    },
+    {
+      "date": "2025-11-27",
+      "signal": "LONG",
+      "price": 0.65262,
+      "ma_20": 0.6505505,
+      "regime": "low",
+      "price_vs_ma_pct": 0.3181151962837545
+    },
+    {
+      "date": "2025-11-28",
+      "signal": "LONG",
+      "price": 0.65267,
+      "ma_20": 0.650494,
+      "regime": "low",
+      "price_vs_ma_pct": 0.334514999369703
+    },
+    {
+      "date": "2025-12-01",
+      "signal": "LONG",
+      "price": 0.65648,
+      "ma_20": 0.650602,
+      "regime": "low",
+      "price_vs_ma_pct": 0.9034709392224338
+    },
+    {
+      "date": "2025-12-02",
+      "signal": "LONG",
+      "price": 0.65531,
+      "ma_20": 0.6508905,
+      "regime": "low",
+      "price_vs_ma_pct": 0.6789928567093712
+    },
+    {
+      "date": "2025-12-03",
+      "signal": "LONG",
+      "price": 0.65921,
+      "ma_20": 0.6514314999999999,
+      "regime": "low",
+      "price_vs_ma_pct": 1.1940626144114956
+    },
+    {
+      "date": "2025-12-04",
+      "signal": "LONG",
+      "price": 0.6607,
+      "ma_20": 0.651882,
+      "regime": "low",
+      "price_vs_ma_pct": 1.3526988013168018
+    },
+    {
+      "date": "2025-12-05",
+      "signal": "LONG",
+      "price": 0.66368,
+      "ma_20": 0.6526605,
+      "regime": "low",
+      "price_vs_ma_pct": 1.6883969536995225
+    },
+    {
+      "date": "2025-12-08",
+      "signal": "LONG",
+      "price": 0.66414,
+      "ma_20": 0.6531995,
+      "regime": "low",
+      "price_vs_ma_pct": 1.6749094265993631
+    },
+    {
+      "date": "2025-12-09",
+      "signal": "LONG",
+      "price": 0.66376,
+      "ma_20": 0.65376,
+      "regime": "low",
+      "price_vs_ma_pct": 1.5296133137542844
+    },
+    {
+      "date": "2025-12-10",
+      "signal": "LONG",
+      "price": 0.66431,
+      "ma_20": 0.6542675,
+      "regime": "low",
+      "price_vs_ma_pct": 1.5349226424971367
+    },
+    {
+      "date": "2025-12-11",
+      "signal": "LONG",
+      "price": 0.66553,
+      "ma_20": 0.6547625,
+      "regime": "low",
+      "price_vs_ma_pct": 1.644489414100522
+    },
+    {
+      "date": "2025-12-12",
+      "signal": "LONG",
+      "price": 0.66676,
+      "ma_20": 0.6554675,
+      "regime": "low",
+      "price_vs_ma_pct": 1.7228161579330843
+    },
+    {
+      "date": "2025-12-15",
+      "signal": "LONG",
+      "price": 0.66518,
+      "ma_20": 0.656158,
+      "regime": "low",
+      "price_vs_ma_pct": 1.374973710600187
+    },
+    {
+      "date": "2025-12-16",
+      "signal": "LONG",
+      "price": 0.66392,
+      "ma_20": 0.6568525,
+      "regime": "low",
+      "price_vs_ma_pct": 1.0759645430290674
+    },
+    {
+      "date": "2025-12-17",
+      "signal": "LONG",
+      "price": 0.66211,
+      "ma_20": 0.6575179999999999,
+      "regime": "low",
+      "price_vs_ma_pct": 0.6983839225694264
+    },
+    {
+      "date": "2025-12-18",
+      "signal": "LONG",
+      "price": 0.66082,
+      "ma_20": 0.658167,
+      "regime": "low",
+      "price_vs_ma_pct": 0.4030891855714457
+    },
+    {
+      "date": "2025-12-19",
+      "signal": "LONG",
+      "price": 0.66024,
+      "ma_20": 0.6589515,
+      "regime": "low",
+      "price_vs_ma_pct": 0.19553791136373858
+    },
+    {
+      "date": "2025-12-22",
+      "signal": "LONG",
+      "price": 0.6648,
+      "ma_20": 0.659906,
+      "regime": "low",
+      "price_vs_ma_pct": 0.7416207762923741
+    },
+    {
+      "date": "2025-12-23",
+      "signal": "LONG",
+      "price": 0.66939,
+      "ma_20": 0.6610685000000001,
+      "regime": "low",
+      "price_vs_ma_pct": 1.2587954198392421
+    },
+    {
+      "date": "2025-12-24",
+      "signal": "LONG",
+      "price": 0.67021,
+      "ma_20": 0.662092,
+      "regime": "low",
+      "price_vs_ma_pct": 1.226113591464624
+    },
+    {
+      "date": "2025-12-29",
+      "signal": "LONG",
+      "price": 0.66917,
+      "ma_20": 0.6629195,
+      "regime": "low",
+      "price_vs_ma_pct": 0.9428746627607195
+    },
+    {
+      "date": "2025-12-30",
+      "signal": "LONG",
+      "price": 0.67018,
+      "ma_20": 0.663795,
+      "regime": "low",
+      "price_vs_ma_pct": 0.9618933556293696
+    },
+    {
+      "date": "2025-12-31",
+      "signal": "LONG",
+      "price": 0.66834,
+      "ma_20": 0.664388,
+      "regime": "low",
+      "price_vs_ma_pct": 0.5948331396714069
+    },
+    {
+      "date": "2026-01-02",
+      "signal": "LONG",
+      "price": 0.66947,
+      "ma_20": 0.6650959999999999,
+      "regime": "low",
+      "price_vs_ma_pct": 0.6576494220383374
+    },
+    {
+      "date": "2026-01-05",
+      "signal": "LONG",
+      "price": 0.66682,
+      "ma_20": 0.6654764999999999,
+      "regime": "low",
+      "price_vs_ma_pct": 0.20188541593881273
+    },
+    {
+      "date": "2026-01-06",
+      "signal": "LONG",
+      "price": 0.67197,
+      "ma_20": 0.66604,
+      "regime": "low",
+      "price_vs_ma_pct": 0.8903369167016983
+    },
+    {
+      "date": "2026-01-07",
+      "signal": "LONG",
+      "price": 0.67277,
+      "ma_20": 0.6664945,
+      "regime": "low",
+      "price_vs_ma_pct": 0.9415681599773126
+    },
+    {
+      "date": "2026-01-08",
+      "signal": "LONG",
+      "price": 0.66971,
+      "ma_20": 0.666773,
+      "regime": "low",
+      "price_vs_ma_pct": 0.4404797434809266
+    },
+    {
+      "date": "2026-01-09",
+      "signal": "LONG",
+      "price": 0.66751,
+      "ma_20": 0.6669605,
+      "regime": "low",
+      "price_vs_ma_pct": 0.08238868718613644
+    },
+    {
+      "date": "2026-01-12",
+      "signal": "LONG",
+      "price": 0.67161,
+      "ma_20": 0.6673255,
+      "regime": "low",
+      "price_vs_ma_pct": 0.642040503472447
+    },
+    {
+      "date": "2026-01-13",
+      "signal": "LONG",
+      "price": 0.67,
+      "ma_20": 0.6675490000000001,
+      "regime": "low",
+      "price_vs_ma_pct": 0.36716405836874605
+    },
+    {
+      "date": "2026-01-14",
+      "signal": "LONG",
+      "price": 0.66768,
+      "ma_20": 0.6675949999999999,
+      "regime": "low",
+      "price_vs_ma_pct": 0.01273227031360522
+    },
+    {
+      "date": "2026-01-15",
+      "signal": "LONG",
+      "price": 0.66874,
+      "ma_20": 0.667773,
+      "regime": "low",
+      "price_vs_ma_pct": 0.14480968832223692
+    },
+    {
+      "date": "2026-01-16",
+      "signal": "LONG",
+      "price": 0.6698,
+      "ma_20": 0.668067,
+      "regime": "low",
+      "price_vs_ma_pct": 0.2594051195463905
+    },
+    {
+      "date": "2026-01-19",
+      "signal": "LONG",
+      "price": 0.67068,
+      "ma_20": 0.6684955,
+      "regime": "low",
+      "price_vs_ma_pct": 0.3267785647023852
+    },
+    {
+      "date": "2026-01-20",
+      "signal": "LONG",
+      "price": 0.67325,
+      "ma_20": 0.669117,
+      "regime": "low",
+      "price_vs_ma_pct": 0.6176797181957795
+    },
+    {
+      "date": "2026-01-21",
+      "signal": "LONG",
+      "price": 0.67699,
+      "ma_20": 0.6699545,
+      "regime": "low",
+      "price_vs_ma_pct": 1.050145942746854
+    },
+    {
+      "date": "2026-01-22",
+      "signal": "LONG",
+      "price": 0.6807,
+      "ma_20": 0.6707495,
+      "regime": "low",
+      "price_vs_ma_pct": 1.4834897379722196
+    },
+    {
+      "date": "2026-01-23",
+      "signal": "LONG",
+      "price": 0.68651,
+      "ma_20": 0.6716055,
+      "regime": "low",
+      "price_vs_ma_pct": 2.2192343570742032
+    },
+    {
+      "date": "2026-01-26",
+      "signal": "LONG",
+      "price": 0.69083,
+      "ma_20": 0.6726365000000001,
+      "regime": "low",
+      "price_vs_ma_pct": 2.7048041549930715
+    },
+    {
+      "date": "2026-01-27",
+      "signal": "LONG",
+      "price": 0.69488,
+      "ma_20": 0.6739219999999999,
+      "regime": "low",
+      "price_vs_ma_pct": 3.1098554432115506
+    },
+    {
+      "date": "2026-01-28",
+      "signal": "LONG",
+      "price": 0.69995,
+      "ma_20": 0.6754105,
+      "regime": "low",
+      "price_vs_ma_pct": 3.6332719138953173
+    },
+    {
+      "date": "2026-01-29",
+      "signal": "LONG",
+      "price": 0.7067,
+      "ma_20": 0.6773285,
+      "regime": "low",
+      "price_vs_ma_pct": 4.336374447553882
+    },
+    {
+      "date": "2026-01-30",
+      "signal": "FLAT",
+      "price": 0.70108,
+      "ma_20": 0.678909,
+      "regime": "med",
+      "price_vs_ma_pct": 3.265680672962069
+    },
+    {
+      "date": "2026-02-02",
+      "signal": "FLAT",
+      "price": 0.69475,
+      "ma_20": 0.6803055,
+      "regime": "med",
+      "price_vs_ma_pct": 2.1232372808980626
+    },
+    {
+      "date": "2026-02-03",
+      "signal": "FLAT",
+      "price": 0.70119,
+      "ma_20": 0.6817664999999999,
+      "regime": "med",
+      "price_vs_ma_pct": 2.848995953893311
+    },
+    {
+      "date": "2026-02-04",
+      "signal": "FLAT",
+      "price": 0.70299,
+      "ma_20": 0.6832775000000001,
+      "regime": "med",
+      "price_vs_ma_pct": 2.884991822502557
+    },
+    {
+      "date": "2026-02-05",
+      "signal": "SHORT",
+      "price": 0.6972,
+      "ma_20": 0.684652,
+      "regime": "high",
+      "price_vs_ma_pct": 1.8327559110321745
+    },
+    {
+      "date": "2026-02-06",
+      "signal": "SHORT",
+      "price": 0.6987,
+      "ma_20": 0.6862115,
+      "regime": "high",
+      "price_vs_ma_pct": 1.8199199517932905
+    },
+    {
+      "date": "2026-02-09",
+      "signal": "SHORT",
+      "price": 0.70569,
+      "ma_20": 0.6879155,
+      "regime": "high",
+      "price_vs_ma_pct": 2.5838202511791093
+    },
+    {
+      "date": "2026-02-10",
+      "signal": "SHORT",
+      "price": 0.70671,
+      "ma_20": 0.689751,
+      "regime": "high",
+      "price_vs_ma_pct": 2.458713361778373
+    },
+    {
+      "date": "2026-02-11",
+      "signal": "SHORT",
+      "price": 0.711,
+      "ma_20": 0.691917,
+      "regime": "high",
+      "price_vs_ma_pct": 2.75798975888726
+    },
+    {
+      "date": "2026-02-12",
+      "signal": "SHORT",
+      "price": 0.71196,
+      "ma_20": 0.694078,
+      "regime": "high",
+      "price_vs_ma_pct": 2.5763674976011437
+    },
+    {
+      "date": "2026-02-13",
+      "signal": "FLAT",
+      "price": 0.70506,
+      "ma_20": 0.695841,
+      "regime": "high",
+      "price_vs_ma_pct": 1.324871630156886
+    },
+    {
+      "date": "2026-02-16",
+      "signal": "SHORT",
+      "price": 0.70856,
+      "ma_20": 0.697735,
+      "regime": "high",
+      "price_vs_ma_pct": 1.5514486158785175
+    },
+    {
+      "date": "2026-02-17",
+      "signal": "FLAT",
+      "price": 0.70494,
+      "ma_20": 0.6993195,
+      "regime": "high",
+      "price_vs_ma_pct": 0.8037098922595507
+    },
+    {
+      "date": "2026-02-18",
+      "signal": "FLAT",
+      "price": 0.70725,
+      "ma_20": 0.7008325,
+      "regime": "high",
+      "price_vs_ma_pct": 0.9156966892945284
+    },
+    {
+      "date": "2026-02-19",
+      "signal": "FLAT",
+      "price": 0.70386,
+      "ma_20": 0.7019905000000001,
+      "regime": "high",
+      "price_vs_ma_pct": 0.26631414527689024
+    },
+    {
+      "date": "2026-02-20",
+      "signal": "FLAT",
+      "price": 0.70474,
+      "ma_20": 0.702902,
+      "regime": "high",
+      "price_vs_ma_pct": 0.2614873766186476
+    },
+    {
+      "date": "2026-02-23",
+      "signal": "FLAT",
+      "price": 0.70694,
+      "ma_20": 0.7037074999999999,
+      "regime": "high",
+      "price_vs_ma_pct": 0.4593527850705134
+    },
+    {
+      "date": "2026-02-24",
+      "signal": "FLAT",
+      "price": 0.70445,
+      "ma_20": 0.7041860000000001,
+      "regime": "high",
+      "price_vs_ma_pct": 0.0374900949464958
+    },
+    {
+      "date": "2026-02-25",
+      "signal": "FLAT",
+      "price": 0.70915,
+      "ma_20": 0.704646,
+      "regime": "high",
+      "price_vs_ma_pct": 0.6391862012982338
+    },
+    {
+      "date": "2026-02-26",
+      "signal": "FLAT",
+      "price": 0.71203,
+      "ma_20": 0.7049125,
+      "regime": "high",
+      "price_vs_ma_pct": 1.0096997854343621
+    },
+    {
+      "date": "2026-02-27",
+      "signal": "FLAT",
+      "price": 0.71063,
+      "ma_20": 0.7053900000000001,
+      "regime": "high",
+      "price_vs_ma_pct": 0.7428514722352048
+    },
+    {
+      "date": "2026-03-02",
+      "signal": "FLAT",
+      "price": 0.70559,
+      "ma_20": 0.705932,
+      "regime": "med",
+      "price_vs_ma_pct": -0.04844659258964793
+    },
+    {
+      "date": "2026-03-03",
+      "signal": "FLAT",
+      "price": 0.70195,
+      "ma_20": 0.70597,
+      "regime": "med",
+      "price_vs_ma_pct": -0.5694292958624338
+    },
+    {
+      "date": "2026-03-04",
+      "signal": "FLAT",
+      "price": 0.70587,
+      "ma_20": 0.706114,
+      "regime": "med",
+      "price_vs_ma_pct": -0.03455532676027129
+    },
+    {
+      "date": "2026-03-05",
+      "signal": "FLAT",
+      "price": 0.70455,
+      "ma_20": 0.7064815,
+      "regime": "med",
+      "price_vs_ma_pct": -0.2733971094784471
+    },
+    {
+      "date": "2026-03-06",
+      "signal": "FLAT",
+      "price": 0.70062,
+      "ma_20": 0.7065775000000001,
+      "regime": "med",
+      "price_vs_ma_pct": -0.8431488407145797
+    },
+    {
+      "date": "2026-03-09",
+      "signal": "FLAT",
+      "price": 0.70179,
+      "ma_20": 0.7063824999999999,
+      "regime": "med",
+      "price_vs_ma_pct": -0.6501435128984493
+    },
+    {
+      "date": "2026-03-10",
+      "signal": "FLAT",
+      "price": 0.71177,
+      "ma_20": 0.7066355000000001,
+      "regime": "high",
+      "price_vs_ma_pct": 0.7266122350207327
+    },
+    {
+      "date": "2026-03-11",
+      "signal": "FLAT",
+      "price": 0.7151,
+      "ma_20": 0.7068405,
+      "regime": "high",
+      "price_vs_ma_pct": 1.1685097274420433
+    },
+    {
+      "date": "2026-03-12",
+      "signal": "FLAT",
+      "price": 0.71322,
+      "ma_20": 0.7069035,
+      "regime": "high",
+      "price_vs_ma_pct": 0.8935448756442637
+    },
+    {
+      "date": "2026-03-13",
+      "signal": "FLAT",
+      "price": 0.70435,
+      "ma_20": 0.7068679999999999,
+      "regime": "high",
+      "price_vs_ma_pct": -0.35621926583179736
+    },
+    {
+      "date": "2026-03-16",
+      "signal": "FLAT",
+      "price": 0.70538,
+      "ma_20": 0.706709,
+      "regime": "high",
+      "price_vs_ma_pct": -0.18805477219053734
+    },
+    {
+      "date": "2026-03-17",
+      "signal": "FLAT",
+      "price": 0.71061,
+      "ma_20": 0.7069925,
+      "regime": "high",
+      "price_vs_ma_pct": 0.5116744519920565
+    },
+    {
+      "date": "2026-03-18",
+      "signal": "FLAT",
+      "price": 0.70531,
+      "ma_20": 0.7068955,
+      "regime": "high",
+      "price_vs_ma_pct": -0.22429057760305696
+    },
+    {
+      "date": "2026-03-19",
+      "signal": "FLAT",
+      "price": 0.70042,
+      "ma_20": 0.7067235000000001,
+      "regime": "high",
+      "price_vs_ma_pct": -0.8919329836916443
+    },
+    {
+      "date": "2026-03-20",
+      "signal": "FLAT",
+      "price": 0.70668,
+      "ma_20": 0.7068205,
+      "regime": "high",
+      "price_vs_ma_pct": -0.01987774831092022
+    },
+    {
+      "date": "2026-03-23",
+      "signal": "FLAT",
+      "price": 0.70198,
+      "ma_20": 0.7065725,
+      "regime": "high",
+      "price_vs_ma_pct": -0.6499686868651128
+    },
+    {
+      "date": "2026-03-24",
+      "signal": "LONG",
+      "price": 0.69493,
+      "ma_20": 0.7060964999999999,
+      "regime": "high",
+      "price_vs_ma_pct": -1.5814410636506282
+    },
+    {
+      "date": "2026-03-25",
+      "signal": "FLAT",
+      "price": 0.69634,
+      "ma_20": 0.7054560000000001,
+      "regime": "high",
+      "price_vs_ma_pct": -1.2922138304869648
+    },
+    {
+      "date": "2026-03-26",
+      "signal": "LONG",
+      "price": 0.69125,
+      "ma_20": 0.7044170000000001,
+      "regime": "high",
+      "price_vs_ma_pct": -1.8692053144657268
+    },
+    {
+      "date": "2026-03-27",
+      "signal": "LONG",
+      "price": 0.68836,
+      "ma_20": 0.7033035,
+      "regime": "high",
+      "price_vs_ma_pct": -2.124758372452291
+    },
+    {
+      "date": "2026-03-30",
+      "signal": "LONG",
+      "price": 0.68602,
+      "ma_20": 0.702325,
+      "regime": "high",
+      "price_vs_ma_pct": -2.3215747695155398
+    },
+    {
+      "date": "2026-03-31",
+      "signal": "LONG",
+      "price": 0.68879,
+      "ma_20": 0.701667,
+      "regime": "high",
+      "price_vs_ma_pct": -1.8352010284080664
+    },
+    {
+      "date": "2026-04-01",
+      "signal": "FLAT",
+      "price": 0.69537,
+      "ma_20": 0.701142,
+      "regime": "high",
+      "price_vs_ma_pct": -0.8232283902547557
+    },
+    {
+      "date": "2026-04-02",
+      "signal": "LONG",
+      "price": 0.6872,
+      "ma_20": 0.7002745,
+      "regime": "high",
+      "price_vs_ma_pct": -1.8670535625672489
+    },
+    {
+      "date": "2026-04-07",
+      "signal": "FLAT",
+      "price": 0.69349,
+      "ma_20": 0.699918,
+      "regime": "high",
+      "price_vs_ma_pct": -0.9183932975005628
+    },
+    {
+      "date": "2026-04-08",
+      "signal": "FLAT",
+      "price": 0.70565,
+      "ma_20": 0.700111,
+      "regime": "high",
+      "price_vs_ma_pct": 0.79116025887323
+    },
+    {
+      "date": "2026-04-09",
+      "signal": "FLAT",
+      "price": 0.70421,
+      "ma_20": 0.6997329999999999,
+      "regime": "high",
+      "price_vs_ma_pct": 0.6398154724730811
+    },
+    {
+      "date": "2026-04-10",
+      "signal": "FLAT",
+      "price": 0.70714,
+      "ma_20": 0.6993349999999999,
+      "regime": "high",
+      "price_vs_ma_pct": 1.1160602572443912
+    },
+    {
+      "date": "2026-04-13",
+      "signal": "FLAT",
+      "price": 0.70343,
+      "ma_20": 0.6988455,
+      "regime": "high",
+      "price_vs_ma_pct": 0.6560105202079702
+    },
+    {
+      "date": "2026-04-14",
+      "signal": "SHORT",
+      "price": 0.71222,
+      "ma_20": 0.699239,
+      "regime": "high",
+      "price_vs_ma_pct": 1.856446794300648
+    }
+  ]
+}

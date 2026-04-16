@@ -15,15 +15,17 @@ This guide describes **what the project does today**, how to **use the Trade app
 - **Signals** — Two strategies:
   - **The Chameleon** — switches between trend-following (calm volatility) and fading extremes (high volatility).
   - **Catchup Trader** — uses **5-day** gold vs AUD momentum divergence (commodity linkage).
+  - Header pills at a glance: **Data age**, **Live gap** (auto Frankfurter check vs bundled price), **Readiness 0–5** (fresh data + live match + non-FLAT signals + agreement).
+- **Sandbox** — Replay the last 30 / 90 / 180 / 250 trading days as if you had followed the signals. Pick strategy (Chameleon, Catchup, or *Both must agree*), account size, risk %, stop pips, take-profit multiple, skip-FLAT. See total return, win rate, max drawdown, equity curve and a trade-by-trade table. **Save** a run (name + notes) and **Export** all runs to **JSON / CSV** — on iPad the file goes through the Share sheet, so you can drop it into Files, Google Drive, email, etc. **Import** to bring runs onto another device. *Caveat: daily closes only, one position at a time, no spread/slippage — a learning tool, not a production backtest.*
 - **Position size** — rough micro-lot sizing from balance, risk %, and stop pips (illustrative).
-- **Journal** — optional trade log in **your browser** (`localStorage`; not sent anywhere).
+- **Journal** — optional trade log in **your browser** (`localStorage`; not sent anywhere). Has **Export JSON / Export CSV / Import JSON** so your journal can live in iPad Files or Drive instead of being trapped in one browser.
 - **Learn** — short definitions and broker ideas (not endorsements).
 - **Data health** — timestamps baked into `chameleon_data.json` / `catchup_data.json`, age warnings, and an optional **live AUD/USD check** against the public Frankfurter API (when your browser allows it).
 
 **Data files the app reads (same folder):**
 
-- `chameleon_data.json` — built by `scripts/update_chameleon.py`
-- `catchup_data.json` — built by `scripts/update_catchup.py`
+- `chameleon_data.json` / `chameleon_history.json` — built by `scripts/update_chameleon.py`
+- `catchup_data.json` / `catchup_history.json` — built by `scripts/update_catchup.py`
 
 Those scripts use **`data/prices.csv`**, **`data/rates.csv`**, **`data/commodities.csv`** on your machine (or in CI). If you never refresh, the JSON (and signals) stay old.
 
