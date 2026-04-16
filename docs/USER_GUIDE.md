@@ -124,12 +124,25 @@ That's it. No other files need to change.
 
 ## 9. What's in the repo
 
-- **`standalone/trade.html`** and **`standalone/index.html`** — the app (identical copies; `index.html` is the Vercel entry).
-- **`standalone/api/fx.js` / `gold.js` / `news.js` / `rates.js`** — the four serverless functions.
-- **`standalone/vercel.json`** — Vercel config (Node 20 runtime, CORS headers, cache hints).
-- **`docs/USER_GUIDE.md`** — this file.
-- **`docs/OPERATOR_GUIDE.md`** — deeper notes for dev / CLI / the legacy analyst trial pipeline.
-- **`aud_strategy/`** and **`scripts/update_*.py`** — legacy Python pipeline. The app no longer needs these. Kept in tree in case anyone wants to do offline research from historical CSVs.
+That's the whole thing. Nothing else. No Python, no Node build step, no CSVs.
+
+```
+Trade1/
+├── README.md
+├── docs/USER_GUIDE.md           ← this file
+├── standalone/
+│   ├── index.html / trade.html  ← the app (same file, two names)
+│   ├── app-icon.svg             ← PWA icon
+│   ├── manifest.webmanifest     ← PWA manifest
+│   ├── vercel.json              ← static + function config
+│   └── api/
+│       ├── fx.js                ← AUD/USD proxy
+│       ├── gold.js              ← Gold proxy
+│       ├── news.js              ← News proxy
+│       └── rates.js             ← Hand-maintained rates
+├── .env.example                 ← placeholder (no keys needed for live app)
+└── .gitignore
+```
 
 ---
 
@@ -142,4 +155,8 @@ That's it. No other files need to change.
 
 ---
 
-*Updated: iPad-self-contained release — live proxies for FX / gold / news / rates, browser-side signals, Sandbox replay, Compare tab, collapsible Learn content.*
+*API functions run on **Vercel Edge Runtime** (Web Request/Response, native fetch). No Node compatibility quirks, no ES-module vs CommonJS headaches, and cold starts are faster than Node Lambda.*
+
+---
+
+*Updated: iPad-self-contained release — live Edge proxies for FX / gold / news / rates, browser-side signals, Sandbox replay, Compare tab, collapsible Learn content.*

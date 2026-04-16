@@ -1,4 +1,0 @@
-# After core deps: pip install -r aud_strategy/requirements.txt
-# Then (CPU wheels): pick your platform from https://pytorch.org/get-started/locally/
-torch>=2.0.0
-transformers>=4.36.0
