@@ -1,5 +1,7 @@
 # AUD/USD “Three green lights” strategy (Python)
 
+**Trade app (static UI, Chameleon + Catchup):** see [`docs/USER_GUIDE.md`](../docs/USER_GUIDE.md) in the repo root.
+
 Hypothesis-driven, **non-curve-fit** rule set:
 
 1. **Rate differential** (RBA − Fed): carry / relative policy stance.

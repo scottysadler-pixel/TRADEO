@@ -1,5 +1,5 @@
 AUD/USD three-signal strategy (Python) — paper backtest
-Generated: 2026-04-15T23:49:36.987119+00:00
+Generated: 2026-04-16T01:13:59.860160+00:00
 Mode: simple_fallback
 Rows (merged): 510
 Total PnL (per1 unit base, no costs): 0.023850
@@ -12,4 +12,4 @@ Win rate: 0.5384615384615384
 Latest bar:
   2026-04-14  signal=FLAT  rates=-1 comm=-1 sent=1
 
-Not financial advice. Replace demo commodity/rate seeds with real data for research.
+Not financial advice. Prefer `python aud_strategy/scripts/fetch_real_data.py` for gold + rates + sentiment proxy.

@@ -66,7 +66,7 @@
 </head>
 <body>
   <h1>Trial dashboard</h1>
-  <p class="meta">Generated 2026-04-15T23:49:38.374Z · Pair <strong>AUDUSD</strong> · Price column <code>audusd_close</code></p>
+  <p class="meta">Generated 2026-04-16T01:14:01.237Z · Pair <strong>AUDUSD</strong> · Price column <code>audusd_close</code></p>
   <p class="meta">Source CSV: <code>C:/Users/Scotty/Trade1/data/audusd_merged.csv</code></p>
   <p class="meta">Output folder: <code>C:/Users/Scotty/Trade1/output</code> · Bundle v4 · Data health: <span class="ok">OK</span></p>
 
@@ -117,13 +117,13 @@
   
   <h2>Python strategy (three green lights)</h2>
   <p class="meta">Hypothesis-driven rule set (rates + commodity momentum + sentiment). Not curve-fit on this sample.
-    See <code>aud_strategy/README.md</code>. Generated <code>2026-04-15T23:49:36.987119+00:00</code> · mode <strong>simple_fallback</strong> · 510 merged rows.</p>
+    See <code>aud_strategy/README.md</code>. Generated <code>2026-04-16T01:13:59.860160+00:00</code> · mode <strong>simple_fallback</strong> · 510 merged rows.</p>
   <p class="warn-inline"><strong>Note:</strong> Walk-forward skipped: need at least train_window + test_window rows (590); dataset has 510. Falling back to simple backtest for this run.</p>
   <div class="trust py-strategy-panel">
     <h3>Latest bar (2026-04-14)</h3>
     <p class="lean"><strong>Signal FLAT</strong> —
  rate leg -1, commodity leg -1, sentiment leg 1.
-      <span class="meta">rate_diff=-0.230000, sentiment=0.517893</span></p>
+      <span class="meta">rate_diff=-0.040000, sentiment=0.517893</span></p>
     <p class="meta">LONG only if all three legs are +1; SHORT only if all are −1; otherwise FLAT (wait).</p>
     <h3>Paper metrics (per1 unit base, no costs)</h3>
     <ul class="trust-list">
@@ -136,7 +136,7 @@
     <h3>Recent daily signals</h3>
     <table>
       <thead><tr><th>Date</th><th>Signal</th><th>Rate</th><th>Comm</th><th>Sent</th><th>Rate diff</th><th>Sentiment</th></tr></thead>
-      <tbody><tr><td>2026-03-26</td><td><strong>SHORT</strong></td><td>-1</td><td>-1</td><td>-1</td><td>-0.230000</td><td>-0.938737</td></tr><tr><td>2026-03-27</td><td><strong>SHORT</strong></td><td>-1</td><td>-1</td><td>-1</td><td>-0.230000</td><td>-0.940120</td></tr><tr><td>2026-03-30</td><td><strong>SHORT</strong></td><td>-1</td><td>-1</td><td>-1</td><td>-0.230000</td><td>-0.933723</td></tr><tr><td>2026-03-31</td><td><strong>SHORT</strong></td><td>-1</td><td>-1</td><td>-1</td><td>-0.230000</td><td>-0.936270</td></tr><tr><td>2026-04-01</td><td><strong>SHORT</strong></td><td>-1</td><td>-1</td><td>-1</td><td>-0.230000</td><td>-0.884165</td></tr><tr><td>2026-04-02</td><td><strong>SHORT</strong></td><td>-1</td><td>-1</td><td>-1</td><td>-0.230000</td><td>-0.966727</td></tr><tr><td>2026-04-07</td><td><strong>FLAT</strong></td><td>-1</td><td>-1</td><td>1</td><td>-0.230000</td><td>0.525511</td></tr><tr><td>2026-04-08</td><td><strong>FLAT</strong></td><td>-1</td><td>-1</td><td>1</td><td>-0.230000</td><td>0.509432</td></tr><tr><td>2026-04-09</td><td><strong>FLAT</strong></td><td>-1</td><td>-1</td><td>1</td><td>-0.230000</td><td>0.518309</td></tr><tr><td>2026-04-10</td><td><strong>FLAT</strong></td><td>-1</td><td>-1</td><td>1</td><td>-0.230000</td><td>0.518828</td></tr><tr><td>2026-04-13</td><td><strong>FLAT</strong></td><td>-1</td><td>-1</td><td>1</td><td>-0.230000</td><td>0.517856</td></tr><tr><td>2026-04-14</td><td><strong>FLAT</strong></td><td>-1</td><td>-1</td><td>1</td><td>-0.230000</td><td>0.517893</td></tr></tbody>
+      <tbody><tr><td>2026-03-26</td><td><strong>SHORT</strong></td><td>-1</td><td>-1</td><td>-1</td><td>-0.040000</td><td>-0.938737</td></tr><tr><td>2026-03-27</td><td><strong>SHORT</strong></td><td>-1</td><td>-1</td><td>-1</td><td>-0.040000</td><td>-0.940120</td></tr><tr><td>2026-03-30</td><td><strong>SHORT</strong></td><td>-1</td><td>-1</td><td>-1</td><td>-0.040000</td><td>-0.933723</td></tr><tr><td>2026-03-31</td><td><strong>SHORT</strong></td><td>-1</td><td>-1</td><td>-1</td><td>-0.040000</td><td>-0.936270</td></tr><tr><td>2026-04-01</td><td><strong>SHORT</strong></td><td>-1</td><td>-1</td><td>-1</td><td>-0.040000</td><td>-0.884165</td></tr><tr><td>2026-04-02</td><td><strong>SHORT</strong></td><td>-1</td><td>-1</td><td>-1</td><td>-0.040000</td><td>-0.966727</td></tr><tr><td>2026-04-07</td><td><strong>FLAT</strong></td><td>-1</td><td>-1</td><td>1</td><td>-0.040000</td><td>0.525511</td></tr><tr><td>2026-04-08</td><td><strong>FLAT</strong></td><td>-1</td><td>-1</td><td>1</td><td>-0.040000</td><td>0.509432</td></tr><tr><td>2026-04-09</td><td><strong>FLAT</strong></td><td>-1</td><td>-1</td><td>1</td><td>-0.040000</td><td>0.518309</td></tr><tr><td>2026-04-10</td><td><strong>FLAT</strong></td><td>-1</td><td>-1</td><td>1</td><td>-0.040000</td><td>0.518828</td></tr><tr><td>2026-04-13</td><td><strong>FLAT</strong></td><td>-1</td><td>-1</td><td>1</td><td>-0.040000</td><td>0.517856</td></tr><tr><td>2026-04-14</td><td><strong>FLAT</strong></td><td>-1</td><td>-1</td><td>1</td><td>-0.040000</td><td>0.517893</td></tr></tbody>
     </table>
     <h3>Recent trades (sample)</h3>
     <table>
@@ -150,7 +150,7 @@
   <h2>Run status snapshot</h2>
   <p class="meta">Same fields as <code>run_status.json</code> (schema v2).</p>
   <ul class="trust-list">
-    <li><strong>Trial finished</strong> <code>2026-04-15T23:49:38.372Z</code></li>
+    <li><strong>Trial finished</strong> <code>2026-04-16T01:14:01.235Z</code></li>
     <li><strong>Trial steps</strong> all completed: variant comparison, analyst bundle, data health, run status + dashboard</li>
     <li><strong>Trends synthetic (fallback)</strong> unknown (run trial after npm run go for provenance)</li>
     <li><strong>Sentiment neutral fallback</strong> unknown (run trial after npm run go for provenance)</li>

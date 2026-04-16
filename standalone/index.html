@@ -139,6 +139,14 @@
             padding: 20px; margin-top: 20px; border-top: 1px solid var(--card2);
         }
 
+        .health-banner {
+            padding: 16px; border-radius: 10px; margin-bottom: 16px; font-size: 0.95em; line-height: 1.5;
+        }
+        .health-banner.ok { background: rgba(16, 185, 129, 0.15); border: 1px solid var(--green); }
+        .health-banner.warn { background: rgba(245, 158, 11, 0.15); border: 1px solid #f59e0b; }
+        .health-banner.bad { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--red); }
+        .health-live { font-size: 0.9em; color: var(--muted); margin-top: 12px; white-space: pre-wrap; }
+
         @media (max-width: 600px) {
             .signal-action { font-size: 2em; }
             .calc-form { grid-template-columns: 1fr; }
@@ -151,10 +159,11 @@
 
     <!-- Tabs -->
     <div class="tabs">
-        <div class="tab active" onclick="showPage('signals')">Signals</div>
-        <div class="tab" onclick="showPage('calculator')">Position Size</div>
-        <div class="tab" onclick="showPage('journal')">Journal</div>
-        <div class="tab" onclick="showPage('learn')">Learn</div>
+        <div class="tab active" onclick="showPage('signals', this)">Signals</div>
+        <div class="tab" onclick="showPage('calculator', this)">Position Size</div>
+        <div class="tab" onclick="showPage('journal', this)">Journal</div>
+        <div class="tab" onclick="showPage('learn', this)">Learn</div>
+        <div class="tab" onclick="showPage('health', this)">Data health</div>
     </div>
 
     <!-- PAGE: Signals -->
@@ -422,6 +431,36 @@
                 <li><span class="il-label">Fed rate</span><span class="il-value">FRED API (free key)</span></li>
                 <li><span class="il-label">News sentiment</span><span class="il-value">GDELT + ABC News RSS (free)</span></li>
             </ul>
+            <p style="color:var(--muted);margin-top:16px;font-size:0.85em">Signals use <strong>daily</strong> data baked into JSON when you run update scripts — not a live price stream. Use the <strong>Data health</strong> tab before trusting a signal for real money.</p>
+        </div>
+    </div>
+
+    <!-- PAGE: Data health -->
+    <div class="page" id="page-health">
+        <div class="card">
+            <h2>Bundle freshness</h2>
+            <p style="color:var(--muted);margin-bottom:16px">This app is static: numbers come from <code style="background:var(--card2);padding:2px 6px;border-radius:4px">chameleon_data.json</code> and <code style="background:var(--card2);padding:2px 6px;border-radius:4px">catchup_data.json</code>. If you never refresh them, signals can be days old while the UI still &quot;works&quot;.</p>
+            <div id="health-banner" class="health-banner ok">Loading…</div>
+            <ul class="info-list">
+                <li><span class="il-label">Chameleon bundle time</span><span class="il-value" id="health-ts-cham">--</span></li>
+                <li><span class="il-label">Catchup bundle time</span><span class="il-value" id="health-ts-catch">--</span></li>
+                <li><span class="il-label">Age (older of the two)</span><span class="il-value" id="health-age">--</span></li>
+                <li><span class="il-label">JSON load</span><span class="il-value" id="health-json">--</span></li>
+            </ul>
+        </div>
+        <div class="card">
+            <h2>Live quote check</h2>
+            <p style="color:var(--muted);margin-bottom:12px">Fetches today&apos;s <strong>reference</strong> rate from Frankfurter (public API). Compare to the AUD/USD shown on <strong>Signals</strong>. Small differences are normal (daily close vs &quot;latest&quot;). A <strong>large</strong> gap usually means your bundle is stale — refresh data and redeploy.</p>
+            <button type="button" class="journal-btn" onclick="runLiveQuoteCheck()">Run live quote check</button>
+            <div class="health-live" id="health-live-result"></div>
+        </div>
+        <div class="card">
+            <h2>Manual checks (always work)</h2>
+            <ul class="info-list">
+                <li><span class="il-label">Open JSON</span><span class="il-value">Same folder as this page; confirm last_updated</span></li>
+                <li><span class="il-label">Frankfurter</span><span class="il-value">api.frankfurter.app/latest?from=AUD&amp;to=USD</span></li>
+                <li><span class="il-label">Full guide</span><span class="il-value">GitHub: docs/USER_GUIDE.md</span></li>
+            </ul>
         </div>
     </div>
 
@@ -432,12 +471,15 @@
 </div>
 
 <script>
+window.__trade1Data = { cham: null, catch: null, chamErr: null, catchErr: null };
+
 /* Navigation */
-function showPage(id) {
+function showPage(id, el) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.getElementById('page-' + id).classList.add('active');
-    event.target.classList.add('active');
+    if (el) el.classList.add('active');
+    if (id === 'health') refreshHealthPanel();
 }
 
 function switchStrategy(id) {
@@ -466,7 +508,15 @@ async function loadChameleon() {
         document.getElementById('reg-low').classList.toggle('active', d.regime === 'low');
         document.getElementById('reg-med').classList.toggle('active', d.regime === 'med');
         document.getElementById('reg-high').classList.toggle('active', d.regime === 'high');
-    } catch(e) { console.error('Chameleon load error:', e); }
+        window.__trade1Data.cham = d;
+        window.__trade1Data.chamErr = null;
+        refreshHealthPanel();
+    } catch(e) {
+        console.error('Chameleon load error:', e);
+        window.__trade1Data.cham = null;
+        window.__trade1Data.chamErr = String(e.message || e);
+        refreshHealthPanel();
+    }
 }
 
 /* Load Catchup data */
@@ -484,7 +534,96 @@ async function loadCatchup() {
         document.getElementById('catch-aud').textContent = (am > 0 ? '+' : '') + am.toFixed(2) + '%';
         document.getElementById('catch-arrow').textContent = d.is_diverged ? '!=' : '=';
         document.getElementById('catch-explain').textContent = d.explanation;
-    } catch(e) { console.error('Catchup load error:', e); }
+        window.__trade1Data.catch = d;
+        window.__trade1Data.catchErr = null;
+        refreshHealthPanel();
+    } catch(e) {
+        console.error('Catchup load error:', e);
+        window.__trade1Data.catch = null;
+        window.__trade1Data.catchErr = String(e.message || e);
+        refreshHealthPanel();
+    }
+}
+
+function parseBundleDate(s) {
+    if (!s || typeof s !== 'string') return null;
+    var m = s.match(/^(\d{4}-\d{2}-\d{2})\s+(\d{2}):(\d{2})\s+UTC$/);
+    if (!m) return null;
+    return new Date(m[1] + 'T' + m[2] + ':' + m[3] + ':00Z');
+}
+
+function refreshHealthPanel() {
+    var banner = document.getElementById('health-banner');
+    var tsCham = document.getElementById('health-ts-cham');
+    var tsCatch = document.getElementById('health-ts-catch');
+    var ageEl = document.getElementById('health-age');
+    var jsonEl = document.getElementById('health-json');
+    if (!banner) return;
+
+    var c = window.__trade1Data;
+    var chamOk = c.cham && c.cham.last_updated;
+    var catchOk = c.catch && c.catch.last_updated;
+    tsCham.textContent = chamOk ? c.cham.last_updated : (c.chamErr || 'not loaded');
+    tsCatch.textContent = catchOk ? c.catch.last_updated : (c.catchErr || 'not loaded');
+
+    if (c.chamErr || c.catchErr) {
+        jsonEl.textContent = 'Failed — open DevTools console or use http:// server';
+        banner.className = 'health-banner bad';
+        banner.textContent = 'One or both JSON files failed to load. Serve this folder over http(s), not file://.';
+        ageEl.textContent = '--';
+        return;
+    }
+    jsonEl.textContent = 'OK';
+
+    var d1 = parseBundleDate(c.cham.last_updated);
+    var d2 = parseBundleDate(c.catch.last_updated);
+    if (!d1 || !d2) {
+        ageEl.textContent = 'unknown';
+        banner.className = 'health-banner warn';
+        banner.textContent = 'Could not parse timestamps. Check JSON last_updated format.';
+        return;
+    }
+    var older = d1 < d2 ? d1 : d2;
+    var now = new Date();
+    var hours = (now - older) / 3600000;
+    ageEl.textContent = hours < 1 ? (Math.round(hours * 60) + ' min') : (hours.toFixed(1) + ' hours');
+
+    if (hours > 72) {
+        banner.className = 'health-banner bad';
+        banner.textContent = 'Bundle is old (>72h). Run update_chameleon.py / update_catchup.py (or your refresh pipeline) before trusting signals.';
+    } else if (hours > 36) {
+        banner.className = 'health-banner warn';
+        banner.textContent = 'Bundle is aging (>36h). Refresh when you can — still OK for learning, risky for live trades.';
+    } else {
+        banner.className = 'health-banner ok';
+        banner.textContent = 'Timestamps look recent. Still run a live quote check before any real order — this app is not a broker feed.';
+    }
+}
+
+async function runLiveQuoteCheck() {
+    var out = document.getElementById('health-live-result');
+    if (!out) return;
+    out.style.color = 'var(--muted)';
+    out.textContent = 'Requesting Frankfurter…';
+    try {
+        var r = await fetch('https://api.frankfurter.app/latest?from=AUD&to=USD');
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        var j = await r.json();
+        var rate = j.rates && j.rates.USD;
+        if (typeof rate !== 'number') throw new Error('Unexpected response');
+        var msg = 'Live API OK. 1 AUD = ' + rate + ' USD (Frankfurter, reference rate).';
+        var cham = window.__trade1Data && window.__trade1Data.cham;
+        if (cham && typeof cham.aud_price === 'number') {
+            var gap = Math.abs(rate - cham.aud_price) / rate * 100;
+            msg += '\n\nYour bundle shows AUD/USD ' + cham.aud_price.toFixed(4) + ' (~' + gap.toFixed(2) + '% vs this live quote).';
+            if (gap > 2) msg += '\nLarge gap → likely stale daily close or outdated bundle; refresh data.';
+        }
+        out.textContent = msg;
+        out.style.color = 'var(--green)';
+    } catch (e) {
+        out.textContent = 'Browser could not fetch Frankfurter (' + (e.message || e) + '). Open manually:\nhttps://api.frankfurter.app/latest?from=AUD&to=USD\nand compare to the Signals tab.';
+        out.style.color = 'var(--red)';
+    }
 }
 
 /* Position size calculator */

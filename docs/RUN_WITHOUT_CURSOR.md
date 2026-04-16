@@ -10,7 +10,9 @@ In your Trade1 folder (same place as `package.json`):
 |------|----------------|
 | **`Refresh Trade1 Data.cmd`** | Runs the full pipeline: real data fetch → merge CSVs → Python strategy → trial dashboard → opens `output/trial_dashboard.html`. |
 | **`Refresh Trade1 Data (first-time or update Python).cmd`** | Same, but runs `pip install` first (use after cloning or when `aud_strategy/requirements.txt` changes). |
-| **`Open Trade1 App.cmd`** | Opens the static **`standalone/`** bundle (good for a saved copy or iPad sync). Run a refresh first so files are up to date. |
+| **`Open Trade1 App.cmd`** | Opens **`standalone/index.html`** (Trade app). Use a local HTTP server if JSON does not load (`python -m http.server` inside `standalone/`). |
+| **`Open Trading Apps.cmd`** | Starts a small server and opens the Trade app (if present in repo). |
+| **`Deploy to Vercel.cmd`** | Deploys **`standalone/`** to Vercel from your PC (`npx vercel --prod`). |
 
 Requirements:
 
@@ -43,3 +45,5 @@ npm run refresh:data
 ## Why the in-browser app cannot “click to refresh”
 
 The **standalone** site is static HTML (no server). Browsers cannot safely run `npm` or Python on your PC from a web page. Use the **`.cmd`** shortcuts or Task Scheduler instead.
+
+**Full manual:** [`USER_GUIDE.md`](USER_GUIDE.md) — includes **Data health** checks and what “up to date” means.

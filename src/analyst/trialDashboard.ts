@@ -512,7 +512,7 @@ export function buildTrialDashboardHtml(input: TrialDashboardInput): string {
   </table>
 
   <div class="hint">
-    <strong>Health check:</strong> <code>npm run doctor</code> · <strong>Repair:</strong> <code>docs/OPERATOR_GUIDE.md</code> · Research angles: <code>docs/TRIAL_PLAYBOOK.md</code>.
+    <strong>Health check:</strong> <code>npm run doctor</code> · <strong>Trade app:</strong> <code>docs/USER_GUIDE.md</code> · <strong>CLI / trial:</strong> <code>docs/OPERATOR_GUIDE.md</code>.
     Gemini: <code>gemini_research_brief.md</code> is for manual paste unless <code>GEMINI_API_KEY</code> produced <code>gemini_response.md</code>.
   </div>
 </body>
