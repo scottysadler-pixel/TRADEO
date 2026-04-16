@@ -73,6 +73,11 @@ jobs:
       - name: Build trial dashboard
         run: npm run trial -- --no-gemini-fetch --no-gemini-brief
 
+      - name: Update trading apps (Chameleon + Catchup)
+        run: |
+          python scripts/update_chameleon.py
+          python scripts/update_catchup.py
+
       - name: Commit updated data and outputs
         run: |
           git config user.name "github-actions[bot]"
