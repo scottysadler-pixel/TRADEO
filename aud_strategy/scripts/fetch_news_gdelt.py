@@ -129,8 +129,26 @@ def main() -> int:
     repo = _REPO
     prices_path = repo / "data" / "prices.csv"
     if not prices_path.is_file():
-        print(f"ERROR: {prices_path} not found.")
-        return 1
+        print(f"WARN: {prices_path} not found. Bootstrapping from Yahoo Finance...")
+        try:
+            import yfinance as yf
+            data_dir = repo / "data"
+            data_dir.mkdir(parents=True, exist_ok=True)
+            raw = yf.download("AUDUSD=X", period="2y", interval="1d", progress=False, auto_adjust=False)
+            if raw.empty:
+                print("ERROR: Could not download AUDUSD=X prices.")
+                return 1
+            df_p = raw.reset_index()
+            if isinstance(df_p.columns, pd.MultiIndex):
+                df_p.columns = [c[0] if isinstance(c, tuple) else c for c in df_p.columns]
+            df_p = df_p.rename(columns={"Date": "date", "Close": "audusd_close"})
+            df_p["date"] = pd.to_datetime(df_p["date"]).dt.tz_localize(None)
+            df_p = df_p[["date", "audusd_close"]].dropna().sort_values("date")
+            df_p.to_csv(prices_path, index=False)
+            print(f"  Created {prices_path} with {len(df_p)} rows.")
+        except Exception as exc:
+            print(f"ERROR: Could not bootstrap prices.csv: {exc}")
+            return 1
 
     prices = pd.read_csv(prices_path, parse_dates=["date"])
     trading_dates = sorted(prices["date"].dt.strftime("%Y-%m-%d").unique())

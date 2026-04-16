@@ -33,7 +33,27 @@ _REPO = Path(__file__).resolve().parent.parent.parent
 def _load_price_dates_and_closes(repo: Path) -> pd.DataFrame:
     p = repo / "data" / "prices.csv"
     if not p.is_file():
-        raise FileNotFoundError(f"Missing {p}")
+        print(f"WARN: {p} not found. Bootstrapping from Yahoo Finance (AUDUSD=X)...")
+        import yfinance as yf
+
+        data_dir = repo / "data"
+        data_dir.mkdir(parents=True, exist_ok=True)
+
+        raw = yf.download("AUDUSD=X", period="2y", interval="1d", progress=False, auto_adjust=False)
+        if raw.empty:
+            raise FileNotFoundError(
+                f"Missing {p} and could not download AUDUSD=X to create it."
+            )
+
+        df = raw.reset_index()
+        if isinstance(df.columns, pd.MultiIndex):
+            df.columns = [c[0] if isinstance(c, tuple) else c for c in df.columns]
+        df = df.rename(columns={"Date": "date", "Close": "audusd_close"})
+        df["date"] = pd.to_datetime(df["date"]).dt.tz_localize(None)
+        df = df[["date", "audusd_close"]].dropna().sort_values("date")
+        df.to_csv(p, index=False)
+        print(f"  Created {p} with {len(df)} rows.")
+
     df = pd.read_csv(p, parse_dates=["date"])
     df = df.sort_values("date").drop_duplicates(subset=["date"])
     df = df.set_index("date")
