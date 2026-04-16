@@ -5,18 +5,21 @@ derived series aligned to data/prices.csv trading dates.
 
 Usage (from Trade1 repo root):
   pip install -r aud_strategy/requirements.txt
+  set FRED_API_KEY=your_key   # Windows PowerShell: $env:FRED_API_KEY="..."
   python aud_strategy/scripts/fetch_real_data.py
 
 Gold: Yahoo Finance (GC=F) — no API key.
 RBA: Official cash-rate decision table — no API key.
-Fed: Hardcoded FOMC target upper-bound style levels (forward-filled) — no API key.
+Fed: FRED daily series (default DFF = effective fed funds) if FRED_API_KEY is set;
+ otherwise hardcoded FOMC ladder (forward-filled).
 Sentiment: Price-action proxy from AUD/USD (5d momentum +20d realized vol) — no news API.
 """
 
 from __future__ import annotations
 
 import argparse
-import sys
+import os
+import time
 from pathlib import Path
 
 import numpy as np
@@ -160,6 +163,79 @@ FED_STEPS: list[tuple[str, float]] = [
     ("2026-01-29", 3.83),
 ]
 
+FRED_OBSERVATIONS_URL = "https://api.stlouisfed.org/fred/series/observations"
+
+
+def fetch_fred_series_daily(
+    series_id: str,
+    api_key: str,
+    start: str,
+    end: str,
+) -> pd.Series:
+    """
+    Download a FRED daily series (e.g. DFF = effective federal funds rate, %).
+    Free API key: https://fred.stlouisfed.org/docs/api/api_key.html
+    """
+    params = {
+        "series_id": series_id,
+        "api_key": api_key,
+        "file_type": "json",
+        "observation_start": start,
+        "observation_end": end,
+    }
+    last_err: str | None = None
+    for attempt in range(3):
+        r = requests.get(FRED_OBSERVATIONS_URL, params=params, timeout=60)
+        if r.status_code == 200:
+            break
+        try:
+            body = r.json()
+            last_err = str(body.get("error_message") or body.get("message") or body)[:300]
+        except Exception:
+            last_err = (r.text or "")[:300]
+        if r.status_code in (500, 502, 503, 429) and attempt < 2:
+            time.sleep(1.5 * (attempt + 1))
+            continue
+        raise RuntimeError(
+            f"FRED HTTP {r.status_code} for series {series_id!r}. "
+            f"Check FRED_API_KEY and https://fred.stlouisfed.org/docs/api/fred/ . Detail: {last_err}"
+        )
+    payload = r.json()
+    if "error_code" in payload:
+        raise RuntimeError(f"FRED API error: {payload}")
+    obs = payload.get("observations") or []
+    rows = []
+    for o in obs:
+        d = o.get("date")
+        v = o.get("value")
+        if not d or v in (None, ".", ""):
+            continue
+        try:
+            rows.append((pd.Timestamp(d), float(v)))
+        except ValueError:
+            continue
+    if not rows:
+        raise RuntimeError(f"FRED returned no usable observations for {series_id!r}.")
+    s = pd.Series({d: v for d, v in rows}).sort_index()
+    s.index = pd.to_datetime(s.index).normalize()
+    return s
+
+
+def build_fed_daily_from_fred(
+    trading_index: pd.DatetimeIndex,
+    api_key: str,
+    series_id: str,
+) -> pd.Series:
+    """Align FRED daily fed rate to FX trading dates (forward-fill)."""
+    start = (trading_index.min() - pd.Timedelta(days=14)).strftime("%Y-%m-%d")
+    end = (trading_index.max() + pd.Timedelta(days=1)).strftime("%Y-%m-%d")
+    s = fetch_fred_series_daily(series_id, api_key, start, end)
+    aligned = s.reindex(trading_index.normalize(), method="ffill")
+    aligned = aligned.ffill().bfill()
+    if aligned.isna().any():
+        raise RuntimeError("Fed rate still has NaN after aligning FRED to trading days.")
+    return pd.Series(aligned.values, index=trading_index, name="fed_rate")
+
 
 def build_rba_daily(trading_index: pd.DatetimeIndex, decisions: pd.DataFrame) -> pd.Series:
     """Forward-fill RBA cash target from decision dates onto trading days."""
@@ -200,8 +276,22 @@ def main() -> int:
         default=_REPO,
         help="Trade1 repo root (default: auto)",
     )
+    parser.add_argument(
+        "--fred-series",
+        default="DFF",
+        help="FRED series id for US policy rate (default DFF = effective federal funds rate). "
+        "Alternatives: DFEDTARU (target upper limit), DFEDTARL (target lower limit).",
+    )
     args = parser.parse_args()
     repo = args.repo.resolve()
+
+    try:
+        from dotenv import load_dotenv
+
+        # Repo-root .env (gitignored). Shell env wins if already set.
+        load_dotenv(repo / ".env", override=False)
+    except ImportError:
+        pass
 
     prices = _load_price_dates_and_closes(repo)
     idx = prices.index
@@ -213,8 +303,16 @@ def main() -> int:
     rba_decisions = fetch_rba_cash_target_decisions()
     rba_daily = build_rba_daily(idx, rba_decisions)
 
-    print("Building Fed ladder …")
-    fed_daily = expand_step_rates(idx, FED_STEPS)
+    fred_key = (os.environ.get("FRED_API_KEY") or "").strip()
+    if fred_key:
+        print(f"Fetching Fed from FRED ({args.fred_series}) …")
+        fed_daily = build_fed_daily_from_fred(idx, fred_key, args.fred_series)
+    else:
+        print(
+            "WARN: FRED_API_KEY not set — using hardcoded Fed ladder. "
+            "Get a free key: https://fred.stlouisfed.org/docs/api/api_key.html"
+        )
+        fed_daily = expand_step_rates(idx, FED_STEPS)
 
     print("Building price-action sentiment …")
     sent = price_action_sentiment(prices["audusd_close"])

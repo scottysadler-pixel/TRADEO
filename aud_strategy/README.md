@@ -12,6 +12,17 @@ Hypothesis-driven, **non-curve-fit** rule set:
 
 Before backtesting, refresh **gold**, **RBA/Fed rates**, and a **price-action sentiment proxy** aligned to `data/prices.csv`:
 
+### FRED API key (Fed funds — free)
+
+1. Open [FRED API Keys](https://fredaccount.stlouisfed.org/apikeys) and sign in (or create a free St. Louis Fed account).
+2. **Request API Key** and copy the key.
+3. Put the key in the **repo root** file `.env` as `FRED_API_KEY=...` (that file is gitignored). The fetch script loads it automatically via `python-dotenv`.  
+   Or set it in the shell: **PowerShell** `$env:FRED_API_KEY="..."` / **cmd** `set FRED_API_KEY=...` (shell wins over `.env`).
+
+With the key set, `fetch_real_data.py` downloads the daily **effective federal funds rate** (`DFF` by default). Without the key, it falls back to a hardcoded step ladder.
+
+Optional: `--fred-series DFEDTARU` for the **upper** bound of the FOMC target range instead of `DFF`.
+
 ```bash
 pip install -r aud_strategy/requirements.txt
 python aud_strategy/scripts/fetch_real_data.py
