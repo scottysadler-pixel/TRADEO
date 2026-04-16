@@ -60,13 +60,13 @@ jobs:
           npm run join:daily -- --trends data/trends.csv --sentiment data/sentiment.csv --out data/audusd_merged.csv
           python aud_strategy/run.py --simple
 
-      - name: Update trading apps
+      - name: Build standalone bundle (old dashboard)
+        run: npx tsx scripts/trial.ts --no-gemini-fetch --no-gemini-brief
+
+      - name: Update trading apps (new apps)
         run: |
           python scripts/update_chameleon.py
           python scripts/update_catchup.py
-
-      - name: Build standalone bundle
-        run: npx tsx scripts/trial.ts --no-gemini-fetch --no-gemini-brief
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
