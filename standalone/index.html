@@ -1,1272 +1,1311 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trade1 - Simple FX Trading</title>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <style>
-        :root {
-            --green: #10b981;
-            --red: #ef4444;
-            --gray: #64748b;
-            --bg: #0f172a;
-            --card: #1e293b;
-            --card2: #334155;
-            --text: #f1f5f9;
-            --muted: #94a3b8;
-            --accent: #6366f1;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
-        }
-        .app { max-width: 900px; margin: 0 auto; padding: 16px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Trade1 &ndash; AUD/USD live learning pad</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f172a">
+<style>
+  :root {
+    --green: #10b981; --red: #ef4444; --amber: #f59e0b;
+    --bg: #0f172a; --card: #1e293b; --card2: #334155;
+    --text: #f1f5f9; --muted: #94a3b8; --accent: #6366f1;
+    --border: #334155;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh; padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  .app { max-width: 980px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 1.1em; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  h2 { font-size: 1em; color: var(--muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+  p { line-height: 1.5; }
 
-        /* Navigation tabs */
-        .tabs {
-            display: flex; gap: 4px; background: var(--card); border-radius: 12px;
-            padding: 4px; margin-bottom: 20px; overflow-x: auto;
-        }
-        .tab {
-            flex: 1; padding: 12px 8px; text-align: center; border-radius: 8px;
-            cursor: pointer; font-weight: 600; font-size: 0.85em;
-            color: var(--muted); transition: all 0.2s; white-space: nowrap;
-        }
-        .tab.active { background: var(--accent); color: white; }
-        .tab:hover:not(.active) { color: var(--text); }
+  .tabs { display: flex; flex-wrap: wrap; gap: 4px; background: var(--card); border-radius: 12px; padding: 4px; margin-bottom: 16px; }
+  .tab { flex: 1 1 auto; min-width: 90px; padding: 12px 8px; text-align: center; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.85em; color: var(--muted); transition: all 0.15s; user-select: none; }
+  .tab.active { background: var(--accent); color: white; }
+  .tab:hover:not(.active) { color: var(--text); }
 
-        .page { display: none; }
-        .page.active { display: block; }
+  .page { display: none; }
+  .page.active { display: block; }
 
-        /* Cards */
-        .card {
-            background: var(--card); border-radius: 16px; padding: 24px;
-            margin-bottom: 16px;
-        }
-        .card h2 { font-size: 1.1em; color: var(--muted); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px; }
+  .card { background: var(--card); border-radius: 16px; padding: 20px; margin-bottom: 14px; }
 
-        /* Signal display */
-        .signal-hero { text-align: center; padding: 40px 20px; border-radius: 16px; margin-bottom: 16px; }
-        .signal-hero.long { background: linear-gradient(135deg, #065f46, #10b981); }
-        .signal-hero.short { background: linear-gradient(135deg, #7f1d1d, #ef4444); }
-        .signal-hero.flat { background: linear-gradient(135deg, #334155, #64748b); }
-        .signal-label { font-size: 0.9em; opacity: 0.8; margin-bottom: 8px; }
-        .signal-action { font-size: 2.8em; font-weight: 800; margin-bottom: 8px; }
-        .signal-reason { font-size: 1em; opacity: 0.9; max-width: 500px; margin: 0 auto; }
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .pill { padding: 6px 12px; border-radius: 999px; background: var(--card2); color: var(--muted); font-size: 0.8em; border: 1px solid transparent; }
+  .pill.ok   { color: var(--green); border-color: rgba(16,185,129,0.4); }
+  .pill.warn { color: var(--amber); border-color: rgba(245,158,11,0.4); }
+  .pill.bad  { color: var(--red);   border-color: rgba(239,68,68,0.4); }
 
-        /* Strategy selector */
-        .strategy-toggle { display: flex; gap: 4px; background: var(--card2); border-radius: 10px; padding: 3px; margin-bottom: 20px; }
-        .strat-btn { flex: 1; padding: 10px; text-align: center; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.85em; color: var(--muted); transition: all 0.2s; }
-        .strat-btn.active { background: var(--accent); color: white; }
+  .hero { text-align: center; padding: 32px 20px; border-radius: 16px; margin-bottom: 14px; }
+  .hero.long  { background: linear-gradient(135deg, #065f46, #10b981); }
+  .hero.short { background: linear-gradient(135deg, #7f1d1d, #ef4444); }
+  .hero.flat  { background: linear-gradient(135deg, #334155, #64748b); }
+  .hero .lbl { font-size: 0.85em; opacity: 0.85; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+  .hero .sig { font-size: 2.4em; font-weight: 800; margin-bottom: 6px; }
+  .hero .rsn { font-size: 0.95em; opacity: 0.9; max-width: 600px; margin: 0 auto; }
 
-        /* Market data grid */
-        .data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; }
-        .data-cell { background: var(--card2); padding: 16px; border-radius: 10px; text-align: center; }
-        .data-val { font-size: 1.6em; font-weight: 700; margin-bottom: 4px; }
-        .data-lbl { font-size: 0.8em; color: var(--muted); }
-        .up { color: var(--green); }
-        .down { color: var(--red); }
-        .neutral { color: var(--muted); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+  .cell { background: var(--card2); padding: 14px; border-radius: 10px; text-align: center; }
+  .cell .v { font-size: 1.4em; font-weight: 700; }
+  .cell .k { font-size: 0.78em; color: var(--muted); margin-top: 4px; }
+  .up { color: var(--green); } .down { color: var(--red); } .neutral { color: var(--muted); }
 
-        /* Position calculator */
-        .calc-form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .form-group { display: flex; flex-direction: column; gap: 6px; }
-        .form-group label { font-size: 0.85em; color: var(--muted); }
-        .form-group input, .form-group select {
-            background: var(--card2); border: 1px solid #475569; border-radius: 8px;
-            padding: 12px; color: var(--text); font-size: 1em;
-        }
-        .form-group input:focus { border-color: var(--accent); outline: none; }
-        .calc-result {
-            grid-column: 1 / -1; background: var(--accent); padding: 20px;
-            border-radius: 10px; text-align: center; margin-top: 8px;
-        }
-        .calc-result .big { font-size: 2em; font-weight: 800; }
-        .calc-result .detail { font-size: 0.9em; opacity: 0.9; margin-top: 8px; }
+  details.explain {
+    background: var(--card2); border-radius: 10px; padding: 10px 14px; margin-top: 10px; font-size: 0.9em; line-height: 1.55;
+  }
+  details.explain summary { cursor: pointer; color: var(--muted); font-weight: 600; list-style: none; }
+  details.explain summary::before { content: '▸ '; color: var(--accent); }
+  details.explain[open] summary::before { content: '▾ '; }
+  details.explain p { margin-top: 8px; }
+  details.explain ul { margin-top: 8px; padding-left: 20px; }
+  details.explain li { margin-bottom: 4px; }
 
-        /* Trade journal */
-        .journal-entry {
-            background: var(--card2); border-radius: 10px; padding: 16px;
-            margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;
-        }
-        .journal-entry .je-left { flex: 1; }
-        .journal-entry .je-date { font-size: 0.8em; color: var(--muted); }
-        .journal-entry .je-pair { font-weight: 700; }
-        .journal-entry .je-dir { font-size: 0.85em; }
-        .journal-entry .je-pnl { font-size: 1.3em; font-weight: 700; min-width: 80px; text-align: right; }
-        .journal-btn {
-            background: var(--accent); color: white; border: none; padding: 12px 24px;
-            border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; font-size: 1em;
-        }
-        .journal-btn:hover { opacity: 0.9; }
-        .journal-form { display: none; }
-        .journal-form.show { display: block; }
+  .btn { background: var(--accent); color: white; border: none; padding: 12px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.95em; }
+  .btn:hover { opacity: 0.92; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-sec { background: var(--card2); color: var(--text); border: 1px solid #475569; padding: 10px 14px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.9em; }
+  .btn-sec:hover { background: #475569; }
+  .btn-danger { background: #7f1d1d; color: #fecaca; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8em; }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 
-        /* Info list */
-        .info-list { list-style: none; }
-        .info-list li { padding: 12px 0; border-bottom: 1px solid var(--card2); display: flex; justify-content: space-between; }
-        .info-list li:last-child { border: none; }
-        .info-list .il-label { color: var(--muted); }
-        .info-list .il-value { font-weight: 600; }
+  .form { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+  .fg { display: flex; flex-direction: column; gap: 6px; }
+  .fg label { font-size: 0.85em; color: var(--muted); }
+  .fg input, .fg select {
+    background: var(--card2); border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px; color: var(--text); font-size: 1em;
+  }
+  .fg input:focus, .fg select:focus { border-color: var(--accent); outline: none; }
 
-        /* Regime bar */
-        .regime-bar { display: flex; gap: 4px; margin: 16px 0; }
-        .regime-seg { flex: 1; padding: 12px; border-radius: 8px; text-align: center; opacity: 0.25; transition: all 0.3s; }
-        .regime-seg.active { opacity: 1; transform: scale(1.03); }
-        .regime-seg.low-vol { background: #3b82f6; }
-        .regime-seg.med-vol { background: #f59e0b; }
-        .regime-seg.high-vol { background: #ef4444; }
-        .regime-seg .r-name { font-weight: 700; font-size: 0.9em; }
-        .regime-seg .r-strat { font-size: 0.75em; opacity: 0.8; margin-top: 4px; }
+  .chart { width: 100%; height: 180px; display: block; background: var(--card2); border-radius: 10px; }
+  .chart.tall { height: 220px; }
 
-        /* Divergence visual */
-        .div-compare { display: flex; gap: 16px; margin: 16px 0; align-items: center; }
-        .div-box { flex: 1; padding: 20px; border-radius: 12px; text-align: center; }
-        .div-box.gold-box { background: linear-gradient(135deg, #b8860b, #daa520); }
-        .div-box.aud-box { background: linear-gradient(135deg, #4338ca, #6366f1); }
-        .div-box .db-name { font-size: 0.85em; opacity: 0.9; margin-bottom: 6px; }
-        .div-box .db-val { font-size: 2em; font-weight: 800; }
-        .div-arrow { font-size: 2em; color: var(--muted); }
+  .tbl { width: 100%; border-collapse: collapse; font-size: 0.85em; }
+  .tbl th, .tbl td { padding: 8px 6px; text-align: left; border-bottom: 1px solid var(--border); }
+  .tbl th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.72em; letter-spacing: 0.5px; }
 
-        .disclaimer {
-            text-align: center; font-size: 0.75em; color: var(--muted);
-            padding: 20px; margin-top: 20px; border-top: 1px solid var(--card2);
-        }
+  .news-item { background: var(--card2); border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; }
+  .news-item a { color: var(--text); text-decoration: none; font-weight: 600; }
+  .news-item a:hover { color: var(--accent); }
+  .news-meta { font-size: 0.75em; color: var(--muted); margin-top: 4px; }
 
-        .health-banner {
-            padding: 16px; border-radius: 10px; margin-bottom: 16px; font-size: 0.95em; line-height: 1.5;
-        }
-        .health-banner.ok { background: rgba(16, 185, 129, 0.15); border: 1px solid var(--green); }
-        .health-banner.warn { background: rgba(245, 158, 11, 0.15); border: 1px solid #f59e0b; }
-        .health-banner.bad { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--red); }
-        .health-live { font-size: 0.9em; color: var(--muted); margin-top: 12px; white-space: pre-wrap; }
+  .filter-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .chip { padding: 6px 12px; border-radius: 999px; background: var(--card2); color: var(--muted); font-size: 0.85em; cursor: pointer; user-select: none; border: 1px solid transparent; }
+  .chip.active { background: var(--accent); color: white; border-color: var(--accent); }
 
-        /* Status pill (Signals) */
-        .status-pill {
-            display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; font-size: 0.8em;
-        }
-        .pill {
-            padding: 6px 10px; border-radius: 999px; background: var(--card2); color: var(--muted);
-            border: 1px solid transparent;
-        }
-        .pill.ok   { color: var(--green); border-color: rgba(16,185,129,0.4); }
-        .pill.warn { color: #f59e0b; border-color: rgba(245,158,11,0.4); }
-        .pill.bad  { color: var(--red); border-color: rgba(239,68,68,0.4); }
+  .saved { background: var(--card2); padding: 12px; border-radius: 10px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .saved .m { font-size: 0.75em; color: var(--muted); }
 
-        /* Sandbox */
-        .equity-svg { width: 100%; height: 160px; display: block; background: var(--card2); border-radius: 10px; }
-        .trades-table { width: 100%; border-collapse: collapse; font-size: 0.85em; }
-        .trades-table th, .trades-table td { padding: 8px 6px; text-align: left; border-bottom: 1px solid var(--card2); }
-        .trades-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.72em; letter-spacing: 0.5px; }
-        .saved-run { background: var(--card2); padding: 12px; border-radius: 10px; margin-bottom: 8px; display:flex; justify-content: space-between; align-items:center; gap: 8px; }
-        .saved-run .sr-meta { font-size: 0.75em; color: var(--muted); }
-        .btn-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-        .btn-secondary {
-            background: var(--card2); color: var(--text); border: 1px solid #475569;
-            padding: 10px 14px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.9em;
-        }
-        .btn-secondary:hover { background: #475569; }
-        .btn-danger { background: #7f1d1d; color: #fecaca; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8em; }
+  .loading { color: var(--muted); text-align: center; padding: 16px; }
+  .error-box { background: rgba(239,68,68,0.12); border: 1px solid var(--red); padding: 12px; border-radius: 10px; color: #fca5a5; font-size: 0.9em; margin-bottom: 12px; }
 
-        @media (max-width: 600px) {
-            .signal-action { font-size: 2em; }
-            .calc-form { grid-template-columns: 1fr; }
-            .div-compare { flex-direction: column; }
-        }
-    </style>
+  .disclaimer { text-align: center; font-size: 0.75em; color: var(--muted); padding: 18px 10px; margin-top: 16px; border-top: 1px solid var(--border); }
+
+  @media (max-width: 600px) {
+    .hero .sig { font-size: 1.8em; }
+    .form { grid-template-columns: 1fr; }
+  }
+</style>
 </head>
 <body>
 <div class="app">
 
-    <!-- Tabs -->
-    <div class="tabs">
-        <div class="tab active" onclick="showPage('signals', this)">Signals</div>
-        <div class="tab" onclick="showPage('sandbox', this)">Sandbox</div>
-        <div class="tab" onclick="showPage('calculator', this)">Position Size</div>
-        <div class="tab" onclick="showPage('journal', this)">Journal</div>
-        <div class="tab" onclick="showPage('learn', this)">Learn</div>
-        <div class="tab" onclick="showPage('health', this)">Data health</div>
+  <div class="tabs">
+    <div class="tab active" onclick="showPage('now', this)">Now</div>
+    <div class="tab" onclick="showPage('compare', this)">Compare</div>
+    <div class="tab" onclick="showPage('news', this)">News</div>
+    <div class="tab" onclick="showPage('sandbox', this)">Sandbox</div>
+    <div class="tab" onclick="showPage('journal', this)">Journal</div>
+    <div class="tab" onclick="showPage('learn', this)">Learn</div>
+    <div class="tab" onclick="showPage('health', this)">Health</div>
+  </div>
+
+  <!-- ============================== NOW ============================== -->
+  <div class="page active" id="page-now">
+    <div class="pill-row">
+      <span class="pill" id="pill-fx">AUD/USD: loading…</span>
+      <span class="pill" id="pill-gold">Gold: loading…</span>
+      <span class="pill" id="pill-rates">Rates: loading…</span>
+      <span class="pill" id="pill-fresh">Updated: —</span>
+      <button class="btn-sec" onclick="refreshAll()" style="padding:6px 12px;font-size:0.8em">Refresh</button>
+    </div>
+    <div id="now-errors"></div>
+
+    <div class="card">
+      <h2>The Chameleon</h2>
+      <div class="hero flat" id="cham-hero">
+        <div class="lbl">The Chameleon says</div>
+        <div class="sig" id="cham-sig">—</div>
+        <div class="rsn" id="cham-rsn">Fetching live data…</div>
+      </div>
+      <div class="grid">
+        <div class="cell"><div class="v" id="cham-price">—</div><div class="k">AUD/USD</div></div>
+        <div class="cell"><div class="v" id="cham-ma">—</div><div class="k">20-day MA</div></div>
+        <div class="cell"><div class="v" id="cham-vol">—</div><div class="k">Volatility</div></div>
+        <div class="cell"><div class="v" id="cham-regime">—</div><div class="k">Regime</div></div>
+      </div>
+      <details class="explain">
+        <summary>Explain the Chameleon</summary>
+        <p><strong>Idea:</strong> different market conditions need different rules.</p>
+        <ul>
+          <li><strong>Low volatility</strong> (calm): follow the trend. Price above 20-day moving average &rarr; LONG; below &rarr; SHORT.</li>
+          <li><strong>High volatility</strong> (jumpy): fade extremes. Price &gt;1.5% below MA &rarr; buy dip; &gt;1.5% above &rarr; sell rally.</li>
+          <li><strong>Medium volatility</strong>: no edge, stay FLAT.</li>
+        </ul>
+        <p><strong>Why it can be useful:</strong> beginners tend to pick one style and apply it everywhere. This is a simple way to adapt.</p>
+        <p><strong>Why it can fail:</strong> regime detection is lagging; it uses 20-day history so it&apos;s slow to react to sudden shifts.</p>
+      </details>
     </div>
 
-    <!-- PAGE: Signals -->
-    <div class="page active" id="page-signals">
-
-        <div class="status-pill">
-            <span class="pill" id="pill-age">Data age: --</span>
-            <span class="pill" id="pill-live">Live quote: --</span>
-            <span class="pill" id="pill-score">Readiness: --</span>
-        </div>
-
-        <div class="strategy-toggle">
-            <div class="strat-btn active" onclick="switchStrategy('chameleon', this)">The Chameleon</div>
-            <div class="strat-btn" onclick="switchStrategy('catchup', this)">Catchup Trader</div>
-        </div>
-
-        <!-- Chameleon view -->
-        <div id="view-chameleon">
-            <div class="signal-hero flat" id="cham-hero">
-                <div class="signal-label">THE CHAMELEON says</div>
-                <div class="signal-action" id="cham-signal">LOADING</div>
-                <div class="signal-reason" id="cham-reason">Fetching data...</div>
-            </div>
-
-            <div class="card">
-                <h2>Volatility Regime</h2>
-                <div class="regime-bar">
-                    <div class="regime-seg low-vol" id="reg-low"><div class="r-name">LOW</div><div class="r-strat">Follow trends</div></div>
-                    <div class="regime-seg med-vol" id="reg-med"><div class="r-name">MED</div><div class="r-strat">Wait</div></div>
-                    <div class="regime-seg high-vol" id="reg-high"><div class="r-name">HIGH</div><div class="r-strat">Fade extremes</div></div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h2>Market Data</h2>
-                <div class="data-grid">
-                    <div class="data-cell"><div class="data-val" id="cham-price">--</div><div class="data-lbl">AUD/USD</div></div>
-                    <div class="data-cell"><div class="data-val" id="cham-ma">--</div><div class="data-lbl">20-Day MA</div></div>
-                    <div class="data-cell"><div class="data-val" id="cham-vol">--</div><div class="data-lbl">Volatility</div></div>
-                    <div class="data-cell"><div class="data-val" id="cham-dist">--</div><div class="data-lbl">Price vs MA</div></div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h2>Backtest Performance</h2>
-                <div class="data-grid">
-                    <div class="data-cell"><div class="data-val up">+14.91%</div><div class="data-lbl">Total Return</div></div>
-                    <div class="data-cell"><div class="data-val">1.42</div><div class="data-lbl">Sharpe Ratio</div></div>
-                    <div class="data-cell"><div class="data-val down">-4.13%</div><div class="data-lbl">Max Drawdown</div></div>
-                    <div class="data-cell"><div class="data-val">55.7%</div><div class="data-lbl">Win Rate</div></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Catchup view -->
-        <div id="view-catchup" style="display:none">
-            <div class="signal-hero flat" id="catch-hero">
-                <div class="signal-label">CATCHUP TRADER says</div>
-                <div class="signal-action" id="catch-signal">LOADING</div>
-                <div class="signal-reason" id="catch-reason">Fetching data...</div>
-            </div>
-
-            <div class="card">
-                <h2>Gold vs AUD Momentum (5-day)</h2>
-                <div class="div-compare">
-                    <div class="div-box gold-box">
-                        <div class="db-name">GOLD</div>
-                        <div class="db-val" id="catch-gold">--</div>
-                    </div>
-                    <div class="div-arrow" id="catch-arrow">--</div>
-                    <div class="div-box aud-box">
-                        <div class="db-name">AUD/USD</div>
-                        <div class="db-val" id="catch-aud">--</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card" id="catch-explain-card">
-                <h2>What's Happening</h2>
-                <p id="catch-explain" style="line-height:1.6">Analyzing...</p>
-            </div>
-
-            <div class="card">
-                <h2>Backtest Performance</h2>
-                <div class="data-grid">
-                    <div class="data-cell"><div class="data-val up">+13.26%</div><div class="data-lbl">Total Return</div></div>
-                    <div class="data-cell"><div class="data-val">1.30</div><div class="data-lbl">Sharpe Ratio</div></div>
-                    <div class="data-cell"><div class="data-val down">-3.26%</div><div class="data-lbl">Max Drawdown</div></div>
-                    <div class="data-cell"><div class="data-val">56.7%</div><div class="data-lbl">Win Rate</div></div>
-                </div>
-            </div>
-        </div>
+    <div class="card">
+      <h2>The Catchup Trader</h2>
+      <div class="hero flat" id="catch-hero">
+        <div class="lbl">Catchup Trader says</div>
+        <div class="sig" id="catch-sig">—</div>
+        <div class="rsn" id="catch-rsn">Fetching live data…</div>
+      </div>
+      <div class="grid">
+        <div class="cell"><div class="v" id="catch-gold">—</div><div class="k">Gold 5-day %</div></div>
+        <div class="cell"><div class="v" id="catch-aud">—</div><div class="k">AUD/USD 5-day %</div></div>
+        <div class="cell"><div class="v" id="catch-gap">—</div><div class="k">Divergence</div></div>
+        <div class="cell"><div class="v" id="catch-corr">—</div><div class="k">90-day correlation</div></div>
+      </div>
+      <details class="explain">
+        <summary>Explain the Catchup</summary>
+        <p><strong>Idea:</strong> Australia exports a lot of commodities, so AUD/USD tends to follow gold. When gold moves sharply and AUD hasn&apos;t, the theory says AUD is about to catch up.</p>
+        <ul>
+          <li>Gold up &gt;2% in 5 days and AUD up &lt;1% &rarr; <strong>LONG</strong> AUD (expecting catch-up).</li>
+          <li>Gold down &gt;2% in 5 days and AUD down &lt;1% &rarr; <strong>SHORT</strong> AUD.</li>
+          <li>Otherwise &rarr; FLAT.</li>
+        </ul>
+        <p><strong>Why it can fail:</strong> the gold-AUD link isn&apos;t constant. US dollar strength, Chinese demand, and rate differentials can break it. The 90-day correlation number shows how tight the link is right now.</p>
+      </details>
     </div>
 
-    <!-- PAGE: Sandbox -->
-    <div class="page" id="page-sandbox">
-        <div class="card">
-            <h2>Example runs (replay past signals)</h2>
-            <p style="color:var(--muted);margin-bottom:16px">Replay the baked daily history as if you had followed the signals. This is a <strong>learning tool</strong>: it uses closing prices only, no slippage or spread, and a single open position at a time. Good enough to see whether the strategy <em>would have worked</em> lately; not a real backtest.</p>
-            <div class="calc-form">
-                <div class="form-group">
-                    <label>Strategy</label>
-                    <select id="sb-strategy">
-                        <option value="chameleon">The Chameleon</option>
-                        <option value="catchup">Catchup Trader</option>
-                        <option value="both">Both must agree</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Lookback (days)</label>
-                    <select id="sb-lookback">
-                        <option value="30">Last 30</option>
-                        <option value="90" selected>Last 90</option>
-                        <option value="180">Last 180</option>
-                        <option value="250">All available</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Account (AUD)</label>
-                    <input type="number" id="sb-balance" value="5000" min="100">
-                </div>
-                <div class="form-group">
-                    <label>Risk per trade (%)</label>
-                    <input type="number" id="sb-risk" value="2" min="0.5" max="10" step="0.5">
-                </div>
-                <div class="form-group">
-                    <label>Stop loss (pips)</label>
-                    <input type="number" id="sb-stop" value="50" min="5">
-                </div>
-                <div class="form-group">
-                    <label>Take profit (× stop)</label>
-                    <input type="number" id="sb-tp" value="1.5" min="0.5" step="0.25">
-                </div>
-                <div class="form-group" style="grid-column:1/-1">
-                    <label style="display:flex;align-items:center;gap:8px">
-                        <input type="checkbox" id="sb-skip-flat" checked style="width:auto"> Skip FLAT days (don&apos;t hold)
-                    </label>
-                </div>
-            </div>
-            <div class="btn-row">
-                <button class="journal-btn" onclick="runSandbox()" style="flex:1;min-width:180px">Run replay</button>
-                <button class="btn-secondary" onclick="saveRun()" id="sb-save-btn" disabled>Save this run</button>
-            </div>
-        </div>
-
-        <div class="card" id="sb-results" style="display:none">
-            <h2>Result</h2>
-            <div class="data-grid" id="sb-stats"></div>
-            <h2 style="margin-top:20px">Equity curve</h2>
-            <svg class="equity-svg" id="sb-equity" viewBox="0 0 600 160" preserveAspectRatio="none"></svg>
-            <p id="sb-summary" style="margin-top:12px;color:var(--muted);line-height:1.5"></p>
-            <h2 style="margin-top:20px">Trades</h2>
-            <div style="overflow-x:auto">
-                <table class="trades-table" id="sb-trades"></table>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Saved runs</h2>
-            <p style="color:var(--muted);margin-bottom:12px">Saved in this browser. Export to send a run to iPad Files, Google Drive, email, etc.</p>
-            <div id="saved-runs-list">
-                <p style="color:var(--muted);text-align:center;padding:20px 0">No saved runs yet.</p>
-            </div>
-            <div class="btn-row">
-                <button class="btn-secondary" onclick="exportRuns('json')">Export all (JSON)</button>
-                <button class="btn-secondary" onclick="exportRuns('csv')">Export all (CSV)</button>
-                <button class="btn-secondary" onclick="importRunsPrompt()">Import JSON</button>
-                <input type="file" id="sb-import-input" accept=".json" style="display:none" onchange="importRunsFile(event)">
-            </div>
-        </div>
+    <div class="card">
+      <h2>Rate differential (RBA &minus; Fed)</h2>
+      <div class="grid">
+        <div class="cell"><div class="v" id="rates-rba">—</div><div class="k">RBA cash rate</div></div>
+        <div class="cell"><div class="v" id="rates-fed">—</div><div class="k">Fed funds (upper)</div></div>
+        <div class="cell"><div class="v" id="rates-diff">—</div><div class="k">Differential</div></div>
+        <div class="cell"><div class="v" id="rates-asof" style="font-size:1em">—</div><div class="k">As of</div></div>
+      </div>
+      <details class="explain">
+        <summary>Explain rate differential</summary>
+        <p>When the RBA&apos;s rate is higher than the Fed&apos;s, holding AUD pays more interest than holding USD &mdash; a small tailwind for AUD/USD (the &ldquo;carry&rdquo;). When Fed rates are higher, the carry favours USD.</p>
+        <p>This figure is <strong>hand-maintained</strong> in <code>standalone/api/rates.js</code> &mdash; free public rate APIs either block browsers or need keys. If the source URLs show a different number than what&apos;s displayed above, the file needs a one-line edit and a commit.</p>
+      </details>
     </div>
 
-    <!-- PAGE: Position Calculator -->
-    <div class="page" id="page-calculator">
-        <div class="card">
-            <h2>Position Size Calculator</h2>
-            <p style="color:var(--muted);margin-bottom:20px">Work out how much to trade based on your risk tolerance. Never risk more than you can afford to lose.</p>
-            <div class="calc-form">
-                <div class="form-group">
-                    <label>Your Account Balance (AUD)</label>
-                    <input type="number" id="calc-balance" value="5000" min="100">
-                </div>
-                <div class="form-group">
-                    <label>Risk Per Trade (%)</label>
-                    <input type="number" id="calc-risk" value="2" min="0.5" max="10" step="0.5">
-                </div>
-                <div class="form-group">
-                    <label>Stop Loss (pips)</label>
-                    <input type="number" id="calc-stop" value="50" min="5">
-                </div>
-                <div class="form-group">
-                    <label>Currency Pair</label>
-                    <select id="calc-pair">
-                        <option value="AUDUSD">AUD/USD</option>
-                    </select>
-                </div>
-                <div class="calc-result" id="calc-output">
-                    <div class="big">$0</div>
-                    <div class="detail">Enter your details above</div>
-                </div>
-            </div>
-        </div>
+    <div class="card">
+      <h2>When both strategies agree</h2>
+      <div class="hero flat" id="agree-hero">
+        <div class="lbl">Consensus signal</div>
+        <div class="sig" id="agree-sig">—</div>
+        <div class="rsn" id="agree-rsn">Waiting for both strategies…</div>
+      </div>
+      <details class="explain">
+        <summary>Why agreement matters</summary>
+        <p>The two strategies look at <em>different</em> things: Chameleon reads AUD/USD price action, Catchup reads gold vs AUD. When they agree, you have two independent reasons for the same trade. When they disagree, it usually means conditions are unclear and FLAT is the honest answer.</p>
+        <p>The <strong>Readiness score</strong> on the Health tab combines agreement with data freshness and the live-quote check.</p>
+      </details>
+    </div>
+  </div>
 
-        <div class="card">
-            <h2>Risk Management Rules</h2>
-            <ul class="info-list">
-                <li><span class="il-label">Max risk per trade</span><span class="il-value">1-2% of account</span></li>
-                <li><span class="il-label">Max open positions</span><span class="il-value">1-3 at a time</span></li>
-                <li><span class="il-label">Always use stop loss</span><span class="il-value">Non-negotiable</span></li>
-                <li><span class="il-label">Don't chase losses</span><span class="il-value">Stick to the signal</span></li>
-                <li><span class="il-label">Take profit target</span><span class="il-value">1.5x your stop loss</span></li>
-                <li><span class="il-label">Weekly loss limit</span><span class="il-value">Stop at -5% for the week</span></li>
-            </ul>
-        </div>
-
-        <div class="card">
-            <h2>Quick Reference: AUD/USD</h2>
-            <ul class="info-list">
-                <li><span class="il-label">Pip value (standard lot)</span><span class="il-value">~$10 USD per pip</span></li>
-                <li><span class="il-label">Pip value (mini lot)</span><span class="il-value">~$1 USD per pip</span></li>
-                <li><span class="il-label">Pip value (micro lot)</span><span class="il-value">~$0.10 USD per pip</span></li>
-                <li><span class="il-label">Typical daily range</span><span class="il-value">50-100 pips</span></li>
-                <li><span class="il-label">Typical spread</span><span class="il-value">1-3 pips</span></li>
-            </ul>
-        </div>
+  <!-- ============================== COMPARE ============================== -->
+  <div class="page" id="page-compare">
+    <div class="card">
+      <h2>AUD/USD vs Gold (normalised to 100)</h2>
+      <p style="color:var(--muted);margin-bottom:12px">Both series scaled to 100 at the start of the window, so you can see who leads. If gold moves first and AUD follows, the Catchup thesis is alive.</p>
+      <div class="filter-row" id="compare-range-chips">
+        <span class="chip" data-days="30">30d</span>
+        <span class="chip active" data-days="90">90d</span>
+        <span class="chip" data-days="180">180d</span>
+        <span class="chip" data-days="260">1y</span>
+      </div>
+      <svg class="chart tall" id="compare-chart" viewBox="0 0 600 220" preserveAspectRatio="none"></svg>
+      <div class="grid" style="margin-top:12px">
+        <div class="cell"><div class="v" id="compare-aud-chg">—</div><div class="k">AUD change</div></div>
+        <div class="cell"><div class="v" id="compare-gold-chg">—</div><div class="k">Gold change</div></div>
+        <div class="cell"><div class="v" id="compare-corr">—</div><div class="k">Correlation</div></div>
+        <div class="cell"><div class="v" id="compare-beta">—</div><div class="k">AUD beta to gold</div></div>
+      </div>
+      <details class="explain">
+        <summary>How to read this chart</summary>
+        <ul>
+          <li><strong>Correlation</strong> near +1 = they move together; 0 = no relationship; -1 = opposite.</li>
+          <li><strong>Beta</strong> ~ how much AUD tends to move when gold moves 1%. 0.2-0.4 is typical.</li>
+          <li>Big gaps between the two lines = a Catchup setup, <em>maybe</em>. Not a guarantee the gap closes.</li>
+        </ul>
+      </details>
     </div>
 
-    <!-- PAGE: Journal -->
-    <div class="page" id="page-journal">
-        <div class="card">
-            <h2>Trade Journal</h2>
-            <p style="color:var(--muted);margin-bottom:20px">Track your trades to learn what works. Stored in your browser (private). Use Export for iPad Files / Google Drive / email.</p>
-            <button class="journal-btn" onclick="toggleJournalForm()">+ Log New Trade</button>
-            <div class="btn-row">
-                <button class="btn-secondary" onclick="exportJournal('json')">Export JSON</button>
-                <button class="btn-secondary" onclick="exportJournal('csv')">Export CSV</button>
-                <button class="btn-secondary" onclick="importJournalPrompt()">Import JSON</button>
-                <input type="file" id="j-import-input" accept=".json" style="display:none" onchange="importJournalFile(event)">
-            </div>
+    <div class="card">
+      <h2>Regime context</h2>
+      <p style="color:var(--muted);margin-bottom:12px">Is today&apos;s volatility high, low, or average by recent standards?</p>
+      <div class="grid">
+        <div class="cell"><div class="v" id="regime-curr">—</div><div class="k">Current 20d vol</div></div>
+        <div class="cell"><div class="v" id="regime-avg">—</div><div class="k">1-year avg</div></div>
+        <div class="cell"><div class="v" id="regime-pct">—</div><div class="k">Percentile</div></div>
+        <div class="cell"><div class="v" id="regime-label">—</div><div class="k">Regime label</div></div>
+      </div>
+      <details class="explain">
+        <summary>What is &ldquo;vol percentile&rdquo;?</summary>
+        <p>We rank today&apos;s 20-day volatility against the last ~year. 90th percentile means only 10% of days in the last year were more volatile &mdash; a genuinely jumpy market. Below 25th = calm. The Chameleon flips its rules based on this.</p>
+      </details>
+    </div>
+  </div>
 
-            <div class="journal-form" id="journal-form">
-                <div class="calc-form" style="margin-top:16px">
-                    <div class="form-group">
-                        <label>Date</label>
-                        <input type="date" id="j-date">
-                    </div>
-                    <div class="form-group">
-                        <label>Direction</label>
-                        <select id="j-dir">
-                            <option value="LONG">LONG (Buy AUD)</option>
-                            <option value="SHORT">SHORT (Sell AUD)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Entry Price</label>
-                        <input type="number" id="j-entry" step="0.0001" placeholder="0.7122">
-                    </div>
-                    <div class="form-group">
-                        <label>Exit Price</label>
-                        <input type="number" id="j-exit" step="0.0001" placeholder="0.7150">
-                    </div>
-                    <div class="form-group">
-                        <label>Size (units)</label>
-                        <input type="number" id="j-size" value="1000" placeholder="1000">
-                    </div>
-                    <div class="form-group">
-                        <label>Strategy Used</label>
-                        <select id="j-strat">
-                            <option value="Chameleon">The Chameleon</option>
-                            <option value="Catchup">Catchup Trader</option>
-                            <option value="Manual">Manual / Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group" style="grid-column:1/-1">
-                        <label>Notes</label>
-                        <input type="text" id="j-notes" placeholder="Why I took this trade...">
-                    </div>
-                    <button class="journal-btn" onclick="saveTrade()" style="grid-column:1/-1">Save Trade</button>
-                </div>
-            </div>
-        </div>
+  <!-- ============================== NEWS ============================== -->
+  <div class="page" id="page-news">
+    <div class="card">
+      <h2>Recent AUD-relevant headlines</h2>
+      <p style="color:var(--muted);margin-bottom:12px">Last 72 hours, English-language, via GDELT (free, no account). Pick a focus:</p>
+      <div class="filter-row" id="news-topic-chips">
+        <span class="chip active" data-topic="all">All</span>
+        <span class="chip" data-topic="aud">AUD</span>
+        <span class="chip" data-topic="rba">RBA</span>
+        <span class="chip" data-topic="fed">Fed / US</span>
+        <span class="chip" data-topic="gold">Gold</span>
+        <span class="chip" data-topic="risk">Risk-off</span>
+      </div>
+      <div id="news-status" class="loading">Loading headlines…</div>
+      <div id="news-list"></div>
+      <details class="explain">
+        <summary>What is this feed and how reliable is it?</summary>
+        <p>GDELT is a project that indexes global news. It&apos;s <strong>free</strong> and <strong>genuinely near-real-time</strong> (minutes), but quality varies: you&apos;ll see everything from major outlets to small blogs. Use it to get a sense of <em>what stories are circulating</em>, not as a single source of truth.</p>
+        <p>The search is wide: we include AUD, RBA, Fed, US inflation, gold, and risk-off keywords, because any of those can move AUD/USD.</p>
+      </details>
+    </div>
+  </div>
 
-        <div class="card">
-            <h2>Your Trades</h2>
-            <div id="journal-list">
-                <p style="color:var(--muted);text-align:center;padding:30px 0">No trades logged yet. Start tracking to see patterns!</p>
-            </div>
+  <!-- ============================== SANDBOX ============================== -->
+  <div class="page" id="page-sandbox">
+    <div class="card">
+      <h2>Example runs (replay the live-fetched history)</h2>
+      <p style="color:var(--muted);margin-bottom:12px">Replay the same daily series the Now tab is using, as if you had followed the signals. <strong>Learning tool</strong>: daily closes, one position at a time, no spread or slippage. Good for &ldquo;would this have worked lately&rdquo;, not a real backtest.</p>
+      <div class="form">
+        <div class="fg">
+          <label>Strategy</label>
+          <select id="sb-strategy">
+            <option value="chameleon">The Chameleon</option>
+            <option value="catchup">Catchup Trader</option>
+            <option value="both">Both must agree</option>
+          </select>
         </div>
-
-        <div class="card">
-            <h2>Journal Stats</h2>
-            <div class="data-grid" id="journal-stats">
-                <div class="data-cell"><div class="data-val" id="js-total">0</div><div class="data-lbl">Total Trades</div></div>
-                <div class="data-cell"><div class="data-val" id="js-wins">0%</div><div class="data-lbl">Win Rate</div></div>
-                <div class="data-cell"><div class="data-val" id="js-pnl">$0</div><div class="data-lbl">Total P&L</div></div>
-                <div class="data-cell"><div class="data-val" id="js-best">$0</div><div class="data-lbl">Best Trade</div></div>
-            </div>
+        <div class="fg">
+          <label>Lookback (days)</label>
+          <select id="sb-lookback">
+            <option value="30">Last 30</option>
+            <option value="90" selected>Last 90</option>
+            <option value="180">Last 180</option>
+            <option value="260">Last year</option>
+          </select>
         </div>
+        <div class="fg">
+          <label>Account (AUD)</label>
+          <input type="number" id="sb-balance" value="5000" min="100">
+        </div>
+        <div class="fg">
+          <label>Risk per trade (%)</label>
+          <input type="number" id="sb-risk" value="2" min="0.5" max="10" step="0.5">
+        </div>
+        <div class="fg">
+          <label>Stop loss (pips)</label>
+          <input type="number" id="sb-stop" value="50" min="5">
+        </div>
+        <div class="fg">
+          <label>Take profit (&times; stop)</label>
+          <input type="number" id="sb-tp" value="1.5" min="0.5" step="0.25">
+        </div>
+        <div class="fg" style="grid-column:1/-1">
+          <label style="display:flex;align-items:center;gap:8px">
+            <input type="checkbox" id="sb-skip-flat" checked style="width:auto"> Skip FLAT days (don&apos;t hold)
+          </label>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn" onclick="runSandbox()" style="flex:1;min-width:160px">Run replay</button>
+        <button class="btn-sec" onclick="saveRun()" id="sb-save-btn" disabled>Save this run</button>
+      </div>
+      <details class="explain">
+        <summary>What this engine actually does</summary>
+        <ul>
+          <li>For each day, it asks: what signal does the strategy give?</li>
+          <li>When the signal flips (FLAT &rarr; LONG etc.), it enters at the <em>next</em> day&apos;s close.</li>
+          <li>Stop and take-profit are checked against the daily close only (crude &mdash; real markets have intraday spikes).</li>
+          <li>Position size is chosen so a full stop-loss = your risk-% of account.</li>
+          <li>No broker fees, no overnight swap, no spread. Real trades lose 2-5 pips to the spread alone.</li>
+        </ul>
+      </details>
     </div>
 
-    <!-- PAGE: Learn -->
-    <div class="page" id="page-learn">
-        <div class="card">
-            <h2>Getting Started with FX Trading</h2>
-            <ul class="info-list">
-                <li><span class="il-label">What is AUD/USD?</span><span class="il-value">How many US cents 1 AUD buys</span></li>
-                <li><span class="il-label">AUD/USD = 0.7122 means</span><span class="il-value">$1 AUD = $0.7122 USD</span></li>
-                <li><span class="il-label">LONG (Buy) means</span><span class="il-value">You think AUD will go UP</span></li>
-                <li><span class="il-label">SHORT (Sell) means</span><span class="il-value">You think AUD will go DOWN</span></li>
-                <li><span class="il-label">FLAT means</span><span class="il-value">No clear signal - don't trade</span></li>
-                <li><span class="il-label">A "pip" is</span><span class="il-value">0.0001 move (e.g. 0.7100 to 0.7101)</span></li>
-            </ul>
-        </div>
-
-        <div class="card">
-            <h2>The Chameleon Strategy</h2>
-            <ul class="info-list">
-                <li><span class="il-label">Idea</span><span class="il-value">Different markets need different strategies</span></li>
-                <li><span class="il-label">In calm markets</span><span class="il-value">Follow the trend (momentum)</span></li>
-                <li><span class="il-label">In crazy markets</span><span class="il-value">Buy dips, sell rallies (mean revert)</span></li>
-                <li><span class="il-label">Why unconventional</span><span class="il-value">Most people stick to one strategy always</span></li>
-                <li><span class="il-label">Historical return</span><span class="il-value">+14.91% over 14 months</span></li>
-            </ul>
-        </div>
-
-        <div class="card">
-            <h2>The Catchup Trader Strategy</h2>
-            <ul class="info-list">
-                <li><span class="il-label">Idea</span><span class="il-value">AUD follows gold (Australia exports it)</span></li>
-                <li><span class="il-label">The edge</span><span class="il-value">Trade BEFORE AUD catches up to gold's move</span></li>
-                <li><span class="il-label">Example</span><span class="il-value">Gold up 3%, AUD only up 0.5% = Buy AUD</span></li>
-                <li><span class="il-label">Why unconventional</span><span class="il-value">Most people trade AFTER alignment, not before</span></li>
-                <li><span class="il-label">Historical return</span><span class="il-value">+13.26% over 14 months</span></li>
-            </ul>
-        </div>
-
-        <div class="card">
-            <h2>Where to Trade (Beginner-Friendly Brokers)</h2>
-            <ul class="info-list">
-                <li><span class="il-label">Pepperstone</span><span class="il-value">Australian, low spreads, ASIC regulated</span></li>
-                <li><span class="il-label">IC Markets</span><span class="il-value">Australian, popular, micro lots OK</span></li>
-                <li><span class="il-label">OANDA</span><span class="il-value">No minimum deposit, good for beginners</span></li>
-                <li><span class="il-label">IG Markets</span><span class="il-value">Well known, educational resources</span></li>
-                <li><span class="il-label">Demo accounts</span><span class="il-value">All above offer free practice accounts</span></li>
-            </ul>
-            <p style="color:var(--muted);margin-top:16px;font-size:0.85em">Start with a demo account for at least 1 month before using real money. When ready, start with micro lots ($0.10 per pip).</p>
-        </div>
-
-        <div class="card">
-            <h2>Data Sources</h2>
-            <ul class="info-list">
-                <li><span class="il-label">AUD/USD prices</span><span class="il-value">ECB via Frankfurter (free, no key)</span></li>
-                <li><span class="il-label">Gold prices</span><span class="il-value">Yahoo Finance via yfinance (free)</span></li>
-                <li><span class="il-label">RBA rate</span><span class="il-value">RBA website scrape (free)</span></li>
-                <li><span class="il-label">Fed rate</span><span class="il-value">FRED API (free key)</span></li>
-                <li><span class="il-label">News sentiment</span><span class="il-value">GDELT + ABC News RSS (free)</span></li>
-            </ul>
-            <p style="color:var(--muted);margin-top:16px;font-size:0.85em">Signals use <strong>daily</strong> data baked into JSON when you run update scripts — not a live price stream. Use the <strong>Data health</strong> tab before trusting a signal for real money.</p>
-        </div>
+    <div class="card" id="sb-results" style="display:none">
+      <h2>Result</h2>
+      <div class="grid" id="sb-stats"></div>
+      <h2 style="margin-top:20px">Equity curve</h2>
+      <svg class="chart" id="sb-equity" viewBox="0 0 600 180" preserveAspectRatio="none"></svg>
+      <p id="sb-summary" style="margin-top:12px;color:var(--muted);line-height:1.5"></p>
+      <h2 style="margin-top:20px">Trades</h2>
+      <div style="overflow-x:auto"><table class="tbl" id="sb-trades"></table></div>
     </div>
 
-    <!-- PAGE: Data health -->
-    <div class="page" id="page-health">
-        <div class="card">
-            <h2>Bundle freshness</h2>
-            <p style="color:var(--muted);margin-bottom:16px">This app is static: numbers come from <code style="background:var(--card2);padding:2px 6px;border-radius:4px">chameleon_data.json</code> and <code style="background:var(--card2);padding:2px 6px;border-radius:4px">catchup_data.json</code>. If you never refresh them, signals can be days old while the UI still &quot;works&quot;.</p>
-            <div id="health-banner" class="health-banner ok">Loading…</div>
-            <ul class="info-list">
-                <li><span class="il-label">Chameleon bundle time</span><span class="il-value" id="health-ts-cham">--</span></li>
-                <li><span class="il-label">Catchup bundle time</span><span class="il-value" id="health-ts-catch">--</span></li>
-                <li><span class="il-label">Age (older of the two)</span><span class="il-value" id="health-age">--</span></li>
-                <li><span class="il-label">JSON load</span><span class="il-value" id="health-json">--</span></li>
-            </ul>
+    <div class="card">
+      <h2>Saved runs</h2>
+      <p style="color:var(--muted);margin-bottom:12px">Saved in this browser. Export to send a run to iPad Files, Google Drive, email.</p>
+      <div id="saved-runs-list"><p class="loading">No saved runs yet.</p></div>
+      <div class="btn-row">
+        <button class="btn-sec" onclick="exportRuns('json')">Export all (JSON)</button>
+        <button class="btn-sec" onclick="exportRuns('csv')">Export all (CSV)</button>
+        <button class="btn-sec" onclick="importRunsPrompt()">Import JSON</button>
+        <input type="file" id="sb-import-input" accept=".json" style="display:none" onchange="importRunsFile(event)">
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== JOURNAL ============================== -->
+  <div class="page" id="page-journal">
+    <div class="card">
+      <h2>Trade Journal</h2>
+      <p style="color:var(--muted);margin-bottom:12px">Track demo (or eventually real) trades to see what works. Stored in your browser. Use Export for iPad Files / Google Drive.</p>
+      <button class="btn" onclick="toggleJournalForm()">+ Log New Trade</button>
+      <div class="btn-row">
+        <button class="btn-sec" onclick="exportJournal('json')">Export JSON</button>
+        <button class="btn-sec" onclick="exportJournal('csv')">Export CSV</button>
+        <button class="btn-sec" onclick="importJournalPrompt()">Import JSON</button>
+        <input type="file" id="j-import-input" accept=".json" style="display:none" onchange="importJournalFile(event)">
+      </div>
+      <div id="journal-form" style="display:none">
+        <div class="form" style="margin-top:14px">
+          <div class="fg"><label>Date</label><input type="date" id="j-date"></div>
+          <div class="fg"><label>Direction</label>
+            <select id="j-dir"><option value="LONG">LONG (Buy AUD)</option><option value="SHORT">SHORT (Sell AUD)</option></select>
+          </div>
+          <div class="fg"><label>Entry price</label><input type="number" id="j-entry" step="0.0001" placeholder="0.7122"></div>
+          <div class="fg"><label>Exit price</label><input type="number" id="j-exit" step="0.0001" placeholder="0.7150"></div>
+          <div class="fg"><label>Size (units)</label><input type="number" id="j-size" value="1000"></div>
+          <div class="fg"><label>Strategy</label>
+            <select id="j-strat"><option value="Chameleon">Chameleon</option><option value="Catchup">Catchup</option><option value="Both">Both agree</option><option value="Manual">Manual</option></select>
+          </div>
+          <div class="fg" style="grid-column:1/-1"><label>Notes</label><input type="text" id="j-notes" placeholder="Why I took this trade…"></div>
+          <button class="btn" onclick="saveTrade()" style="grid-column:1/-1">Save trade</button>
         </div>
-        <div class="card">
-            <h2>Live quote check</h2>
-            <p style="color:var(--muted);margin-bottom:12px">Fetches today&apos;s <strong>reference</strong> rate from Frankfurter (public API). Compare to the AUD/USD shown on <strong>Signals</strong>. Small differences are normal (daily close vs &quot;latest&quot;). A <strong>large</strong> gap usually means your bundle is stale — refresh data and redeploy.</p>
-            <button type="button" class="journal-btn" onclick="runLiveQuoteCheck()">Run live quote check</button>
-            <div class="health-live" id="health-live-result"></div>
-        </div>
-        <div class="card">
-            <h2>Manual checks (always work)</h2>
-            <ul class="info-list">
-                <li><span class="il-label">Open JSON</span><span class="il-value">Same folder as this page; confirm last_updated</span></li>
-                <li><span class="il-label">Frankfurter</span><span class="il-value">api.frankfurter.app/latest?from=AUD&amp;to=USD</span></li>
-                <li><span class="il-label">Full guide</span><span class="il-value">GitHub: docs/USER_GUIDE.md</span></li>
-            </ul>
-        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Your trades</h2>
+      <div id="journal-list"><p class="loading">No trades yet.</p></div>
+    </div>
+    <div class="card">
+      <h2>Journal stats</h2>
+      <div class="grid">
+        <div class="cell"><div class="v" id="js-total">0</div><div class="k">Trades</div></div>
+        <div class="cell"><div class="v" id="js-wins">0%</div><div class="k">Win rate</div></div>
+        <div class="cell"><div class="v" id="js-pnl">$0</div><div class="k">Total P&amp;L</div></div>
+        <div class="cell"><div class="v" id="js-best">$0</div><div class="k">Best trade</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== LEARN ============================== -->
+  <div class="page" id="page-learn">
+    <div class="card">
+      <h2>Start here</h2>
+      <details class="explain" open>
+        <summary>What does this app actually do?</summary>
+        <p>It reads free public data (AUD/USD daily rate from the European Central Bank, gold daily close from stooq, recent news headlines from GDELT, hand-maintained RBA/Fed target rates), runs two simple rule-based strategies on that data, and shows you a daily LONG / SHORT / FLAT view for AUD/USD.</p>
+        <p>The <strong>Sandbox</strong> lets you replay the same data as if you&apos;d followed the rules, to see <em>would this have worked in the last 30-260 days</em>. The <strong>Journal</strong> lets you log your own (demo or real) trades. Everything is local to your browser except the news and price fetches.</p>
+      </details>
+      <details class="explain">
+        <summary>Is the data live?</summary>
+        <p><strong>Short answer: daily, not tick.</strong></p>
+        <ul>
+          <li>AUD/USD (Frankfurter / ECB) is published once per business day, ~16:00 Central European Time. During Australian trading hours today&apos;s number usually hasn&apos;t been published yet &mdash; you&apos;ll see yesterday&apos;s close.</li>
+          <li>Gold (stooq) is the previous session&apos;s close.</li>
+          <li>News (GDELT) is near-real-time (minutes).</li>
+        </ul>
+        <p>For learning and demo trading this is fine. For live trading you&apos;d need a paid/intraday API &mdash; that would be a separate feature.</p>
+      </details>
+      <details class="explain">
+        <summary>Is it safe to trade with real money based on this?</summary>
+        <p><strong>No.</strong> This is a <em>learning and observation tool</em>. The strategies are simple rules, not an edge anyone should bet serious money on. Use demo accounts, expect to lose often at first, and treat the numbers here as prompts to think, not instructions.</p>
+      </details>
     </div>
 
-    <div class="disclaimer">
-        Not financial advice. Past performance does not guarantee future results.<br>
-        Always use a demo account first. Never risk money you can't afford to lose.
+    <div class="card">
+      <h2>Glossary</h2>
+      <details class="explain"><summary>AUD/USD</summary><p>Number of US dollars 1 Australian dollar buys. 0.6800 means 1 AUD = 68 US cents.</p></details>
+      <details class="explain"><summary>Pip</summary><p>Smallest commonly quoted move. For AUD/USD a pip is 0.0001 (0.6800 &rarr; 0.6801).</p></details>
+      <details class="explain"><summary>LONG / SHORT / FLAT</summary><p>LONG = buy AUD (profit if AUD goes up). SHORT = sell AUD (profit if AUD goes down). FLAT = stay out.</p></details>
+      <details class="explain"><summary>Stop loss</summary><p>Price at which your broker automatically closes a losing trade. Position size is chosen so hitting the stop = your risk-% of account. Non-negotiable if you want to survive.</p></details>
+      <details class="explain"><summary>Take profit</summary><p>Price at which your broker automatically closes a winning trade. Set as a multiple of stop (1.5&times; is a common starting point &mdash; you need to win more often than you lose to be profitable at 1&times;).</p></details>
+      <details class="explain"><summary>Moving average (MA)</summary><p>Average price over the last N days. 20-day MA smooths out noise and shows direction. Price &gt; MA generally = uptrend.</p></details>
+      <details class="explain"><summary>Volatility</summary><p>How much prices wiggle. Here: standard deviation of the last 20 daily returns. Higher = wider daily ranges.</p></details>
+      <details class="explain"><summary>Regime</summary><p>A label (low / med / high) for how volatile the recent market has been. Different regimes reward different strategies.</p></details>
+      <details class="explain"><summary>Correlation</summary><p>How closely two things move together. +1 = lockstep, 0 = unrelated, -1 = opposite. Gold and AUD are typically +0.3 to +0.6.</p></details>
+      <details class="explain"><summary>Carry / rate differential</summary><p>Higher-yielding currency pays interest to its holder. If RBA &gt; Fed, holding AUD earns more than holding USD, so AUD tends to have a small tailwind. Breaks down fast in risk-off markets.</p></details>
+      <details class="explain"><summary>Backtest</summary><p>Replaying historical data to see how a strategy would have performed. <em>Should</em> be a starting point for real trading, never an end point &mdash; the future rarely matches the past.</p></details>
+      <details class="explain"><summary>Demo account</summary><p>Broker account with fake money. Same platform, same prices, no risk. Use this for at least a month before any real capital.</p></details>
     </div>
+
+    <div class="card">
+      <h2>What can go wrong</h2>
+      <details class="explain"><summary>Strategy stops working</summary><p>Simple rules work until they don&apos;t. A new macro regime (like a rate-cutting cycle, or a China shock) can make a previously profitable rule lose money for months.</p></details>
+      <details class="explain"><summary>Slippage and spread</summary><p>Your broker doesn&apos;t fill you at the mid-price. Spread + slippage might cost you 3-5 pips per trade. Our Sandbox ignores this, so real results are always worse.</p></details>
+      <details class="explain"><summary>Overfitting backtests</summary><p>If you tune the parameters until the backtest looks great, you&apos;ve probably just memorised history. The honest test is running the strategy forward in real time (on demo) for weeks/months.</p></details>
+      <details class="explain"><summary>Leverage</summary><p>FX is usually traded on margin. Same rule: if 50:1 leverage lets you feel thrills, it will also blow up your account. Start with micro lots and almost no leverage.</p></details>
+    </div>
+  </div>
+
+  <!-- ============================== HEALTH ============================== -->
+  <div class="page" id="page-health">
+    <div class="card">
+      <h2>Connectivity check</h2>
+      <p style="color:var(--muted);margin-bottom:12px">Runs a quick test of each data source the app relies on. If one is red, the related card on Now will say so.</p>
+      <div id="health-list"></div>
+      <button class="btn" onclick="runHealthCheck()" style="margin-top:12px">Run checks again</button>
+    </div>
+    <div class="card">
+      <h2>Readiness score</h2>
+      <div class="hero flat" id="readiness-hero">
+        <div class="lbl">Readiness</div>
+        <div class="sig" id="readiness-score">—</div>
+        <div class="rsn" id="readiness-reasons">Loading…</div>
+      </div>
+      <details class="explain">
+        <summary>How the score is built</summary>
+        <ul>
+          <li>+1 FX feed OK</li>
+          <li>+1 Gold feed OK</li>
+          <li>+1 News feed OK</li>
+          <li>+1 Chameleon signal is not FLAT</li>
+          <li>+1 Catchup signal is not FLAT</li>
+          <li>+1 Both strategies agree</li>
+        </ul>
+        <p>Max 6. Anything below 4 = treat today as a learn-only day. Even a 6 doesn&apos;t mean &ldquo;trade now&rdquo; &mdash; it means the tools are working and the pattern is clear.</p>
+      </details>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    Not financial advice. Past performance doesn&apos;t predict future results. Use a demo account.
+  </div>
 </div>
 
 <script>
-window.__trade1Data = { cham: null, catch: null, chamErr: null, catchErr: null };
+'use strict';
 
-/* Navigation */
-function showPage(id, el) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.getElementById('page-' + id).classList.add('active');
-    if (el) el.classList.add('active');
-    if (id === 'health') refreshHealthPanel();
-    if (id === 'signals') refreshStatusPills();
+/* =========================================================================
+   DATA LAYER - talks to /api/*, caches in memory for the page's lifetime.
+   ========================================================================= */
+const DATA = {
+  fx: null, gold: null, rates: null, news: null,
+  errors: {}, lastFetched: {}
+};
+
+async function fetchJson(url) {
+  const r = await fetch(url, { cache: 'no-store' });
+  if (!r.ok) throw new Error('HTTP ' + r.status);
+  return r.json();
 }
 
-function switchStrategy(id, el) {
-    document.querySelectorAll('.strat-btn').forEach(b => b.classList.remove('active'));
-    if (el) el.classList.add('active');
-    document.getElementById('view-chameleon').style.display = id === 'chameleon' ? 'block' : 'none';
-    document.getElementById('view-catchup').style.display = id === 'catchup' ? 'block' : 'none';
+async function loadFx(days) {
+  try {
+    const j = await fetchJson('/api/fx?days=' + (days || 260));
+    DATA.fx = j; DATA.lastFetched.fx = new Date(); DATA.errors.fx = null;
+  } catch (e) { DATA.errors.fx = String(e.message || e); DATA.fx = null; }
+}
+async function loadGold(days) {
+  try {
+    const j = await fetchJson('/api/gold?days=' + (days || 260));
+    DATA.gold = j; DATA.lastFetched.gold = new Date(); DATA.errors.gold = null;
+  } catch (e) { DATA.errors.gold = String(e.message || e); DATA.gold = null; }
+}
+async function loadRates() {
+  try {
+    const j = await fetchJson('/api/rates');
+    DATA.rates = j; DATA.lastFetched.rates = new Date(); DATA.errors.rates = null;
+  } catch (e) { DATA.errors.rates = String(e.message || e); DATA.rates = null; }
+}
+async function loadNews(topic) {
+  try {
+    const j = await fetchJson('/api/news?topic=' + encodeURIComponent(topic || 'all') + '&limit=25');
+    DATA.news = j; DATA.lastFetched.news = new Date(); DATA.errors.news = null;
+    return j;
+  } catch (e) { DATA.errors.news = String(e.message || e); DATA.news = null; return null; }
 }
 
-/* Load Chameleon data */
-async function loadChameleon() {
-    try {
-        const r = await fetch('chameleon_data.json');
-        const d = await r.json();
-        const hero = document.getElementById('cham-hero');
-        hero.className = 'signal-hero ' + d.signal.toLowerCase();
-        document.getElementById('cham-signal').textContent = d.signal;
-        document.getElementById('cham-reason').textContent = d.description;
-        document.getElementById('cham-price').textContent = d.aud_price.toFixed(4);
-        document.getElementById('cham-ma').textContent = d.ma_20.toFixed(4);
-        document.getElementById('cham-vol').textContent = (d.volatility * 100).toFixed(2) + '%';
-        const dist = d.price_vs_ma_pct;
-        const distEl = document.getElementById('cham-dist');
-        distEl.textContent = (dist > 0 ? '+' : '') + dist.toFixed(2) + '%';
-        distEl.className = 'data-val ' + (dist > 0.5 ? 'up' : dist < -0.5 ? 'down' : 'neutral');
-        document.getElementById('reg-low').classList.toggle('active', d.regime === 'low');
-        document.getElementById('reg-med').classList.toggle('active', d.regime === 'med');
-        document.getElementById('reg-high').classList.toggle('active', d.regime === 'high');
-        window.__trade1Data.cham = d;
-        window.__trade1Data.chamErr = null;
-        refreshHealthPanel();
-    } catch(e) {
-        console.error('Chameleon load error:', e);
-        window.__trade1Data.cham = null;
-        window.__trade1Data.chamErr = String(e.message || e);
-        refreshHealthPanel();
-    }
+/* =========================================================================
+   SIGNALS - computed in the browser from fetched history.
+   Same rules as the Python scripts, just live.
+   ========================================================================= */
+function pct(a, b) { return b === 0 ? 0 : (a - b) / b * 100; }
+function std(arr) {
+  if (arr.length < 2) return 0;
+  const m = arr.reduce((s, x) => s + x, 0) / arr.length;
+  const v = arr.reduce((s, x) => s + (x - m) * (x - m), 0) / (arr.length - 1);
+  return Math.sqrt(v);
+}
+function quantile(sortedArr, q) {
+  if (!sortedArr.length) return 0;
+  const pos = (sortedArr.length - 1) * q;
+  const base = Math.floor(pos);
+  const rest = pos - base;
+  if (base + 1 < sortedArr.length) return sortedArr[base] + rest * (sortedArr[base + 1] - sortedArr[base]);
+  return sortedArr[base];
 }
 
-/* Load Catchup data */
-async function loadCatchup() {
-    try {
-        const r = await fetch('catchup_data.json');
-        const d = await r.json();
-        const hero = document.getElementById('catch-hero');
-        hero.className = 'signal-hero ' + d.signal.toLowerCase();
-        document.getElementById('catch-signal').textContent = d.signal;
-        document.getElementById('catch-reason').textContent = d.description;
-        const gm = d.gold_momentum;
-        const am = d.aud_momentum;
-        document.getElementById('catch-gold').textContent = (gm > 0 ? '+' : '') + gm.toFixed(2) + '%';
-        document.getElementById('catch-aud').textContent = (am > 0 ? '+' : '') + am.toFixed(2) + '%';
-        document.getElementById('catch-arrow').textContent = d.is_diverged ? '!=' : '=';
-        document.getElementById('catch-explain').textContent = d.explanation;
-        window.__trade1Data.catch = d;
-        window.__trade1Data.catchErr = null;
-        refreshHealthPanel();
-    } catch(e) {
-        console.error('Catchup load error:', e);
-        window.__trade1Data.catch = null;
-        window.__trade1Data.catchErr = String(e.message || e);
-        refreshHealthPanel();
-    }
+function computeChameleon(fxHistory) {
+  if (!fxHistory || fxHistory.length < 40) return null;
+  const closes = fxHistory.map(r => r.rate);
+  const returns = [];
+  for (let i = 1; i < closes.length; i++) returns.push((closes[i] - closes[i-1]) / closes[i-1]);
+  // 20-day rolling stats on most recent
+  const last20 = closes.slice(-20);
+  const ma20 = last20.reduce((s,x)=>s+x,0) / last20.length;
+  const ret20 = returns.slice(-20);
+  const vol = std(ret20);
+  // All 20-day rolling vols over the history, for regime tercile
+  const allVols = [];
+  for (let i = 20; i < returns.length; i++) {
+    allVols.push(std(returns.slice(i - 20, i)));
+  }
+  const sortedVols = allVols.slice().sort((a,b)=>a-b);
+  const q33 = quantile(sortedVols, 1/3);
+  const q66 = quantile(sortedVols, 2/3);
+  let regime = 'med';
+  if (vol <= q33) regime = 'low';
+  else if (vol >= q66) regime = 'high';
+
+  const price = closes[closes.length - 1];
+  const priceVsMa = pct(price, ma20);
+
+  let signal = 'FLAT', reason = 'Medium volatility &mdash; no edge, staying out.';
+  if (regime === 'low') {
+    if (price > ma20) { signal = 'LONG'; reason = 'Calm market, price above 20-day MA &rarr; follow the uptrend.'; }
+    else if (price < ma20) { signal = 'SHORT'; reason = 'Calm market, price below 20-day MA &rarr; follow the downtrend.'; }
+    else { signal = 'FLAT'; reason = 'Calm, but price sitting on the MA. Wait.'; }
+  } else if (regime === 'high') {
+    if (priceVsMa < -1.5) { signal = 'LONG'; reason = 'Jumpy market, price 1.5%+ below MA &rarr; fade the dip.'; }
+    else if (priceVsMa > 1.5) { signal = 'SHORT'; reason = 'Jumpy market, price 1.5%+ above MA &rarr; fade the rally.'; }
+    else { signal = 'FLAT'; reason = 'Jumpy market, but no extreme yet.'; }
+  }
+
+  return { signal, reason, price, ma20, vol, priceVsMa, regime, returns, closes };
 }
 
-function parseBundleDate(s) {
-    if (!s || typeof s !== 'string') return null;
-    var m = s.match(/^(\d{4}-\d{2}-\d{2})\s+(\d{2}):(\d{2})\s+UTC$/);
-    if (!m) return null;
-    return new Date(m[1] + 'T' + m[2] + ':' + m[3] + ':00Z');
+function computeCatchup(fxHistory, goldHistory) {
+  if (!fxHistory || fxHistory.length < 10) return null;
+  if (!goldHistory || goldHistory.length < 10) return null;
+  // Align on date
+  const goldMap = {};
+  goldHistory.forEach(r => { goldMap[r.date] = r.close; });
+  const paired = [];
+  fxHistory.forEach(r => {
+    if (goldMap[r.date] != null) paired.push({ date: r.date, rate: r.rate, gold: goldMap[r.date] });
+  });
+  if (paired.length < 10) return null;
+
+  const n = paired.length;
+  const last = paired[n - 1];
+  const prev5 = paired[n - 6] || paired[0];
+  const goldMom = pct(last.gold, prev5.gold);
+  const audMom = pct(last.rate, prev5.rate);
+
+  const GOLD_THR = 2.0, AUD_THR = 1.0;
+  let signal = 'FLAT', diverged = false;
+  let description = 'Gold ' + goldMom.toFixed(2) + '%, AUD ' + audMom.toFixed(2) + '% (5d). Moving together or both small.';
+  if (goldMom > GOLD_THR && audMom < AUD_THR) {
+    signal = 'LONG'; diverged = true;
+    description = 'Gold up ' + goldMom.toFixed(2) + '% but AUD only ' + audMom.toFixed(2) + '% &rarr; buy AUD catch-up.';
+  } else if (goldMom < -GOLD_THR && audMom > -AUD_THR) {
+    signal = 'SHORT'; diverged = true;
+    description = 'Gold down ' + goldMom.toFixed(2) + '% but AUD only ' + audMom.toFixed(2) + '% &rarr; sell AUD catch-down.';
+  }
+
+  // 90-day correlation of daily returns
+  const recent = paired.slice(-91);
+  const goldR = [], audR = [];
+  for (let i = 1; i < recent.length; i++) {
+    goldR.push((recent[i].gold - recent[i-1].gold) / recent[i-1].gold);
+    audR.push((recent[i].rate - recent[i-1].rate) / recent[i-1].rate);
+  }
+  const corr = correlation(goldR, audR);
+
+  return { signal, description, goldMom, audMom, diverged, corr, paired };
 }
 
-function refreshHealthPanel() {
-    var banner = document.getElementById('health-banner');
-    var tsCham = document.getElementById('health-ts-cham');
-    var tsCatch = document.getElementById('health-ts-catch');
-    var ageEl = document.getElementById('health-age');
-    var jsonEl = document.getElementById('health-json');
-    if (!banner) return;
+function correlation(a, b) {
+  const n = Math.min(a.length, b.length);
+  if (n < 2) return 0;
+  let ma = 0, mb = 0;
+  for (let i = 0; i < n; i++) { ma += a[i]; mb += b[i]; }
+  ma /= n; mb /= n;
+  let num = 0, da = 0, db = 0;
+  for (let i = 0; i < n; i++) { const x = a[i] - ma, y = b[i] - mb; num += x * y; da += x * x; db += y * y; }
+  if (da === 0 || db === 0) return 0;
+  return num / Math.sqrt(da * db);
+}
 
-    var c = window.__trade1Data;
-    var chamOk = c.cham && c.cham.last_updated;
-    var catchOk = c.catch && c.catch.last_updated;
-    tsCham.textContent = chamOk ? c.cham.last_updated : (c.chamErr || 'not loaded');
-    tsCatch.textContent = catchOk ? c.catch.last_updated : (c.catchErr || 'not loaded');
+function linReg(x, y) {
+  const n = Math.min(x.length, y.length);
+  if (n < 2) return { slope: 0, intercept: 0 };
+  let mx = 0, my = 0;
+  for (let i = 0; i < n; i++) { mx += x[i]; my += y[i]; }
+  mx /= n; my /= n;
+  let num = 0, den = 0;
+  for (let i = 0; i < n; i++) { num += (x[i] - mx) * (y[i] - my); den += (x[i] - mx) * (x[i] - mx); }
+  const slope = den === 0 ? 0 : num / den;
+  return { slope, intercept: my - slope * mx };
+}
 
-    if (c.chamErr || c.catchErr) {
-        jsonEl.textContent = 'Failed — open DevTools console or use http:// server';
-        banner.className = 'health-banner bad';
-        banner.textContent = 'One or both JSON files failed to load. Serve this folder over http(s), not file://.';
-        ageEl.textContent = '--';
-        return;
-    }
-    jsonEl.textContent = 'OK';
+/* =========================================================================
+   UI RENDER - Now tab
+   ========================================================================= */
+function renderNow() {
+  const chamResult = DATA.fx ? computeChameleon(DATA.fx.history) : null;
+  const catchResult = (DATA.fx && DATA.gold) ? computeCatchup(DATA.fx.history, DATA.gold.history) : null;
 
-    var d1 = parseBundleDate(c.cham.last_updated);
-    var d2 = parseBundleDate(c.catch.last_updated);
-    if (!d1 || !d2) {
-        ageEl.textContent = 'unknown';
-        banner.className = 'health-banner warn';
-        banner.textContent = 'Could not parse timestamps. Check JSON last_updated format.';
-        return;
-    }
-    var older = d1 < d2 ? d1 : d2;
-    var now = new Date();
-    var hours = (now - older) / 3600000;
-    ageEl.textContent = hours < 1 ? (Math.round(hours * 60) + ' min') : (hours.toFixed(1) + ' hours');
+  renderErrorBanner();
 
-    if (hours > 72) {
-        banner.className = 'health-banner bad';
-        banner.textContent = 'Bundle is old (>72h). Run update_chameleon.py / update_catchup.py (or your refresh pipeline) before trusting signals.';
-    } else if (hours > 36) {
-        banner.className = 'health-banner warn';
-        banner.textContent = 'Bundle is aging (>36h). Refresh when you can — still OK for learning, risky for live trades.';
+  // Chameleon card
+  const ch = document.getElementById('cham-hero');
+  if (chamResult) {
+    ch.className = 'hero ' + chamResult.signal.toLowerCase();
+    document.getElementById('cham-sig').textContent = chamResult.signal;
+    document.getElementById('cham-rsn').innerHTML = chamResult.reason;
+    document.getElementById('cham-price').textContent = chamResult.price.toFixed(4);
+    document.getElementById('cham-ma').textContent = chamResult.ma20.toFixed(4);
+    document.getElementById('cham-vol').textContent = (chamResult.vol * 100).toFixed(2) + '%';
+    document.getElementById('cham-regime').textContent = chamResult.regime.toUpperCase();
+  } else {
+    ch.className = 'hero flat';
+    document.getElementById('cham-sig').textContent = '—';
+    document.getElementById('cham-rsn').textContent = DATA.errors.fx ? 'FX feed unavailable.' : 'Loading…';
+  }
+
+  // Catchup card
+  const cc = document.getElementById('catch-hero');
+  if (catchResult) {
+    cc.className = 'hero ' + catchResult.signal.toLowerCase();
+    document.getElementById('catch-sig').textContent = catchResult.signal;
+    document.getElementById('catch-rsn').innerHTML = catchResult.description;
+    document.getElementById('catch-gold').textContent = (catchResult.goldMom>=0?'+':'') + catchResult.goldMom.toFixed(2) + '%';
+    document.getElementById('catch-aud').textContent  = (catchResult.audMom>=0?'+':'')  + catchResult.audMom.toFixed(2)  + '%';
+    document.getElementById('catch-gap').textContent  = (catchResult.goldMom - catchResult.audMom).toFixed(2) + '% gap';
+    document.getElementById('catch-corr').textContent = catchResult.corr.toFixed(2);
+  } else {
+    cc.className = 'hero flat';
+    document.getElementById('catch-sig').textContent = '—';
+    const msg = DATA.errors.gold ? 'Gold feed unavailable.' : DATA.errors.fx ? 'FX feed unavailable.' : 'Loading…';
+    document.getElementById('catch-rsn').textContent = msg;
+  }
+
+  // Rates card
+  const r = DATA.rates;
+  if (r) {
+    document.getElementById('rates-rba').textContent = r.rba.rate.toFixed(2) + '%';
+    document.getElementById('rates-fed').textContent = r.fed.rate.toFixed(2) + '%';
+    const d = r.differential_rba_minus_fed;
+    const el = document.getElementById('rates-diff');
+    el.textContent = (d>=0?'+':'') + d.toFixed(2) + '%';
+    el.className = 'v ' + (d>=0 ? 'up' : 'down');
+    document.getElementById('rates-asof').textContent = r.as_of || '—';
+  }
+
+  // Consensus card
+  const ag = document.getElementById('agree-hero');
+  if (chamResult && catchResult) {
+    if (chamResult.signal === catchResult.signal && chamResult.signal !== 'FLAT') {
+      ag.className = 'hero ' + chamResult.signal.toLowerCase();
+      document.getElementById('agree-sig').textContent = chamResult.signal;
+      document.getElementById('agree-rsn').textContent = 'Both strategies point the same way.';
     } else {
-        banner.className = 'health-banner ok';
-        banner.textContent = 'Timestamps look recent. Still run a live quote check before any real order — this app is not a broker feed.';
+      ag.className = 'hero flat';
+      document.getElementById('agree-sig').textContent = 'MIXED';
+      document.getElementById('agree-rsn').textContent = 'Chameleon: ' + chamResult.signal + ', Catchup: ' + catchResult.signal + '. No consensus.';
     }
+  } else {
+    ag.className = 'hero flat';
+    document.getElementById('agree-sig').textContent = '—';
+    document.getElementById('agree-rsn').textContent = 'Need both feeds.';
+  }
+
+  // Status pills
+  setPill('pill-fx', DATA.fx ? 'AUD/USD ' + DATA.fx.latest.rate.toFixed(4) + ' (' + DATA.fx.latest.date + ')' : 'AUD/USD: failed', DATA.fx ? 'ok' : 'bad');
+  setPill('pill-gold', DATA.gold ? 'Gold $' + DATA.gold.latest.close.toFixed(2) + ' (' + DATA.gold.latest.date + ')' : 'Gold: failed', DATA.gold ? 'ok' : 'bad');
+  setPill('pill-rates', DATA.rates ? 'RBA-Fed ' + ((DATA.rates.differential_rba_minus_fed>=0?'+':'')+DATA.rates.differential_rba_minus_fed.toFixed(2)) + '%' : 'Rates: failed', DATA.rates ? 'ok' : 'bad');
+  const t = DATA.lastFetched.fx || DATA.lastFetched.gold;
+  document.getElementById('pill-fresh').textContent = 'Updated: ' + (t ? t.toLocaleTimeString() : '—');
 }
 
-async function runLiveQuoteCheck() {
-    var out = document.getElementById('health-live-result');
-    if (!out) return;
-    out.style.color = 'var(--muted)';
-    out.textContent = 'Requesting Frankfurter…';
-    try {
-        var rate = await fetchLiveAudUsd();
-        var msg = 'Live API OK. 1 AUD = ' + rate + ' USD (Frankfurter, reference rate).';
-        var cham = window.__trade1Data && window.__trade1Data.cham;
-        if (cham && typeof cham.aud_price === 'number') {
-            var gap = Math.abs(rate - cham.aud_price) / rate * 100;
-            msg += '\n\nYour bundle shows AUD/USD ' + cham.aud_price.toFixed(4) + ' (~' + gap.toFixed(2) + '% vs this live quote).';
-            if (gap > 2) msg += '\nLarge gap → likely stale daily close or outdated bundle; refresh data.';
-        }
-        out.textContent = msg;
-        out.style.color = 'var(--green)';
-    } catch (e) {
-        out.textContent = 'Browser could not fetch Frankfurter (' + (e.message || e) + '). Open manually:\nhttps://api.frankfurter.app/latest?from=AUD&to=USD\nand compare to the Signals tab.';
-        out.style.color = 'var(--red)';
-    }
+function setPill(id, text, cls) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = text;
+  el.className = 'pill ' + (cls || '');
 }
 
-async function fetchLiveAudUsd() {
-    var r = await fetch('https://api.frankfurter.app/latest?from=AUD&to=USD');
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    var j = await r.json();
-    var rate = j.rates && j.rates.USD;
-    if (typeof rate !== 'number') throw new Error('Unexpected response');
-    return rate;
+function renderErrorBanner() {
+  const host = document.getElementById('now-errors');
+  if (!host) return;
+  const errs = [];
+  if (DATA.errors.fx) errs.push('FX: ' + DATA.errors.fx);
+  if (DATA.errors.gold) errs.push('Gold: ' + DATA.errors.gold);
+  if (DATA.errors.rates) errs.push('Rates: ' + DATA.errors.rates);
+  if (!errs.length) { host.innerHTML = ''; return; }
+  host.innerHTML = '<div class="error-box"><strong>Some feeds failed:</strong><br>' + errs.map(e => '• ' + escapeHtml(e)).join('<br>') + '<br><br>The app is still usable for the feeds that worked. On the Health tab, try Run checks again.</div>';
 }
 
-/* Status pill (Signals header) - shows at-a-glance whether you should trust signals */
-async function refreshStatusPills() {
-    var pAge = document.getElementById('pill-age');
-    var pLive = document.getElementById('pill-live');
-    var pScore = document.getElementById('pill-score');
-    if (!pAge || !pLive || !pScore) return;
+/* =========================================================================
+   COMPARE tab
+   ========================================================================= */
+let compareDays = 90;
 
-    var c = window.__trade1Data;
-    var cham = c && c.cham;
-    var cat = c && c.catch;
+function renderCompare() {
+  if (!DATA.fx || !DATA.gold) {
+    document.getElementById('compare-chart').innerHTML = '';
+    ['compare-aud-chg','compare-gold-chg','compare-corr','compare-beta','regime-curr','regime-avg','regime-pct','regime-label'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = '—'; });
+    return;
+  }
+  const goldMap = {};
+  DATA.gold.history.forEach(r => { goldMap[r.date] = r.close; });
+  const paired = DATA.fx.history.filter(r => goldMap[r.date] != null).map(r => ({ date: r.date, rate: r.rate, gold: goldMap[r.date] }));
+  const window = paired.slice(-compareDays);
+  if (window.length < 2) return;
 
-    // Age pill
-    var hours = null;
-    if (cham && cham.last_updated && cat && cat.last_updated) {
-        var d1 = parseBundleDate(cham.last_updated);
-        var d2 = parseBundleDate(cat.last_updated);
-        if (d1 && d2) {
-            var older = d1 < d2 ? d1 : d2;
-            hours = (new Date() - older) / 3600000;
-        }
-    }
-    if (hours === null) {
-        pAge.textContent = 'Data age: unknown';
-        pAge.className = 'pill warn';
-    } else {
-        var ageTxt = hours < 1 ? Math.round(hours * 60) + ' min' : hours.toFixed(1) + 'h';
-        pAge.textContent = 'Data age: ' + ageTxt;
-        pAge.className = 'pill ' + (hours > 72 ? 'bad' : hours > 36 ? 'warn' : 'ok');
-    }
+  const r0 = window[0].rate, g0 = window[0].gold;
+  const normR = window.map(p => (p.rate / r0) * 100);
+  const normG = window.map(p => (p.gold / g0) * 100);
 
-    // Live quote pill (auto)
-    var liveGap = null;
-    try {
-        var rate = await fetchLiveAudUsd();
-        if (cham && typeof cham.aud_price === 'number') {
-            liveGap = Math.abs(rate - cham.aud_price) / rate * 100;
-            pLive.textContent = 'Live gap: ' + liveGap.toFixed(2) + '%';
-            pLive.className = 'pill ' + (liveGap > 2 ? 'bad' : liveGap > 0.5 ? 'warn' : 'ok');
-        } else {
-            pLive.textContent = 'Live quote OK';
-            pLive.className = 'pill ok';
-        }
-    } catch (e) {
-        pLive.textContent = 'Live quote: blocked';
-        pLive.className = 'pill warn';
-    }
+  const audChg = (window[window.length-1].rate / r0 - 1) * 100;
+  const goldChg = (window[window.length-1].gold / g0 - 1) * 100;
+  document.getElementById('compare-aud-chg').textContent  = (audChg>=0?'+':'')  + audChg.toFixed(2)  + '%';
+  document.getElementById('compare-aud-chg').className = 'v ' + (audChg>=0?'up':'down');
+  document.getElementById('compare-gold-chg').textContent = (goldChg>=0?'+':'') + goldChg.toFixed(2) + '%';
+  document.getElementById('compare-gold-chg').className = 'v ' + (goldChg>=0?'up':'down');
 
-    // Readiness score (0-5)
-    var score = 0;
-    var reasons = [];
-    if (hours !== null && hours < 36) { score++; reasons.push('fresh data'); }
-    if (liveGap !== null && liveGap < 0.5) { score++; reasons.push('live match'); }
-    if (cham && cham.signal && cham.signal !== 'FLAT') { score++; reasons.push('Chameleon active'); }
-    if (cat && cat.signal && cat.signal !== 'FLAT') { score++; reasons.push('Catchup active'); }
-    if (cham && cat && cham.signal === cat.signal && cham.signal !== 'FLAT') { score++; reasons.push('strategies agree'); }
+  const audR = [], goldR = [];
+  for (let i = 1; i < window.length; i++) {
+    audR.push((window[i].rate - window[i-1].rate) / window[i-1].rate);
+    goldR.push((window[i].gold - window[i-1].gold) / window[i-1].gold);
+  }
+  const corr = correlation(goldR, audR);
+  const { slope } = linReg(goldR, audR);
+  document.getElementById('compare-corr').textContent = corr.toFixed(2);
+  document.getElementById('compare-beta').textContent = slope.toFixed(2);
 
-    pScore.textContent = 'Readiness: ' + score + '/5';
-    pScore.className = 'pill ' + (score >= 4 ? 'ok' : score >= 2 ? 'warn' : 'bad');
-    pScore.title = reasons.length ? reasons.join(', ') : 'Low score: weak / stale / no agreement';
+  drawTwoSeries('compare-chart', normR, normG);
+
+  // Regime context using full fx history
+  const closes = DATA.fx.history.map(r => r.rate);
+  if (closes.length >= 40) {
+    const rets = [];
+    for (let i = 1; i < closes.length; i++) rets.push((closes[i]-closes[i-1])/closes[i-1]);
+    const recentVols = [];
+    for (let i = 20; i < rets.length; i++) recentVols.push(std(rets.slice(i-20, i)));
+    const curVol = recentVols[recentVols.length - 1] || 0;
+    const avg = recentVols.reduce((s,x)=>s+x,0) / recentVols.length;
+    const sortedV = recentVols.slice().sort((a,b)=>a-b);
+    const rank = sortedV.filter(v => v <= curVol).length / sortedV.length * 100;
+    document.getElementById('regime-curr').textContent = (curVol*100).toFixed(2) + '%';
+    document.getElementById('regime-avg').textContent  = (avg*100).toFixed(2) + '%';
+    document.getElementById('regime-pct').textContent  = rank.toFixed(0) + '%ile';
+    let label = 'Typical';
+    if (rank < 25) label = 'Calm';
+    else if (rank > 75) label = 'Jumpy';
+    document.getElementById('regime-label').textContent = label;
+  }
 }
 
-/* ---------- Sandbox: replay baked history as if you traded the signals ---------- */
-window.__trade1History = { cham: null, catch: null };
-
-async function loadHistories() {
-    try {
-        var r1 = await fetch('chameleon_history.json');
-        if (r1.ok) window.__trade1History.cham = await r1.json();
-    } catch (e) { console.warn('chameleon_history missing', e); }
-    try {
-        var r2 = await fetch('catchup_history.json');
-        if (r2.ok) window.__trade1History.catch = await r2.json();
-    } catch (e) { console.warn('catchup_history missing', e); }
+function drawTwoSeries(id, a, b) {
+  const svg = document.getElementById(id);
+  if (!svg || a.length < 2) { if (svg) svg.innerHTML=''; return; }
+  const W = 600, H = 220, pad = 10;
+  const all = a.concat(b);
+  const min = Math.min.apply(null, all), max = Math.max.apply(null, all);
+  const spread = max - min || 1;
+  const xStep = (W - pad*2) / (a.length - 1);
+  const sy = v => H - pad - ((v - min) / spread) * (H - pad*2);
+  const path = (arr) => arr.map((v, i) => (i===0?'M':'L') + (pad+i*xStep).toFixed(2) + ' ' + sy(v).toFixed(2)).join(' ');
+  const baseY = sy(100).toFixed(2);
+  svg.innerHTML =
+    '<line x1="'+pad+'" y1="'+baseY+'" x2="'+(W-pad)+'" y2="'+baseY+'" stroke="#475569" stroke-dasharray="3 3"/>' +
+    '<path d="'+path(b)+'" fill="none" stroke="#daa520" stroke-width="2"/>' +
+    '<path d="'+path(a)+'" fill="none" stroke="#6366f1" stroke-width="2"/>' +
+    '<text x="'+(W-pad-70)+'" y="'+(pad+12)+'" fill="#6366f1" font-size="11">AUD/USD</text>' +
+    '<text x="'+(W-pad-70)+'" y="'+(pad+26)+'" fill="#daa520" font-size="11">Gold (XAU/USD)</text>';
 }
 
-function pipSize() { return 0.0001; }
+/* =========================================================================
+   NEWS tab
+   ========================================================================= */
+let currentNewsTopic = 'all';
 
-function combineSeries(cham, cat) {
-    // Build a map date -> {price, chamSig, catSig}. Prefer chameleon for price if both exist.
-    var m = {};
-    if (cham && cham.rows) cham.rows.forEach(function(r){ m[r.date] = { date: r.date, price: r.price, chamSig: r.signal }; });
-    if (cat && cat.rows) cat.rows.forEach(function(r){
-        if (!m[r.date]) m[r.date] = { date: r.date, price: r.price };
-        m[r.date].catSig = r.signal;
-    });
-    return Object.values(m).sort(function(a,b){ return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; });
+async function renderNews(topic) {
+  const t = topic || currentNewsTopic;
+  currentNewsTopic = t;
+  document.querySelectorAll('#news-topic-chips .chip').forEach(c => {
+    c.classList.toggle('active', c.dataset.topic === t);
+  });
+  const status = document.getElementById('news-status');
+  const list = document.getElementById('news-list');
+  status.textContent = 'Loading headlines…';
+  list.innerHTML = '';
+  const j = await loadNews(t);
+  if (!j || !j.articles) {
+    status.className = 'error-box';
+    status.textContent = 'News feed failed: ' + (DATA.errors.news || 'unknown') + '. GDELT may be briefly down &mdash; try again in a minute.';
+    return;
+  }
+  status.className = 'loading';
+  status.textContent = j.count + ' headlines (' + t + ') updated ' + new Date(j.updated_at).toLocaleTimeString();
+  list.innerHTML = j.articles.map(a => {
+    const when = parseGdeltDate(a.seendate);
+    return '<div class="news-item">' +
+      '<a href="' + escapeAttr(a.url) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(a.title || '(no title)') + '</a>' +
+      '<div class="news-meta">' + escapeHtml(a.source || '') + ' · ' + (when ? when.toLocaleString() : a.seendate || '') + '</div>' +
+      '</div>';
+  }).join('');
 }
 
-function replay(series, opts) {
-    // Simple next-day fill: when signal changes, enter/exit at the next bar's close.
-    // One position at a time. Stop loss and take profit checked against each subsequent bar.
-    var trades = [];
-    var open = null; // {dir:'LONG'|'SHORT', entry, entryDate, units, stop, tp}
-    var equity = opts.balance;
-    var equityCurve = [{ date: series.length ? series[0].date : null, equity: equity }];
-    var pip = pipSize();
-    var riskAmt = opts.balance * (opts.riskPct / 100);
-    var pipValuePerUnit = 0.0001; // ~USD per pip per unit, close enough for demo
-    // Stop in price terms:
-    var stopPrice = opts.stopPips * pip;
-    var units = riskAmt / stopPrice; // size so that stop loss ~= riskAmt
-
-    function closeTrade(exit, exitDate, reason, pointIndex) {
-        if (!open) return;
-        var pnl;
-        if (open.dir === 'LONG') pnl = (exit - open.entry) * open.units;
-        else pnl = (open.entry - exit) * open.units;
-        trades.push({
-            entryDate: open.entryDate, entry: open.entry, exitDate: exitDate, exit: exit,
-            dir: open.dir, units: Math.round(open.units), pnl: pnl, reason: reason
-        });
-        equity += pnl;
-        equityCurve.push({ date: exitDate, equity: equity });
-        open = null;
-    }
-
-    for (var i = 0; i < series.length; i++) {
-        var bar = series[i];
-        var sig = chooseSignal(bar, opts.strategy);
-        if (!sig) continue;
-
-        // Check SL/TP against current bar's close first (daily granularity)
-        if (open) {
-            var hit = null;
-            if (open.dir === 'LONG') {
-                if (bar.price <= open.stop) hit = { px: open.stop, reason: 'SL' };
-                else if (bar.price >= open.tp) hit = { px: open.tp, reason: 'TP' };
-            } else {
-                if (bar.price >= open.stop) hit = { px: open.stop, reason: 'SL' };
-                else if (bar.price <= open.tp) hit = { px: open.tp, reason: 'TP' };
-            }
-            if (hit) closeTrade(hit.px, bar.date, hit.reason, i);
-        }
-
-        // Signal change handling
-        if (opts.skipFlat && sig === 'FLAT') {
-            if (open) closeTrade(bar.price, bar.date, 'FLAT');
-            continue;
-        }
-        if (!open && (sig === 'LONG' || sig === 'SHORT')) {
-            // Open at next bar's close if exists
-            var next = series[i + 1];
-            if (!next) break;
-            var entry = next.price;
-            var stop = sig === 'LONG' ? entry - stopPrice : entry + stopPrice;
-            var tp = sig === 'LONG' ? entry + stopPrice * opts.tpMult : entry - stopPrice * opts.tpMult;
-            open = { dir: sig, entry: entry, entryDate: next.date, units: units, stop: stop, tp: tp };
-        } else if (open && sig !== open.dir && (sig === 'LONG' || sig === 'SHORT')) {
-            var next2 = series[i + 1];
-            if (next2) {
-                closeTrade(next2.price, next2.date, 'FLIP');
-                var entry2 = next2.price;
-                var stop2 = sig === 'LONG' ? entry2 - stopPrice : entry2 + stopPrice;
-                var tp2 = sig === 'LONG' ? entry2 + stopPrice * opts.tpMult : entry2 - stopPrice * opts.tpMult;
-                open = { dir: sig, entry: entry2, entryDate: next2.date, units: units, stop: stop2, tp: tp2 };
-            }
-        }
-    }
-
-    if (open && series.length) {
-        var last = series[series.length - 1];
-        closeTrade(last.price, last.date, 'END');
-    }
-
-    var wins = trades.filter(function(t){ return t.pnl > 0; }).length;
-    var totalPnl = trades.reduce(function(s,t){ return s + t.pnl; }, 0);
-    var peak = opts.balance, maxDD = 0;
-    equityCurve.forEach(function(p){ if (p.equity > peak) peak = p.equity; var dd = (peak - p.equity) / peak; if (dd > maxDD) maxDD = dd; });
-
-    return {
-        trades: trades,
-        equityCurve: equityCurve,
-        stats: {
-            startBalance: opts.balance,
-            endBalance: equity,
-            totalPnl: totalPnl,
-            totalPnlPct: (totalPnl / opts.balance) * 100,
-            trades: trades.length,
-            wins: wins,
-            winRate: trades.length ? (wins / trades.length * 100) : 0,
-            maxDD: maxDD * 100
-        }
-    };
+function parseGdeltDate(s) {
+  if (!s || typeof s !== 'string') return null;
+  const m = s.match(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/);
+  if (!m) return null;
+  return new Date(Date.UTC(+m[1], +m[2]-1, +m[3], +m[4], +m[5], +m[6]));
 }
 
-function chooseSignal(bar, strategy) {
-    if (strategy === 'chameleon') return bar.chamSig || 'FLAT';
-    if (strategy === 'catchup')  return bar.catSig  || 'FLAT';
-    // both must agree
-    var a = bar.chamSig, b = bar.catSig;
-    if (!a || !b) return 'FLAT';
-    if (a === b) return a;
-    return 'FLAT';
+/* =========================================================================
+   SANDBOX - replay fetched history through the strategy rules.
+   ========================================================================= */
+let lastRun = null;
+
+function buildReplaySeries(days) {
+  if (!DATA.fx) return [];
+  // Build date -> {price, chamSig, catSig}
+  const fx = DATA.fx.history;
+  if (fx.length < 40) return [];
+
+  // Chameleon rolling signals (uses regime tercile over the full window)
+  const closes = fx.map(r => r.rate);
+  const rets = [];
+  for (let i = 1; i < closes.length; i++) rets.push((closes[i]-closes[i-1])/closes[i-1]);
+  const allVols = [];
+  for (let i = 20; i < rets.length; i++) allVols.push(std(rets.slice(i-20, i)));
+  const sortedVols = allVols.slice().sort((a,b)=>a-b);
+  const q33 = quantile(sortedVols, 1/3), q66 = quantile(sortedVols, 2/3);
+
+  const goldMap = {};
+  if (DATA.gold) DATA.gold.history.forEach(r => { goldMap[r.date] = r.close; });
+
+  const out = [];
+  for (let i = 20; i < fx.length; i++) {
+    const price = fx[i].rate;
+    const last20 = closes.slice(i-19, i+1);
+    const ma = last20.reduce((s,x)=>s+x,0) / last20.length;
+    const windowRets = rets.slice(Math.max(0, i-20), i);
+    const vol = std(windowRets);
+    let regime = 'med';
+    if (vol <= q33) regime = 'low';
+    else if (vol >= q66) regime = 'high';
+    const priceVsMa = pct(price, ma);
+    let chamSig = 'FLAT';
+    if (regime === 'low') chamSig = price > ma ? 'LONG' : price < ma ? 'SHORT' : 'FLAT';
+    else if (regime === 'high') chamSig = priceVsMa < -1.5 ? 'LONG' : priceVsMa > 1.5 ? 'SHORT' : 'FLAT';
+
+    let catSig = null;
+    const gToday = goldMap[fx[i].date];
+    if (gToday != null && i >= 5) {
+      const gPrev = goldMap[fx[i-5].date];
+      if (gPrev != null) {
+        const gMom = pct(gToday, gPrev);
+        const aMom = pct(price, closes[i-5]);
+        if (gMom > 2.0 && aMom < 1.0) catSig = 'LONG';
+        else if (gMom < -2.0 && aMom > -1.0) catSig = 'SHORT';
+        else catSig = 'FLAT';
+      }
+    }
+
+    out.push({ date: fx[i].date, price, chamSig, catSig });
+  }
+
+  if (days && out.length > days) return out.slice(out.length - days);
+  return out;
 }
 
 function runSandbox() {
-    var cham = window.__trade1History.cham;
-    var cat = window.__trade1History.catch;
-    if (!cham && !cat) {
-        alert('No history loaded. Refresh data (npm run update:all or run Python update scripts) and reload this page.');
-        return;
-    }
-    var all = combineSeries(cham, cat);
-    var lookback = parseInt(document.getElementById('sb-lookback').value, 10);
-    if (all.length > lookback) all = all.slice(all.length - lookback);
-
-    var opts = {
-        strategy: document.getElementById('sb-strategy').value,
-        balance:  parseFloat(document.getElementById('sb-balance').value) || 5000,
-        riskPct:  parseFloat(document.getElementById('sb-risk').value) || 2,
-        stopPips: parseFloat(document.getElementById('sb-stop').value) || 50,
-        tpMult:   parseFloat(document.getElementById('sb-tp').value) || 1.5,
-        skipFlat: document.getElementById('sb-skip-flat').checked
-    };
-
-    var result = replay(all, opts);
-    window.__trade1LastRun = { opts: opts, result: result, rangeStart: all[0] && all[0].date, rangeEnd: all[all.length - 1] && all[all.length - 1].date };
-    document.getElementById('sb-save-btn').disabled = false;
-    renderSandboxResult(result, opts, all);
+  const series = buildReplaySeries(parseInt(document.getElementById('sb-lookback').value, 10));
+  if (!series.length) { alert('Not enough data loaded yet. Check Health tab.'); return; }
+  const opts = {
+    strategy: document.getElementById('sb-strategy').value,
+    balance:  parseFloat(document.getElementById('sb-balance').value) || 5000,
+    riskPct:  parseFloat(document.getElementById('sb-risk').value) || 2,
+    stopPips: parseFloat(document.getElementById('sb-stop').value) || 50,
+    tpMult:   parseFloat(document.getElementById('sb-tp').value) || 1.5,
+    skipFlat: document.getElementById('sb-skip-flat').checked
+  };
+  const result = replay(series, opts);
+  lastRun = { opts, result, rangeStart: series[0].date, rangeEnd: series[series.length-1].date };
+  document.getElementById('sb-save-btn').disabled = false;
+  renderSandboxResult(series, result, opts);
 }
 
-function renderSandboxResult(result, opts, series) {
-    document.getElementById('sb-results').style.display = 'block';
-    var s = result.stats;
-    var pnlClass = s.totalPnl >= 0 ? 'up' : 'down';
-    document.getElementById('sb-stats').innerHTML =
-        '<div class="data-cell"><div class="data-val ' + pnlClass + '">' + (s.totalPnlPct >= 0 ? '+' : '') + s.totalPnlPct.toFixed(2) + '%</div><div class="data-lbl">Return</div></div>' +
-        '<div class="data-cell"><div class="data-val">' + s.trades + '</div><div class="data-lbl">Trades</div></div>' +
-        '<div class="data-cell"><div class="data-val">' + s.winRate.toFixed(0) + '%</div><div class="data-lbl">Win rate</div></div>' +
-        '<div class="data-cell"><div class="data-val down">-' + s.maxDD.toFixed(2) + '%</div><div class="data-lbl">Max DD</div></div>';
+function pickSig(bar, strategy) {
+  if (strategy === 'chameleon') return bar.chamSig || 'FLAT';
+  if (strategy === 'catchup')   return bar.catSig  || 'FLAT';
+  const a = bar.chamSig, b = bar.catSig;
+  if (!a || !b) return 'FLAT';
+  return a === b ? a : 'FLAT';
+}
 
-    drawEquitySvg('sb-equity', result.equityCurve, opts.balance);
+function replay(series, opts) {
+  const trades = [];
+  let open = null;
+  let equity = opts.balance;
+  const curve = [{ date: series[0].date, equity }];
+  const pipSize = 0.0001;
+  const riskAmt = opts.balance * (opts.riskPct / 100);
+  const stopPrice = opts.stopPips * pipSize;
+  const units = riskAmt / stopPrice;
 
-    var first = series[0], last = series[series.length - 1];
-    document.getElementById('sb-summary').textContent =
-        'Period: ' + (first && first.date) + ' → ' + (last && last.date) +
-        '. Starting balance $' + opts.balance.toFixed(0) +
-        ', ending $' + s.endBalance.toFixed(2) +
-        ' (P&L $' + s.totalPnl.toFixed(2) + ').';
+  function close(exit, exitDate, reason) {
+    if (!open) return;
+    const pnl = open.dir === 'LONG' ? (exit - open.entry) * open.units : (open.entry - exit) * open.units;
+    trades.push({ entryDate: open.entryDate, entry: open.entry, exitDate, exit, dir: open.dir, units: Math.round(open.units), pnl, reason });
+    equity += pnl;
+    curve.push({ date: exitDate, equity });
+    open = null;
+  }
 
-    var t = result.trades;
-    var tbl = document.getElementById('sb-trades');
-    if (!t.length) {
-        tbl.innerHTML = '<tr><td style="color:var(--muted);padding:16px 0">No trades were triggered in this window.</td></tr>';
-    } else {
-        var head = '<thead><tr><th>Entry</th><th>Exit</th><th>Dir</th><th>Entry px</th><th>Exit px</th><th>End</th><th>P&amp;L</th></tr></thead>';
-        var rows = t.slice(-50).reverse().map(function(x){
-            var cls = x.pnl >= 0 ? 'up' : 'down';
-            return '<tr><td>' + x.entryDate + '</td><td>' + x.exitDate + '</td><td>' + x.dir + '</td>' +
-                   '<td>' + x.entry.toFixed(4) + '</td><td>' + x.exit.toFixed(4) + '</td>' +
-                   '<td>' + x.reason + '</td><td class="' + cls + '">$' + x.pnl.toFixed(2) + '</td></tr>';
-        }).join('');
-        tbl.innerHTML = head + '<tbody>' + rows + '</tbody>';
+  for (let i = 0; i < series.length; i++) {
+    const bar = series[i];
+    const sig = pickSig(bar, opts.strategy);
+
+    if (open) {
+      let hit = null;
+      if (open.dir === 'LONG') {
+        if (bar.price <= open.stop) hit = { px: open.stop, reason: 'SL' };
+        else if (bar.price >= open.tp) hit = { px: open.tp, reason: 'TP' };
+      } else {
+        if (bar.price >= open.stop) hit = { px: open.stop, reason: 'SL' };
+        else if (bar.price <= open.tp) hit = { px: open.tp, reason: 'TP' };
+      }
+      if (hit) close(hit.px, bar.date, hit.reason);
     }
+
+    if (opts.skipFlat && sig === 'FLAT') { if (open) close(bar.price, bar.date, 'FLAT'); continue; }
+    if (!open && (sig === 'LONG' || sig === 'SHORT')) {
+      const next = series[i+1]; if (!next) break;
+      const entry = next.price;
+      const stop = sig === 'LONG' ? entry - stopPrice : entry + stopPrice;
+      const tp = sig === 'LONG' ? entry + stopPrice * opts.tpMult : entry - stopPrice * opts.tpMult;
+      open = { dir: sig, entry, entryDate: next.date, units, stop, tp };
+    } else if (open && sig !== open.dir && (sig === 'LONG' || sig === 'SHORT')) {
+      const next = series[i+1]; if (!next) continue;
+      close(next.price, next.date, 'FLIP');
+      const entry = next.price;
+      const stop = sig === 'LONG' ? entry - stopPrice : entry + stopPrice;
+      const tp = sig === 'LONG' ? entry + stopPrice * opts.tpMult : entry - stopPrice * opts.tpMult;
+      open = { dir: sig, entry, entryDate: next.date, units, stop, tp };
+    }
+  }
+  if (open && series.length) close(series[series.length-1].price, series[series.length-1].date, 'END');
+
+  const wins = trades.filter(t => t.pnl > 0).length;
+  const totalPnl = trades.reduce((s,t) => s+t.pnl, 0);
+  let peak = opts.balance, maxDD = 0;
+  curve.forEach(p => { if (p.equity > peak) peak = p.equity; const dd = (peak - p.equity)/peak; if (dd > maxDD) maxDD = dd; });
+  return {
+    trades, equityCurve: curve,
+    stats: {
+      startBalance: opts.balance, endBalance: equity,
+      totalPnl, totalPnlPct: totalPnl / opts.balance * 100,
+      trades: trades.length, wins, winRate: trades.length ? wins/trades.length*100 : 0,
+      maxDD: maxDD * 100
+    }
+  };
+}
+
+function renderSandboxResult(series, r, opts) {
+  document.getElementById('sb-results').style.display = 'block';
+  const s = r.stats;
+  const cls = s.totalPnl >= 0 ? 'up' : 'down';
+  document.getElementById('sb-stats').innerHTML =
+    '<div class="cell"><div class="v '+cls+'">' + (s.totalPnlPct>=0?'+':'') + s.totalPnlPct.toFixed(2) + '%</div><div class="k">Return</div></div>' +
+    '<div class="cell"><div class="v">' + s.trades + '</div><div class="k">Trades</div></div>' +
+    '<div class="cell"><div class="v">' + s.winRate.toFixed(0) + '%</div><div class="k">Win rate</div></div>' +
+    '<div class="cell"><div class="v down">-' + s.maxDD.toFixed(2) + '%</div><div class="k">Max DD</div></div>';
+  drawEquitySvg('sb-equity', r.equityCurve, opts.balance);
+  document.getElementById('sb-summary').textContent =
+    'Period: ' + series[0].date + ' → ' + series[series.length-1].date +
+    '. Start $' + opts.balance.toFixed(0) + ', end $' + s.endBalance.toFixed(2) + ' (P&L $' + s.totalPnl.toFixed(2) + ').';
+  const t = r.trades;
+  const tbl = document.getElementById('sb-trades');
+  if (!t.length) tbl.innerHTML = '<tr><td style="color:var(--muted);padding:16px 0">No trades triggered.</td></tr>';
+  else {
+    const head = '<thead><tr><th>Entry</th><th>Exit</th><th>Dir</th><th>In</th><th>Out</th><th>End</th><th>P&amp;L</th></tr></thead>';
+    const rows = t.slice(-60).reverse().map(x => {
+      const c = x.pnl >= 0 ? 'up' : 'down';
+      return '<tr><td>'+x.entryDate+'</td><td>'+x.exitDate+'</td><td>'+x.dir+'</td>'
+        + '<td>'+x.entry.toFixed(4)+'</td><td>'+x.exit.toFixed(4)+'</td>'
+        + '<td>'+x.reason+'</td><td class="'+c+'">$'+x.pnl.toFixed(2)+'</td></tr>';
+    }).join('');
+    tbl.innerHTML = head + '<tbody>' + rows + '</tbody>';
+  }
 }
 
 function drawEquitySvg(id, curve, startBalance) {
-    var svg = document.getElementById(id);
-    if (!svg) return;
-    if (!curve || curve.length < 2) { svg.innerHTML = ''; return; }
-    var W = 600, H = 160, pad = 8;
-    var vals = curve.map(function(p){ return p.equity; });
-    var minV = Math.min.apply(null, vals), maxV = Math.max.apply(null, vals);
-    if (minV === maxV) { minV -= 1; maxV += 1; }
-    var xStep = (W - pad * 2) / (curve.length - 1);
-    var scaleY = function(v){ return H - pad - ((v - minV) / (maxV - minV)) * (H - pad * 2); };
-    var path = curve.map(function(p, i){ return (i === 0 ? 'M' : 'L') + (pad + i * xStep).toFixed(2) + ' ' + scaleY(p.equity).toFixed(2); }).join(' ');
-    var baselineY = scaleY(startBalance);
-    var endAbove = curve[curve.length - 1].equity >= startBalance;
-    var color = endAbove ? '#10b981' : '#ef4444';
-    svg.innerHTML =
-        '<line x1="' + pad + '" y1="' + baselineY.toFixed(2) + '" x2="' + (W - pad) + '" y2="' + baselineY.toFixed(2) + '" stroke="#475569" stroke-dasharray="3 3" stroke-width="1"/>' +
-        '<path d="' + path + '" fill="none" stroke="' + color + '" stroke-width="2"/>';
+  const svg = document.getElementById(id);
+  if (!svg || curve.length < 2) { if (svg) svg.innerHTML=''; return; }
+  const W = 600, H = 180, pad = 10;
+  const vals = curve.map(p => p.equity);
+  let minV = Math.min.apply(null, vals), maxV = Math.max.apply(null, vals);
+  if (minV === maxV) { minV -= 1; maxV += 1; }
+  const xStep = (W - pad*2) / (curve.length - 1);
+  const sy = v => H - pad - ((v - minV) / (maxV - minV)) * (H - pad*2);
+  const path = curve.map((p, i) => (i===0?'M':'L') + (pad+i*xStep).toFixed(2) + ' ' + sy(p.equity).toFixed(2)).join(' ');
+  const base = sy(startBalance).toFixed(2);
+  const endOk = curve[curve.length-1].equity >= startBalance;
+  const color = endOk ? '#10b981' : '#ef4444';
+  svg.innerHTML =
+    '<line x1="'+pad+'" y1="'+base+'" x2="'+(W-pad)+'" y2="'+base+'" stroke="#475569" stroke-dasharray="3 3"/>' +
+    '<path d="'+path+'" fill="none" stroke="'+color+'" stroke-width="2"/>';
 }
 
-/* Saved runs */
-function getRuns() {
-    try { return JSON.parse(localStorage.getItem('trade1_runs') || '[]'); } catch { return []; }
-}
+/* =========================================================================
+   Saved runs + Journal (localStorage + export/import)
+   ========================================================================= */
+function getRuns() { try { return JSON.parse(localStorage.getItem('trade1_runs') || '[]'); } catch { return []; } }
 function setRuns(runs) { localStorage.setItem('trade1_runs', JSON.stringify(runs)); renderRuns(); }
 
 function saveRun() {
-    if (!window.__trade1LastRun) return;
-    var name = prompt('Name this run:', 'Run ' + new Date().toLocaleDateString());
-    if (!name) return;
-    var entry = {
-        id: Date.now(),
-        name: name,
-        savedAt: new Date().toISOString(),
-        opts: window.__trade1LastRun.opts,
-        stats: window.__trade1LastRun.result.stats,
-        trades: window.__trade1LastRun.result.trades,
-        rangeStart: window.__trade1LastRun.rangeStart,
-        rangeEnd: window.__trade1LastRun.rangeEnd
-    };
-    var runs = getRuns();
-    runs.unshift(entry);
-    setRuns(runs);
+  if (!lastRun) return;
+  const name = prompt('Name this run:', 'Run ' + new Date().toLocaleDateString());
+  if (!name) return;
+  const entry = { id: Date.now(), name, savedAt: new Date().toISOString(),
+    opts: lastRun.opts, stats: lastRun.result.stats, trades: lastRun.result.trades,
+    rangeStart: lastRun.rangeStart, rangeEnd: lastRun.rangeEnd };
+  const all = getRuns(); all.unshift(entry); setRuns(all);
 }
-
-function deleteRun(id) {
-    if (!confirm('Delete this saved run?')) return;
-    setRuns(getRuns().filter(function(r){ return r.id !== id; }));
-}
+function deleteRun(id) { if (!confirm('Delete this saved run?')) return; setRuns(getRuns().filter(r => r.id !== id)); }
 
 function renderRuns() {
-    var list = document.getElementById('saved-runs-list');
-    if (!list) return;
-    var runs = getRuns();
-    if (!runs.length) {
-        list.innerHTML = '<p style="color:var(--muted);text-align:center;padding:20px 0">No saved runs yet.</p>';
-        return;
-    }
-    list.innerHTML = runs.map(function(r){
-        var pct = r.stats.totalPnlPct;
-        var cls = pct >= 0 ? 'up' : 'down';
-        return '<div class="saved-run">' +
-            '<div>' +
-            '<div style="font-weight:700">' + escapeHtml(r.name) + '</div>' +
-            '<div class="sr-meta">' + r.opts.strategy + ' · ' + r.rangeStart + ' → ' + r.rangeEnd + ' · ' + r.stats.trades + ' trades</div>' +
-            '</div>' +
-            '<div style="display:flex;align-items:center;gap:10px">' +
-            '<div class="data-val ' + cls + '" style="font-size:1.1em">' + (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%</div>' +
-            '<button class="btn-danger" onclick="deleteRun(' + r.id + ')">Delete</button>' +
-            '</div>' +
-            '</div>';
-    }).join('');
+  const list = document.getElementById('saved-runs-list');
+  const runs = getRuns();
+  if (!runs.length) { list.innerHTML = '<p class="loading">No saved runs yet.</p>'; return; }
+  list.innerHTML = runs.map(r => {
+    const pct = r.stats.totalPnlPct; const cls = pct >= 0 ? 'up' : 'down';
+    return '<div class="saved">'
+      + '<div><div style="font-weight:700">'+escapeHtml(r.name)+'</div>'
+      + '<div class="m">'+r.opts.strategy+' · '+r.rangeStart+' → '+r.rangeEnd+' · '+r.stats.trades+' trades</div></div>'
+      + '<div style="display:flex;align-items:center;gap:10px">'
+      + '<div class="v '+cls+'" style="font-size:1.05em">'+(pct>=0?'+':'')+pct.toFixed(2)+'%</div>'
+      + '<button class="btn-danger" onclick="deleteRun('+r.id+')">Delete</button></div></div>';
+  }).join('');
 }
 
-function escapeHtml(s) { return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+function escapeHtml(s) { return String(s==null?'':s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]); }
+function escapeAttr(s) { return escapeHtml(s); }
 
 function downloadBlob(content, filename, mime) {
-    var blob = new Blob([content], { type: mime });
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement('a');
-    a.href = url; a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); }, 0);
+  const blob = new Blob([content], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 0);
 }
+function csvCell(v) { const s = String(v==null?'':v); return /[",\n]/.test(s) ? '"' + s.replace(/"/g,'""') + '"' : s; }
 
 function exportRuns(fmt) {
-    var runs = getRuns();
-    if (!runs.length) { alert('No saved runs to export.'); return; }
-    var ts = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 16);
-    if (fmt === 'json') {
-        downloadBlob(JSON.stringify(runs, null, 2), 'trade1-runs-' + ts + '.json', 'application/json');
-    } else {
-        var header = ['name','savedAt','strategy','rangeStart','rangeEnd','balance','riskPct','stopPips','tpMult','skipFlat','trades','winRate','totalPnl','totalPnlPct','maxDD'];
-        var rows = runs.map(function(r){
-            return [r.name, r.savedAt, r.opts.strategy, r.rangeStart, r.rangeEnd,
-                r.opts.balance, r.opts.riskPct, r.opts.stopPips, r.opts.tpMult, r.opts.skipFlat,
-                r.stats.trades, r.stats.winRate.toFixed(2), r.stats.totalPnl.toFixed(2), r.stats.totalPnlPct.toFixed(2), r.stats.maxDD.toFixed(2)
-            ].map(csvCell).join(',');
-        });
-        downloadBlob([header.join(',')].concat(rows).join('\n'), 'trade1-runs-' + ts + '.csv', 'text/csv');
-    }
+  const runs = getRuns(); if (!runs.length) { alert('No saved runs.'); return; }
+  const ts = new Date().toISOString().replace(/[:.]/g,'-').slice(0,16);
+  if (fmt === 'json') downloadBlob(JSON.stringify(runs, null, 2), 'trade1-runs-'+ts+'.json', 'application/json');
+  else {
+    const header = ['name','savedAt','strategy','rangeStart','rangeEnd','balance','riskPct','stopPips','tpMult','skipFlat','trades','winRate','totalPnl','totalPnlPct','maxDD'];
+    const rows = runs.map(r => [r.name,r.savedAt,r.opts.strategy,r.rangeStart,r.rangeEnd,r.opts.balance,r.opts.riskPct,r.opts.stopPips,r.opts.tpMult,r.opts.skipFlat,r.stats.trades,r.stats.winRate.toFixed(2),r.stats.totalPnl.toFixed(2),r.stats.totalPnlPct.toFixed(2),r.stats.maxDD.toFixed(2)].map(csvCell).join(','));
+    downloadBlob([header.join(',')].concat(rows).join('\n'), 'trade1-runs-'+ts+'.csv', 'text/csv');
+  }
 }
-function csvCell(v) {
-    var s = String(v == null ? '' : v);
-    if (/[",\n]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
-    return s;
-}
-
 function importRunsPrompt() { document.getElementById('sb-import-input').click(); }
 function importRunsFile(ev) {
-    var f = ev.target.files && ev.target.files[0];
-    if (!f) return;
-    var fr = new FileReader();
-    fr.onload = function() {
-        try {
-            var data = JSON.parse(fr.result);
-            if (!Array.isArray(data)) throw new Error('Expected an array');
-            var merged = getRuns().concat(data);
-            setRuns(merged);
-            alert('Imported ' + data.length + ' run(s).');
-        } catch (e) { alert('Import failed: ' + (e.message || e)); }
-        ev.target.value = '';
-    };
-    fr.readAsText(f);
+  const f = ev.target.files && ev.target.files[0]; if (!f) return;
+  const fr = new FileReader();
+  fr.onload = () => {
+    try { const d = JSON.parse(fr.result); if (!Array.isArray(d)) throw new Error('Expected array');
+      setRuns(getRuns().concat(d)); alert('Imported '+d.length+' run(s).');
+    } catch(e) { alert('Import failed: '+(e.message||e)); }
+    ev.target.value = '';
+  };
+  fr.readAsText(f);
 }
 
-/* Journal export / import */
+/* Journal */
+function getJournal() { try { return JSON.parse(localStorage.getItem('trade1_journal') || '[]'); } catch { return []; } }
+function toggleJournalForm() {
+  const f = document.getElementById('journal-form');
+  f.style.display = f.style.display === 'none' ? 'block' : 'none';
+  const d = document.getElementById('j-date'); if (!d.value) d.value = new Date().toISOString().split('T')[0];
+}
+function saveTrade() {
+  const t = {
+    id: Date.now(),
+    date: document.getElementById('j-date').value,
+    dir: document.getElementById('j-dir').value,
+    entry: parseFloat(document.getElementById('j-entry').value),
+    exit: parseFloat(document.getElementById('j-exit').value),
+    size: parseInt(document.getElementById('j-size').value),
+    strat: document.getElementById('j-strat').value,
+    notes: document.getElementById('j-notes').value
+  };
+  if (!t.entry || !t.exit) { alert('Enter entry and exit prices.'); return; }
+  t.pnl = t.dir === 'LONG' ? (t.exit - t.entry) * t.size : (t.entry - t.exit) * t.size;
+  const j = getJournal(); j.unshift(t); localStorage.setItem('trade1_journal', JSON.stringify(j));
+  document.getElementById('journal-form').style.display = 'none';
+  ['j-entry','j-exit','j-notes'].forEach(id => document.getElementById(id).value = '');
+  renderJournal();
+}
+function deleteTrade(id) {
+  const j = getJournal().filter(t => t.id !== id);
+  localStorage.setItem('trade1_journal', JSON.stringify(j));
+  renderJournal();
+}
+function renderJournal() {
+  const j = getJournal();
+  const list = document.getElementById('journal-list');
+  if (!j.length) list.innerHTML = '<p class="loading">No trades yet.</p>';
+  else list.innerHTML = j.map(t => {
+    const c = t.pnl >= 0 ? 'up' : 'down';
+    return '<div class="saved">'
+      + '<div><div style="font-weight:700">'+escapeHtml(t.date)+' · '+t.strat+' · '+t.dir+'</div>'
+      + '<div class="m">'+t.entry+' → '+t.exit+(t.notes?' · '+escapeHtml(t.notes):'')+'</div></div>'
+      + '<div style="display:flex;align-items:center;gap:10px"><div class="v '+c+'" style="font-size:1.05em">$'+t.pnl.toFixed(2)+'</div>'
+      + '<button class="btn-danger" onclick="deleteTrade('+t.id+')">Del</button></div></div>';
+  }).join('');
+  const tot = j.length, wins = j.filter(t => t.pnl>0).length;
+  const totalPnl = j.reduce((s,t) => s+t.pnl, 0);
+  const best = j.length ? Math.max.apply(null, j.map(t => t.pnl)) : 0;
+  document.getElementById('js-total').textContent = tot;
+  document.getElementById('js-wins').textContent = tot ? (wins/tot*100).toFixed(0)+'%' : '0%';
+  const pnlEl = document.getElementById('js-pnl');
+  pnlEl.textContent = '$'+totalPnl.toFixed(2);
+  pnlEl.className = 'v ' + (totalPnl>=0?'up':'down');
+  document.getElementById('js-best').textContent = '$'+best.toFixed(2);
+}
 function exportJournal(fmt) {
-    var list = getJournal();
-    if (!list.length) { alert('Journal is empty.'); return; }
-    var ts = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 16);
-    if (fmt === 'json') {
-        downloadBlob(JSON.stringify(list, null, 2), 'trade1-journal-' + ts + '.json', 'application/json');
-    } else {
-        var header = ['date','dir','entry','exit','size','strat','pnl','notes'];
-        var rows = list.map(function(t){
-            return [t.date, t.dir, t.entry, t.exit, t.size, t.strat, t.pnl.toFixed(2), t.notes || ''].map(csvCell).join(',');
-        });
-        downloadBlob([header.join(',')].concat(rows).join('\n'), 'trade1-journal-' + ts + '.csv', 'text/csv');
-    }
+  const j = getJournal(); if (!j.length) { alert('Journal empty.'); return; }
+  const ts = new Date().toISOString().replace(/[:.]/g,'-').slice(0,16);
+  if (fmt === 'json') downloadBlob(JSON.stringify(j, null, 2), 'trade1-journal-'+ts+'.json', 'application/json');
+  else {
+    const header = ['date','dir','entry','exit','size','strat','pnl','notes'];
+    const rows = j.map(t => [t.date,t.dir,t.entry,t.exit,t.size,t.strat,t.pnl.toFixed(2),t.notes||''].map(csvCell).join(','));
+    downloadBlob([header.join(',')].concat(rows).join('\n'), 'trade1-journal-'+ts+'.csv', 'text/csv');
+  }
 }
 function importJournalPrompt() { document.getElementById('j-import-input').click(); }
 function importJournalFile(ev) {
-    var f = ev.target.files && ev.target.files[0];
-    if (!f) return;
-    var fr = new FileReader();
-    fr.onload = function() {
-        try {
-            var data = JSON.parse(fr.result);
-            if (!Array.isArray(data)) throw new Error('Expected an array');
-            var merged = getJournal().concat(data);
-            localStorage.setItem('trade1_journal', JSON.stringify(merged));
-            renderJournal();
-            alert('Imported ' + data.length + ' trade(s).');
-        } catch (e) { alert('Import failed: ' + (e.message || e)); }
-        ev.target.value = '';
-    };
-    fr.readAsText(f);
+  const f = ev.target.files && ev.target.files[0]; if (!f) return;
+  const fr = new FileReader();
+  fr.onload = () => {
+    try { const d = JSON.parse(fr.result); if (!Array.isArray(d)) throw new Error('Expected array');
+      const merged = getJournal().concat(d);
+      localStorage.setItem('trade1_journal', JSON.stringify(merged));
+      renderJournal(); alert('Imported '+d.length+' trade(s).');
+    } catch(e) { alert('Import failed: '+(e.message||e)); }
+    ev.target.value='';
+  };
+  fr.readAsText(f);
 }
 
-/* Position size calculator */
-function calcPosition() {
-    const balance = parseFloat(document.getElementById('calc-balance').value) || 0;
-    const riskPct = parseFloat(document.getElementById('calc-risk').value) || 2;
-    const stopPips = parseFloat(document.getElementById('calc-stop').value) || 50;
-    const riskAmt = balance * (riskPct / 100);
-    const pipValueMicro = 0.10;
-    const microLots = Math.floor(riskAmt / (stopPips * pipValueMicro));
-    const units = microLots * 1000;
-    const out = document.getElementById('calc-output');
-    out.innerHTML = '<div class="big">' + units.toLocaleString() + ' units</div>' +
-        '<div class="detail">' + microLots + ' micro lots | Risk: $' + riskAmt.toFixed(2) + 
-        ' | ' + stopPips + ' pip stop = $' + (stopPips * pipValueMicro * microLots).toFixed(2) + ' max loss</div>';
+/* =========================================================================
+   HEALTH tab
+   ========================================================================= */
+async function runHealthCheck() {
+  const host = document.getElementById('health-list');
+  host.innerHTML = '<p class="loading">Checking…</p>';
+  const checks = [];
+  // Re-run each loader
+  await Promise.all([loadFx(), loadGold(), loadRates()]);
+  await loadNews(currentNewsTopic);
+  checks.push({ name: 'AUD/USD (Frankfurter)', ok: !!DATA.fx, detail: DATA.fx ? DATA.fx.latest.date + ' · ' + DATA.fx.latest.rate.toFixed(4) : (DATA.errors.fx || 'failed') });
+  checks.push({ name: 'Gold (stooq)',          ok: !!DATA.gold, detail: DATA.gold ? DATA.gold.latest.date + ' · $' + DATA.gold.latest.close.toFixed(2) : (DATA.errors.gold || 'failed') });
+  checks.push({ name: 'Rates (RBA/Fed, hand)', ok: !!DATA.rates, detail: DATA.rates ? 'as of ' + (DATA.rates.as_of || '—') : (DATA.errors.rates || 'failed') });
+  checks.push({ name: 'News (GDELT)',          ok: !!DATA.news, detail: DATA.news ? DATA.news.count + ' articles' : (DATA.errors.news || 'failed') });
+
+  host.innerHTML = checks.map(c => {
+    const cls = c.ok ? 'ok' : 'bad';
+    const icon = c.ok ? '✓' : '✗';
+    return '<div style="display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid var(--border)">'
+      + '<span><span class="pill ' + cls + '" style="margin-right:8px">' + icon + '</span>' + escapeHtml(c.name) + '</span>'
+      + '<span style="color:var(--muted);font-size:0.85em">' + escapeHtml(c.detail) + '</span></div>';
+  }).join('');
+
+  // Readiness
+  const cham = DATA.fx ? computeChameleon(DATA.fx.history) : null;
+  const cat = (DATA.fx && DATA.gold) ? computeCatchup(DATA.fx.history, DATA.gold.history) : null;
+  const reasons = [];
+  let score = 0;
+  if (DATA.fx)   { score++; reasons.push('FX feed OK'); }
+  if (DATA.gold) { score++; reasons.push('Gold feed OK'); }
+  if (DATA.news) { score++; reasons.push('News feed OK'); }
+  if (cham && cham.signal !== 'FLAT') { score++; reasons.push('Chameleon is ' + cham.signal); }
+  if (cat  && cat.signal  !== 'FLAT') { score++; reasons.push('Catchup is ' + cat.signal); }
+  if (cham && cat && cham.signal === cat.signal && cham.signal !== 'FLAT') { score++; reasons.push('They agree'); }
+
+  const hero = document.getElementById('readiness-hero');
+  const cls = score >= 5 ? 'long' : score >= 3 ? 'flat' : 'short';
+  hero.className = 'hero ' + cls;
+  document.getElementById('readiness-score').textContent = score + ' / 6';
+  document.getElementById('readiness-reasons').textContent = reasons.length ? reasons.join(' · ') : 'Everything is either failing or neutral.';
+
+  // Re-render everything that depends on data
+  renderNow(); renderCompare();
 }
 
-document.getElementById('calc-balance').addEventListener('input', calcPosition);
-document.getElementById('calc-risk').addEventListener('input', calcPosition);
-document.getElementById('calc-stop').addEventListener('input', calcPosition);
-
-/* Trade Journal (localStorage) */
-function getJournal() {
-    try { return JSON.parse(localStorage.getItem('trade1_journal') || '[]'); }
-    catch { return []; }
+/* =========================================================================
+   Routing / init
+   ========================================================================= */
+function showPage(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  if (el) el.classList.add('active');
+  if (id === 'compare') renderCompare();
+  if (id === 'news' && !DATA.news) renderNews(currentNewsTopic);
+  if (id === 'health') runHealthCheck();
 }
 
-function toggleJournalForm() {
-    document.getElementById('journal-form').classList.toggle('show');
-    const dateInput = document.getElementById('j-date');
-    if (!dateInput.value) dateInput.value = new Date().toISOString().split('T')[0];
+async function refreshAll() {
+  await Promise.all([loadFx(), loadGold(), loadRates()]);
+  renderNow(); renderCompare();
 }
 
-function saveTrade() {
-    const trade = {
-        id: Date.now(),
-        date: document.getElementById('j-date').value,
-        dir: document.getElementById('j-dir').value,
-        entry: parseFloat(document.getElementById('j-entry').value),
-        exit: parseFloat(document.getElementById('j-exit').value),
-        size: parseInt(document.getElementById('j-size').value),
-        strat: document.getElementById('j-strat').value,
-        notes: document.getElementById('j-notes').value
-    };
-    if (!trade.entry || !trade.exit) { alert('Please enter entry and exit prices'); return; }
-    const pnl = trade.dir === 'LONG' ? (trade.exit - trade.entry) * trade.size : (trade.entry - trade.exit) * trade.size;
-    trade.pnl = pnl;
-    const journal = getJournal();
-    journal.unshift(trade);
-    localStorage.setItem('trade1_journal', JSON.stringify(journal));
-    renderJournal();
-    document.getElementById('journal-form').classList.remove('show');
-    document.getElementById('j-entry').value = '';
-    document.getElementById('j-exit').value = '';
-    document.getElementById('j-notes').value = '';
-}
+// Compare range chips
+document.addEventListener('click', function(ev) {
+  const chip = ev.target.closest('#compare-range-chips .chip');
+  if (chip) {
+    document.querySelectorAll('#compare-range-chips .chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    compareDays = parseInt(chip.dataset.days, 10);
+    renderCompare();
+    return;
+  }
+  const nchip = ev.target.closest('#news-topic-chips .chip');
+  if (nchip) { renderNews(nchip.dataset.topic); }
+});
 
-function deleteTrade(id) {
-    const journal = getJournal().filter(t => t.id !== id);
-    localStorage.setItem('trade1_journal', JSON.stringify(journal));
-    renderJournal();
-}
-
-function renderJournal() {
-    const journal = getJournal();
-    const list = document.getElementById('journal-list');
-    if (journal.length === 0) {
-        list.innerHTML = '<p style="color:var(--muted);text-align:center;padding:30px 0">No trades logged yet.</p>';
-    } else {
-        list.innerHTML = journal.map(t => {
-            const pnlClass = t.pnl >= 0 ? 'up' : 'down';
-            return '<div class="journal-entry">' +
-                '<div class="je-left">' +
-                '<div class="je-date">' + t.date + ' | ' + t.strat + '</div>' +
-                '<div class="je-pair">AUD/USD <span class="je-dir">' + t.dir + '</span> ' + t.entry + ' -> ' + t.exit + '</div>' +
-                (t.notes ? '<div class="je-date">' + t.notes + '</div>' : '') +
-                '</div>' +
-                '<div class="je-pnl ' + pnlClass + '">$' + t.pnl.toFixed(2) + '</div>' +
-                '</div>';
-        }).join('');
-    }
-
-    // Stats
-    const total = journal.length;
-    const wins = journal.filter(t => t.pnl > 0).length;
-    const totalPnl = journal.reduce((s, t) => s + t.pnl, 0);
-    const best = journal.length ? Math.max(...journal.map(t => t.pnl)) : 0;
-    document.getElementById('js-total').textContent = total;
-    document.getElementById('js-wins').textContent = total ? (wins/total*100).toFixed(0) + '%' : '0%';
-    const pnlEl = document.getElementById('js-pnl');
-    pnlEl.textContent = '$' + totalPnl.toFixed(2);
-    pnlEl.className = 'data-val ' + (totalPnl >= 0 ? 'up' : 'down');
-    document.getElementById('js-best').textContent = '$' + best.toFixed(2);
-}
-
-/* Init */
 (async function init() {
-    await Promise.all([loadChameleon(), loadCatchup()]);
-    loadHistories();
-    calcPosition();
-    renderJournal();
-    renderRuns();
-    refreshStatusPills();
+  await Promise.all([loadFx(), loadGold(), loadRates()]);
+  renderNow();
+  renderJournal();
+  renderRuns();
+  // News loads lazily when tab is clicked.
 })();
 </script>
 </body>
