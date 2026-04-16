@@ -60,8 +60,9 @@ jobs:
           npm run join:daily -- --trends data/trends.csv --sentiment data/sentiment.csv --out data/audusd_merged.csv
           python aud_strategy/run.py --simple
 
-      - name: Build standalone bundle (old dashboard)
-        run: npx tsx scripts/trial.ts --no-gemini-fetch --no-gemini-brief
+      # DISABLED: old dashboard overwrites new apps
+      # - name: Build standalone bundle (old dashboard)
+      #   run: npx tsx scripts/trial.ts --no-gemini-fetch --no-gemini-brief
 
       - name: Update trading apps (new apps)
         run: |
