@@ -1,8 +1,13 @@
-// /api/rates - Current RBA + Fed policy rates.
-// Hand-maintained: edit the RATES constant below, commit, Vercel redeploys.
-// Why hand-maintained? Free / no-key RBA + Fed feeds either block browsers (CORS)
-// or require API keys. Baking the number into a serverless function is the most
-// honest option for a self-contained iPad app: one-line edit when policy changes.
+// /api/rates - Current RBA + Fed policy rates. Hand-maintained.
+// Runs on Vercel Edge runtime. Zero upstream dependencies.
+// Edit the RATES constant and commit when the RBA/Fed change policy.
+
+export const config = { runtime: 'edge' };
+
+const CORS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, OPTIONS'
+};
 
 const RATES = {
   rba: {
@@ -23,13 +28,10 @@ const RATES = {
   note: 'TEMPLATE baked into the repo. Check the source URLs vs the numbers above. If they disagree, edit standalone/api/rates.js, commit, and Vercel will redeploy.'
 };
 
-export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=21600');
-  if (req.method === 'OPTIONS') { res.status(204).end(); return; }
-
+export default async function handler(req) {
+  if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: CORS });
   const diff = +(RATES.rba.rate - RATES.fed.rate).toFixed(2);
-  res.status(200).json({
+  const body = {
     source: 'Hand-maintained in standalone/api/rates.js',
     updated_at: new Date().toISOString(),
     as_of: RATES.as_of,
@@ -37,5 +39,13 @@ export default async function handler(req, res) {
     fed: RATES.fed,
     differential_rba_minus_fed: diff,
     note: RATES.note
+  };
+  return new Response(JSON.stringify(body), {
+    status: 200,
+    headers: {
+      ...CORS,
+      'Content-Type': 'application/json',
+      'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=21600'
+    }
   });
 }

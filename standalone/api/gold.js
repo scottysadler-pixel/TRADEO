@@ -1,16 +1,19 @@
-// /api/gold - Daily gold (GC=F futures) history + latest close from Yahoo Finance.
-// Yahoo's public chart endpoint is free and no-key. We call it server-side
-// (via this Vercel function) so the iPad browser never hits it directly.
-// Query: days (default 260, max 800). Internally we request `range` big
-// enough to cover that and slice down.
+// /api/gold - Daily gold (GC=F) history + latest close from Yahoo Finance.
+// Runs on Vercel Edge runtime.
+// Query: days (default 260, max 800)
 // Response: { source, symbol, updated_at, latest: {date, close}, history: [{date, close}] }
 
-function pad(n) { return n < 10 ? '0' + n : '' + n; }
-function toISO(ms) {
+export const config = { runtime: 'edge' };
+
+const CORS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, OPTIONS'
+};
+const pad = (n) => (n < 10 ? '0' + n : '' + n);
+const toISO = (ms) => {
   const d = new Date(ms);
   return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate());
-}
-
+};
 function pickRange(days) {
   if (days <= 30) return '1mo';
   if (days <= 90) return '3mo';
@@ -19,18 +22,16 @@ function pickRange(days) {
   return '2y';
 }
 
-export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', 'public, s-maxage=1800, stale-while-revalidate=7200');
-  if (req.method === 'OPTIONS') { res.status(204).end(); return; }
-
-  const days = Math.min(Math.max(parseInt(req.query.days, 10) || 260, 10), 800);
-  const range = pickRange(days);
-  const symbol = 'GC=F'; // COMEX gold front-month future, trades alongside spot
-  const url = 'https://query1.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(symbol)
-    + '?interval=1d&range=' + range + '&includePrePost=false&events=div%2Csplit';
-
+export default async function handler(req) {
+  if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: CORS });
   try {
+    const { searchParams } = new URL(req.url);
+    const days = Math.min(Math.max(parseInt(searchParams.get('days'), 10) || 260, 10), 800);
+    const range = pickRange(days);
+    const symbol = 'GC=F';
+    const url = 'https://query1.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(symbol)
+      + '?interval=1d&range=' + range + '&includePrePost=false&events=div%2Csplit';
+
     const r = await fetch(url, { headers: {
       'User-Agent': 'Mozilla/5.0 (compatible; trade1-ipad/1.0)',
       'Accept': 'application/json'
@@ -53,7 +54,7 @@ export default async function handler(req, res) {
     const sliced = rows.slice(-days);
     const latest = sliced[sliced.length - 1];
 
-    res.status(200).json({
+    return new Response(JSON.stringify({
       source: 'Yahoo Finance (GC=F gold front-month future, daily)',
       symbol,
       updated_at: new Date().toISOString(),
@@ -61,8 +62,18 @@ export default async function handler(req, res) {
       latest: { date: latest.date, close: latest.close },
       history: sliced,
       notes: 'Previous session close. GC=F tracks spot gold very closely.'
+    }), {
+      status: 200,
+      headers: {
+        ...CORS,
+        'Content-Type': 'application/json',
+        'Cache-Control': 'public, s-maxage=1800, stale-while-revalidate=7200'
+      }
     });
   } catch (e) {
-    res.status(502).json({ error: String(e.message || e) });
+    return new Response(JSON.stringify({ error: String(e.message || e) }), {
+      status: 502,
+      headers: { ...CORS, 'Content-Type': 'application/json' }
+    });
   }
 }
