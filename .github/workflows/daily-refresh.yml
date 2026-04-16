@@ -41,6 +41,12 @@ jobs:
           pip install -r scripts/requirements.txt
           pip install -r aud_strategy/requirements.txt
 
+      - name: Fetch AUD/USD prices
+        run: npm run fetch:price
+
+      - name: Fetch Google Trends
+        run: npm run fetch:trends || echo "Trends fetch failed, continuing..."
+
       - name: Fetch real news (GDELT + RSS)
         run: python aud_strategy/scripts/fetch_news_gdelt.py
 
@@ -62,7 +68,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/commodities.csv data/rates.csv standalone
+          git add data/commodities.csv data/rates.csv data/sentiment.csv standalone
           git diff --staged --quiet || git commit -m "chore: daily refresh $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           git push
 
