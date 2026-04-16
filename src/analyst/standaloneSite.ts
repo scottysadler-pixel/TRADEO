@@ -34,7 +34,7 @@ function buildManifest(pairId: string): string {
     {
       name: `Trade1 ${pairId} Replay`,
       short_name: "Trade1",
-      start_url: "./index.html",
+      start_url: "./trade.html",
       display: "standalone",
       background_color: "#0f1419",
       theme_color: "#0f1419",
@@ -69,7 +69,8 @@ function buildReadme(generatedAt: string): string {
     "",
     `Generated: ${generatedAt}`,
     "",
-    "Open index.html in a browser for the standalone dashboard.",
+    "Open trade.html (or index.html) for the simple FX trading app.",
+    "Open trial_dashboard.html for the full analyst / trial dashboard bundle.",
     "To refresh data on your PC without Cursor: double-click Refresh Trade1 Data.cmd in the parent Trade1 repo folder (see docs/RUN_WITHOUT_CURSOR.md).",
     "For iPad / phone access, put this whole folder on any static host or synced web-accessible storage.",
     "GitHub Pages is prewired in .github/workflows/pages.yml for automatic static publishing after push.",
@@ -84,8 +85,9 @@ export function publishStandaloneSite(
   mkdirSync(standaloneDir, { recursive: true });
 
   const standaloneHtml = injectStandaloneHead(input.dashboardHtml, input.pairId);
+  // Do not overwrite index.html — that file is the Trade1 app (trade.html copy) for Vercel/Pages.
   writeFileSync(
-    resolve(standaloneDir, "index.html"),
+    resolve(standaloneDir, "trial_dashboard.html"),
     standaloneHtml,
     "utf8"
   );
