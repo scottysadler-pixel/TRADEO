@@ -39,8 +39,10 @@ jobs:
           pip install -r scripts/requirements.txt
           pip install -r aud_strategy/requirements.txt
 
-      - name: Fetch AUD/USD prices
-        run: npm run fetch:price
+      - name: Fetch AUD/USD prices (Frankfurter API)
+        run: |
+          npm run fetch:price
+          ls -la data/prices.csv || echo "prices.csv not created by npm, will auto-bootstrap"
 
       - name: Fetch Google Trends
         run: python scripts/fetchTrends.py || echo "Trends fetch skipped"
