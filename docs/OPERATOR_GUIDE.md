@@ -2,6 +2,8 @@
 
 This repo backtests **daily FX + Google Trends + sentiment** with many strategy presets. You operate it from the command line on Windows (PowerShell). No server is required unless you add one later.
 
+**No Cursor needed:** double-click **`Refresh Trade1 Data.cmd`** in the project folder (full data + Python + dashboard), or schedule it — see [`docs/RUN_WITHOUT_CURSOR.md`](RUN_WITHOUT_CURSOR.md).
+
 ## Easiest path (one command)
 
 From the project folder:
